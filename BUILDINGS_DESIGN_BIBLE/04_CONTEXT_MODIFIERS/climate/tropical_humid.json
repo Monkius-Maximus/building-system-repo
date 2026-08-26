@@ -1,0 +1,165 @@
+{
+  "schema_version": "0.1",
+  "profile_id": "MOD_CLIMATE_TROPICAL_HUMID_001",
+  "display_name": "Tropical Humid — Initial Heuristic",
+  "description": "Perfil climático inicial para prototipagem. Valores não representam regra universal e exigem pesquisa regional.",
+  "domain": "climate",
+  "status": "hypothesis",
+  "matches": {
+    "climate_primary": [
+      "tropical_humid"
+    ],
+    "minimum_intensity": 0.4
+  },
+  "principles": [
+    "Priorizar proteção contra chuva e exposição solar sem definir estilo cultural.",
+    "Favorecer ventilação e drenagem quando compatíveis com o arquétipo.",
+    "Tratar risco de inundação como camada separada."
+  ],
+  "rules": [
+    {
+      "rule_id": "CLM_TROP_HUM_ROOF_OVERHANG_001",
+      "target": "components.roof.roof_overhang",
+      "operation": "range_shift",
+      "selector": {
+        "candidate_tags_any": [
+          "roof"
+        ]
+      },
+      "value": {
+        "min_delta": 0.15,
+        "max_delta": 0.3
+      },
+      "strength": 0.8,
+      "priority": 64,
+      "confidence": "hypothesis",
+      "rationale": "Heurística inicial para ampliar proteção de fachadas e aberturas."
+    },
+    {
+      "rule_id": "CLM_TROP_HUM_ROOF_DRAINAGE_001",
+      "target": "components.roof.drainage_system",
+      "operation": "require",
+      "selector": {
+        "candidate_tags_any": [
+          "roof"
+        ]
+      },
+      "value": {
+        "tag": "rain_drainage_capable"
+      },
+      "strength": 0.9,
+      "priority": 68,
+      "confidence": "hypothesis",
+      "rationale": "O protótipo exige solução explícita de drenagem em alta precipitação."
+    },
+    {
+      "rule_id": "CLM_TROP_HUM_ROOF_FORM_001",
+      "target": "components.roof.roof_type",
+      "operation": "weight_multiplier",
+      "selector": {
+        "candidate_tags_any": [
+          "pitched",
+          "rain_shedding"
+        ]
+      },
+      "value": 1.45,
+      "strength": 0.75,
+      "priority": 62,
+      "confidence": "hypothesis",
+      "rationale": "Favorece coberturas capazes de escoamento sem proibir coberturas planas adequadamente resolvidas."
+    },
+    {
+      "rule_id": "CLM_TROP_HUM_OPENING_RATIO_001",
+      "target": "components.facade.opening_ratio",
+      "operation": "range_shift",
+      "selector": {
+        "candidate_tags_any": [
+          "facade"
+        ]
+      },
+      "value": {
+        "min_delta": 0.08,
+        "max_delta": 0.18
+      },
+      "strength": 0.65,
+      "priority": 61,
+      "confidence": "hypothesis",
+      "rationale": "Heurística de protótipo para elevar potencial de ventilação natural."
+    },
+    {
+      "rule_id": "CLM_TROP_HUM_CROSS_VENT_001",
+      "target": "building.performance_tags",
+      "operation": "add_tag",
+      "selector": {
+        "candidate_tags_any": [
+          "habitable"
+        ]
+      },
+      "value": "cross_ventilation_preferred",
+      "strength": 0.75,
+      "priority": 63,
+      "confidence": "hypothesis",
+      "rationale": "Marca a preferência para receitas com aberturas em faces compatíveis."
+    },
+    {
+      "rule_id": "CLM_TROP_HUM_SHADE_001",
+      "target": "components.climate_control",
+      "operation": "weight_multiplier",
+      "selector": {
+        "candidate_tags_any": [
+          "awning",
+          "screen",
+          "brise_soleil",
+          "veranda",
+          "arcade"
+        ]
+      },
+      "value": 1.35,
+      "strength": 0.7,
+      "priority": 60,
+      "confidence": "hypothesis",
+      "rationale": "Favorece proteção solar e de chuva como estratégia separada da linguagem cultural."
+    },
+    {
+      "rule_id": "CLM_TROP_HUM_MOISTURE_MATERIAL_001",
+      "target": "components.materials",
+      "operation": "weight_multiplier",
+      "selector": {
+        "candidate_tags_any": [
+          "moisture_resistant",
+          "ventilated_assembly"
+        ]
+      },
+      "value": 1.3,
+      "strength": 0.7,
+      "priority": 61,
+      "confidence": "hypothesis",
+      "rationale": "Favorece módulos com comportamento previsto para umidade elevada."
+    },
+    {
+      "rule_id": "CLM_TROP_HUM_WEATHERING_001",
+      "target": "visual_variation.weathering",
+      "operation": "add_tag",
+      "selector": {
+        "candidate_tags_any": [
+          "exterior"
+        ]
+      },
+      "value": "humid_weathering_palette",
+      "strength": 0.45,
+      "priority": 15,
+      "confidence": "hypothesis",
+      "rationale": "Disponibiliza variação visual de umidade sem impor degradação."
+    }
+  ],
+  "sources": [
+    {
+      "source_id": "SRC_PENDING_TROPICAL_HUMID_001",
+      "source_type": "design_hypothesis",
+      "quality": "E",
+      "scope": "generic prototype",
+      "summary": "Regras preliminares para testar o motor de modificadores.",
+      "limitations": "Não utilizar como representação regional final sem pesquisa."
+    }
+  ]
+}

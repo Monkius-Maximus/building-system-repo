@@ -1,0 +1,163 @@
+{
+  "schema_version": "0.1",
+  "profile_id": "MOD_CLIMATE_SEMI_ARID_001",
+  "display_name": "Semi-Arid — Initial Heuristic",
+  "description": "Perfil climático inicial para prototipagem. Valores não representam regra universal e exigem pesquisa regional.",
+  "domain": "climate",
+  "status": "hypothesis",
+  "matches": {
+    "climate_primary": [
+      "semi_arid"
+    ],
+    "minimum_intensity": 0.4
+  },
+  "principles": [
+    "Favorecer sombra, controle de exposição e uso eficiente de água.",
+    "Não confundir clima semiárido com uma matriz cultural específica.",
+    "Permitir estratégias leves ou de massa térmica conforme tecnologia e período."
+  ],
+  "rules": [
+    {
+      "rule_id": "CLM_SEMI_ARID_SHADE_001",
+      "target": "components.climate_control",
+      "operation": "weight_multiplier",
+      "selector": {
+        "candidate_tags_any": [
+          "awning",
+          "screen",
+          "brise_soleil",
+          "veranda",
+          "arcade",
+          "pergola"
+        ]
+      },
+      "value": 1.5,
+      "strength": 0.8,
+      "priority": 64,
+      "confidence": "hypothesis",
+      "rationale": "Favorece elementos de sombra sem fixar uma forma arquitetônica única."
+    },
+    {
+      "rule_id": "CLM_SEMI_ARID_COMPACT_001",
+      "target": "archetype.volume_complexity",
+      "operation": "weight_multiplier",
+      "selector": {
+        "candidate_tags_any": [
+          "compact",
+          "low_surface_area"
+        ]
+      },
+      "value": 1.3,
+      "strength": 0.55,
+      "priority": 57,
+      "confidence": "hypothesis",
+      "rationale": "Heurística para testar receitas volumétricas mais compactas."
+    },
+    {
+      "rule_id": "CLM_SEMI_ARID_THERMAL_MASS_001",
+      "target": "components.walls",
+      "operation": "weight_multiplier",
+      "selector": {
+        "candidate_tags_any": [
+          "thermal_mass"
+        ]
+      },
+      "value": 1.35,
+      "strength": 0.65,
+      "priority": 61,
+      "confidence": "hypothesis",
+      "rationale": "Favorece massa térmica quando compatível com tecnologia, uso e regime diário."
+    },
+    {
+      "rule_id": "CLM_SEMI_ARID_OPENING_SHADE_001",
+      "target": "components.windows.sun_protection",
+      "operation": "require",
+      "selector": {
+        "candidate_tags_any": [
+          "exposed_opening"
+        ]
+      },
+      "value": {
+        "tag": "sun_protection_capable"
+      },
+      "strength": 0.75,
+      "priority": 66,
+      "confidence": "hypothesis",
+      "rationale": "Exige que aberturas expostas possam receber estratégia de proteção solar."
+    },
+    {
+      "rule_id": "CLM_SEMI_ARID_COURTYARD_001",
+      "target": "archetype.plan_shape",
+      "operation": "weight_multiplier",
+      "selector": {
+        "candidate_tags_any": [
+          "courtyard",
+          "protected_outdoor_space"
+        ]
+      },
+      "value": 1.35,
+      "strength": 0.55,
+      "priority": 55,
+      "confidence": "hypothesis",
+      "rationale": "Disponibiliza pátios como uma alternativa, sem torná-los obrigatórios."
+    },
+    {
+      "rule_id": "CLM_SEMI_ARID_WATER_STORAGE_001",
+      "target": "components.technical_equipment",
+      "operation": "weight_multiplier",
+      "selector": {
+        "candidate_tags_any": [
+          "water_tank",
+          "rainwater_storage",
+          "private_water_storage"
+        ]
+      },
+      "value": 1.45,
+      "strength": 0.7,
+      "priority": 46,
+      "confidence": "hypothesis",
+      "rationale": "Favorece armazenamento quando infraestrutura e contexto hídrico também indicarem necessidade."
+    },
+    {
+      "rule_id": "CLM_SEMI_ARID_LIGHT_SURFACE_001",
+      "target": "materials.surface_tags",
+      "operation": "weight_multiplier",
+      "selector": {
+        "candidate_tags_any": [
+          "high_solar_reflectance",
+          "light_surface"
+        ]
+      },
+      "value": 1.25,
+      "strength": 0.5,
+      "priority": 22,
+      "confidence": "hypothesis",
+      "rationale": "Heurística visual e térmica de baixa prioridade, subordinada à matriz cultural."
+    },
+    {
+      "rule_id": "CLM_SEMI_ARID_XERISCAPE_001",
+      "target": "lot.landscaping",
+      "operation": "add_tag",
+      "selector": {
+        "candidate_tags_any": [
+          "landscaping"
+        ]
+      },
+      "value": "low_water_landscaping_preferred",
+      "strength": 0.65,
+      "priority": 44,
+      "confidence": "hypothesis",
+      "rationale": "Marca preferência por paisagismo de baixa demanda hídrica."
+    }
+  ],
+  "sources": [
+    {
+      "source_id": "SRC_PENDING_SEMI_ARID_001",
+      "source_type": "design_hypothesis",
+      "quality": "E",
+      "scope": "generic prototype",
+      "summary": "Regras preliminares para testar o motor de modificadores.",
+      "limitations": "Não utilizar como representação regional final sem pesquisa."
+    }
+  ]
+}
