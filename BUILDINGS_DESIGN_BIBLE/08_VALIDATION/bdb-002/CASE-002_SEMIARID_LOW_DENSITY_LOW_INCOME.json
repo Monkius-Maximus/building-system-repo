@@ -1,0 +1,85 @@
+{
+  "schema_version": "0.1",
+  "context_id": "CTX_TEST_SEMIARID_LOW_DENSITY_LOW_INCOME_001",
+  "display_name": "Semi-Arid Urban Low — Low Income Test",
+  "description": "Caso integrado para validar o mesmo arquétipo em contexto semiárido, pouco denso e com infraestrutura básica.",
+  "seed": 21002,
+  "scope": "lot",
+  "parent_context_id": null,
+  "tags": [
+    "bdb-002",
+    "validation",
+    "same_archetype_fixture"
+  ],
+  "climate": {
+    "primary": "semi_arid",
+    "secondary": null,
+    "intensity": 0.88,
+    "parameters": {
+      "heat": 0.86,
+      "cold": 0.08,
+      "humidity": 0.22,
+      "rainfall": 0.18,
+      "rainfall_seasonality": 0.78,
+      "snow_load": 0.0,
+      "wind_exposure": 0.48,
+      "solar_exposure": 0.91,
+      "salt_air_exposure": 0.0,
+      "freeze_thaw": 0.0
+    }
+  },
+  "topography": {
+    "type": "gently_rolling",
+    "intensity": 0.62,
+    "slope": 0.22,
+    "terrain_stability": 0.72,
+    "soil_drainage": 0.68
+  },
+  "hydrography": {
+    "type": "dry",
+    "intensity": 0.9,
+    "water_distance": 12000.0,
+    "flood_frequency": 0.05,
+    "flood_depth": 0.0,
+    "groundwater_level": 0.18,
+    "salt_air_exposure": 0.0
+  },
+  "environmental_risks": [
+    {
+      "type": "extreme_heat",
+      "intensity": 0.72,
+      "frequency": 0.65,
+      "confidence": "hypothesis"
+    }
+  ],
+  "urban": {
+    "density": "urban_low",
+    "development": "emerging",
+    "infrastructure": "basic",
+    "street_wall_continuity": 0.38,
+    "mixed_use_pressure": 0.25,
+    "parking_pressure": 0.35
+  },
+  "society": {
+    "wealth_level": 1,
+    "maintenance_capacity": 0.42,
+    "income_stability": 0.35,
+    "construction_budget": 0.28,
+    "land_value": 0.25,
+    "informality_pressure": 0.56
+  },
+  "temporal": {
+    "construction_period": "contemporary",
+    "tech_level": "mass_produced",
+    "renovation_period": null
+  },
+  "cultural_matrix": {
+    "cultural_family": "latin_american",
+    "regional_variant": "neutral_test_fixture",
+    "local_tradition": [],
+    "colonial_influence": [],
+    "religious_influence": [],
+    "migration_influence": [],
+    "globalized_influence": 0.4
+  }
+}

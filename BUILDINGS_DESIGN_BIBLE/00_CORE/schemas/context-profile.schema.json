@@ -1,0 +1,550 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://buildings-design-bible.local/schemas/context-profile.schema.json",
+  "title": "Buildings Design Bible Context Profile",
+  "description": "Perfil hierárquico de contexto consumido pelo sistema de modificadores do BDB-002.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "context_id",
+    "display_name",
+    "seed",
+    "scope",
+    "climate",
+    "topography",
+    "hydrography",
+    "urban",
+    "society",
+    "temporal",
+    "cultural_matrix"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "0.1"
+    },
+    "context_id": {
+      "type": "string",
+      "pattern": "^CTX_[A-Z0-9_]+$"
+    },
+    "display_name": {
+      "type": "string",
+      "minLength": 3
+    },
+    "description": {
+      "type": "string"
+    },
+    "seed": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "scope": {
+      "enum": [
+        "global",
+        "region",
+        "city",
+        "district",
+        "block",
+        "lot",
+        "building_exception"
+      ]
+    },
+    "parent_context_id": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "pattern": "^CTX_[A-Z0-9_]+$"
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "climate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "primary",
+        "intensity"
+      ],
+      "properties": {
+        "primary": {
+          "enum": [
+            "equatorial",
+            "tropical_humid",
+            "tropical_seasonal",
+            "arid_hot",
+            "semi_arid",
+            "mediterranean",
+            "subtropical",
+            "temperate_oceanic",
+            "temperate_continental",
+            "cold_continental",
+            "subarctic",
+            "polar",
+            "highland"
+          ]
+        },
+        "secondary": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "enum": [
+            "equatorial",
+            "tropical_humid",
+            "tropical_seasonal",
+            "arid_hot",
+            "semi_arid",
+            "mediterranean",
+            "subtropical",
+            "temperate_oceanic",
+            "temperate_continental",
+            "cold_continental",
+            "subarctic",
+            "polar",
+            "highland",
+            null
+          ]
+        },
+        "intensity": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "heat": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            },
+            "cold": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            },
+            "humidity": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            },
+            "rainfall": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            },
+            "rainfall_seasonality": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            },
+            "snow_load": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            },
+            "wind_exposure": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            },
+            "solar_exposure": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            },
+            "salt_air_exposure": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            },
+            "freeze_thaw": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            }
+          }
+        }
+      }
+    },
+    "topography": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "type",
+        "intensity"
+      ],
+      "properties": {
+        "type": {
+          "enum": [
+            "flat",
+            "gently_rolling",
+            "hilly",
+            "steep",
+            "mountainous",
+            "valley",
+            "plateau",
+            "cliff",
+            "dune"
+          ]
+        },
+        "intensity": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "slope": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "terrain_stability": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "soil_drainage": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        }
+      }
+    },
+    "hydrography": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "type",
+        "intensity"
+      ],
+      "properties": {
+        "type": {
+          "enum": [
+            "dry",
+            "seasonal_stream",
+            "river",
+            "lake",
+            "lagoon",
+            "wetland",
+            "canal",
+            "estuary",
+            "coast",
+            "floodplain"
+          ]
+        },
+        "intensity": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "water_distance": {
+          "type": "number",
+          "minimum": 0
+        },
+        "flood_frequency": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "flood_depth": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "groundwater_level": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "salt_air_exposure": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        }
+      }
+    },
+    "environmental_risks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "type",
+          "intensity",
+          "frequency",
+          "confidence"
+        ],
+        "properties": {
+          "type": {
+            "enum": [
+              "flood",
+              "storm",
+              "hurricane",
+              "earthquake",
+              "wildfire",
+              "landslide",
+              "extreme_heat",
+              "extreme_cold",
+              "volcanic",
+              "coastal_erosion"
+            ]
+          },
+          "intensity": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "frequency": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "confidence": {
+            "enum": [
+              "hypothesis",
+              "researched",
+              "validated"
+            ]
+          }
+        }
+      }
+    },
+    "urban": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "density",
+        "development",
+        "infrastructure"
+      ],
+      "properties": {
+        "density": {
+          "enum": [
+            "isolated",
+            "rural_sparse",
+            "rural_clustered",
+            "suburban_low",
+            "urban_low",
+            "urban_medium",
+            "urban_high",
+            "metropolitan",
+            "hyperdense"
+          ]
+        },
+        "development": {
+          "enum": [
+            "informal",
+            "emerging",
+            "consolidating",
+            "established",
+            "modernized",
+            "advanced",
+            "declining",
+            "post_industrial"
+          ]
+        },
+        "infrastructure": {
+          "enum": [
+            "minimal",
+            "basic",
+            "partial",
+            "standard",
+            "advanced",
+            "smart",
+            "degraded"
+          ]
+        },
+        "street_wall_continuity": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "mixed_use_pressure": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "parking_pressure": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        }
+      }
+    },
+    "society": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "wealth_level",
+        "maintenance_capacity"
+      ],
+      "properties": {
+        "wealth_level": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 6
+        },
+        "maintenance_capacity": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "income_stability": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "construction_budget": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "land_value": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "informality_pressure": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        }
+      }
+    },
+    "temporal": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "construction_period",
+        "tech_level"
+      ],
+      "properties": {
+        "construction_period": {
+          "enum": [
+            "pre_industrial",
+            "early_industrial",
+            "late_industrial",
+            "early_modern",
+            "mid_modern",
+            "late_modern",
+            "contemporary",
+            "near_future"
+          ]
+        },
+        "tech_level": {
+          "enum": [
+            "vernacular",
+            "craft",
+            "early_industrial",
+            "industrial",
+            "mass_produced",
+            "prefabricated",
+            "digital_fabrication",
+            "advanced"
+          ]
+        },
+        "renovation_period": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "enum": [
+            "pre_industrial",
+            "early_industrial",
+            "late_industrial",
+            "early_modern",
+            "mid_modern",
+            "late_modern",
+            "contemporary",
+            "near_future",
+            null
+          ]
+        }
+      }
+    },
+    "cultural_matrix": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "cultural_family",
+        "regional_variant",
+        "globalized_influence"
+      ],
+      "properties": {
+        "cultural_family": {
+          "type": "string",
+          "minLength": 2
+        },
+        "regional_variant": {
+          "type": "string",
+          "minLength": 2
+        },
+        "local_tradition": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/influence"
+          }
+        },
+        "colonial_influence": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/influence"
+          }
+        },
+        "religious_influence": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/influence"
+          }
+        },
+        "migration_influence": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/influence"
+          }
+        },
+        "globalized_influence": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        }
+      }
+    }
+  },
+  "$defs": {
+    "influence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "weight",
+        "confidence"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 2
+        },
+        "weight": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "confidence": {
+          "enum": [
+            "hypothesis",
+            "researched",
+            "validated"
+          ]
+        }
+      }
+    }
+  }
+}

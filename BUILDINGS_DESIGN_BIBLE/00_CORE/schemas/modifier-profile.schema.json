@@ -1,0 +1,223 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://buildings-design-bible.local/schemas/modifier-profile.schema.json",
+  "title": "Buildings Design Bible Modifier Profile",
+  "description": "Perfil reutilizável de regras para um domínio contextual.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "profile_id",
+    "display_name",
+    "domain",
+    "status",
+    "matches",
+    "principles",
+    "rules"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "0.1"
+    },
+    "profile_id": {
+      "type": "string",
+      "pattern": "^MOD_[A-Z0-9_]+$"
+    },
+    "display_name": {
+      "type": "string",
+      "minLength": 3
+    },
+    "description": {
+      "type": "string"
+    },
+    "domain": {
+      "enum": [
+        "climate",
+        "topography",
+        "hydrography",
+        "environmental_risk",
+        "density",
+        "wealth",
+        "infrastructure",
+        "development",
+        "construction_period",
+        "tech_level",
+        "cultural_matrix",
+        "maintenance"
+      ]
+    },
+    "status": {
+      "enum": [
+        "hypothesis",
+        "researched",
+        "validated",
+        "deprecated"
+      ]
+    },
+    "matches": {
+      "type": "object"
+    },
+    "principles": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1
+    },
+    "rules": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/rule"
+      },
+      "minItems": 1
+    },
+    "sources": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/source"
+      }
+    }
+  },
+  "$defs": {
+    "rule": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "rule_id",
+        "target",
+        "operation",
+        "selector",
+        "value",
+        "strength",
+        "priority",
+        "confidence",
+        "rationale"
+      ],
+      "properties": {
+        "rule_id": {
+          "type": "string",
+          "pattern": "^[A-Z0-9_]+$"
+        },
+        "target": {
+          "type": "string",
+          "minLength": 3
+        },
+        "operation": {
+          "enum": [
+            "require",
+            "forbid",
+            "weight_multiplier",
+            "range_shift",
+            "set_default",
+            "clamp_range",
+            "add_tag",
+            "remove_tag",
+            "set_cost_multiplier",
+            "emit_warning"
+          ]
+        },
+        "match": {
+          "type": "object"
+        },
+        "selector": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "candidate_ids": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "uniqueItems": true
+            },
+            "candidate_tags_any": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "uniqueItems": true
+            },
+            "candidate_tags_all": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "uniqueItems": true
+            },
+            "candidate_tags_none": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "uniqueItems": true
+            }
+          }
+        },
+        "value": {},
+        "strength": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "priority": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 100
+        },
+        "confidence": {
+          "enum": [
+            "hypothesis",
+            "researched",
+            "validated",
+            "deprecated"
+          ]
+        },
+        "rationale": {
+          "type": "string",
+          "minLength": 5
+        },
+        "notes": {
+          "type": "string"
+        }
+      }
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_id",
+        "source_type",
+        "quality",
+        "scope",
+        "summary"
+      ],
+      "properties": {
+        "source_id": {
+          "type": "string"
+        },
+        "source_type": {
+          "type": "string"
+        },
+        "quality": {
+          "enum": [
+            "A",
+            "B",
+            "C",
+            "D",
+            "E"
+          ]
+        },
+        "scope": {
+          "type": "string"
+        },
+        "summary": {
+          "type": "string"
+        },
+        "limitations": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

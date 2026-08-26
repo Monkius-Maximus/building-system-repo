@@ -1,0 +1,91 @@
+{
+  "schema_version": "0.1",
+  "context_id": "CTX_TEST_TROPICAL_URBAN_MIDDLE_001",
+  "display_name": "Tropical Humid Urban High — Middle Income Test",
+  "description": "Caso integrado para validar o mesmo arquétipo em contexto tropical úmido, urbano e consolidado.",
+  "seed": 21001,
+  "scope": "lot",
+  "parent_context_id": null,
+  "tags": [
+    "bdb-002",
+    "validation",
+    "same_archetype_fixture"
+  ],
+  "climate": {
+    "primary": "tropical_humid",
+    "secondary": null,
+    "intensity": 0.85,
+    "parameters": {
+      "heat": 0.78,
+      "cold": 0.05,
+      "humidity": 0.88,
+      "rainfall": 0.82,
+      "rainfall_seasonality": 0.45,
+      "snow_load": 0.0,
+      "wind_exposure": 0.52,
+      "solar_exposure": 0.72,
+      "salt_air_exposure": 0.55,
+      "freeze_thaw": 0.0
+    }
+  },
+  "topography": {
+    "type": "flat",
+    "intensity": 0.9,
+    "slope": 0.05,
+    "terrain_stability": 0.78,
+    "soil_drainage": 0.55
+  },
+  "hydrography": {
+    "type": "coast",
+    "intensity": 0.55,
+    "water_distance": 850.0,
+    "flood_frequency": 0.28,
+    "flood_depth": 0.18,
+    "groundwater_level": 0.45,
+    "salt_air_exposure": 0.55
+  },
+  "environmental_risks": [
+    {
+      "type": "flood",
+      "intensity": 0.25,
+      "frequency": 0.25,
+      "confidence": "hypothesis"
+    },
+    {
+      "type": "storm",
+      "intensity": 0.45,
+      "frequency": 0.42,
+      "confidence": "hypothesis"
+    }
+  ],
+  "urban": {
+    "density": "urban_high",
+    "development": "established",
+    "infrastructure": "standard",
+    "street_wall_continuity": 0.72,
+    "mixed_use_pressure": 0.55,
+    "parking_pressure": 0.68
+  },
+  "society": {
+    "wealth_level": 3,
+    "maintenance_capacity": 0.72,
+    "income_stability": 0.65,
+    "construction_budget": 0.55,
+    "land_value": 0.72,
+    "informality_pressure": 0.28
+  },
+  "temporal": {
+    "construction_period": "contemporary",
+    "tech_level": "mass_produced",
+    "renovation_period": null
+  },
+  "cultural_matrix": {
+    "cultural_family": "latin_american",
+    "regional_variant": "neutral_test_fixture",
+    "local_tradition": [],
+    "colonial_influence": [],
+    "religious_influence": [],
+    "migration_influence": [],
+    "globalized_influence": 0.4
+  }
+}
