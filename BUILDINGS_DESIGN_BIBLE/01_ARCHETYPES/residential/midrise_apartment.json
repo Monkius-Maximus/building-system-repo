@@ -1,0 +1,361 @@
+{
+  "schema_version": "0.1",
+  "archetype_id": "BLD_RES_APARTMENT_MIDRISE",
+  "display_name": "Mid-rise Apartment",
+  "description": "Habitação multifamiliar de altura média, com núcleo de circulação vertical mecanizado e unidades repetidas por pavimento.",
+  "status": "hypothesis",
+  "references": {
+    "bdb001_archetype": "courtyard_apartment / residential_slab",
+    "bdb001_section": "8.1 / 15"
+  },
+  "usage": {
+    "primary": "residential",
+    "secondary": [],
+    "subtype": "multifamily",
+    "typical_occupancy": [
+      "private",
+      "shared"
+    ]
+  },
+  "identity": {
+    "volume_types": [
+      "slab",
+      "tower",
+      "perimeter_block",
+      "attached",
+      "podium_tower",
+      "detached",
+      "courtyard",
+      "linear"
+    ],
+    "party_walls": "optional",
+    "independent_street_access": "required",
+    "unit_count": {
+      "min": 8,
+      "max": 120,
+      "preferred": [
+        20,
+        60
+      ]
+    },
+    "unit_stacking": "required",
+    "public_ground_floor": "optional"
+  },
+  "invariants": [
+    {
+      "invariant_id": "INV_RES_MIDRISE_STACKED_UNITS",
+      "statement": "As unidades de ocupação estao empilhadas verticalmente e repetidas por pavimento.",
+      "target": "identity.unit_stacking",
+      "test": "identity.unit_stacking == 'required'",
+      "violation_action": "reject_or_reclassify"
+    },
+    {
+      "invariant_id": "INV_RES_MIDRISE_MECHANICAL_CIRCULATION",
+      "statement": "A altura exige circulação vertical mecanizada além da escada.",
+      "target": "slots.required",
+      "test": "'VCR' in slots.required",
+      "violation_action": "reject"
+    },
+    {
+      "invariant_id": "INV_RES_MIDRISE_HEIGHT_BAND",
+      "statement": "A altura permanece na faixa média definida pelo BDB-001.",
+      "target": "morphology.floor_count",
+      "test": "5 <= morphology.floor_count.max <= 10",
+      "violation_action": "reject_or_reclassify"
+    }
+  ],
+  "morphology": {
+    "floor_count": {
+      "min": 5,
+      "max": 10,
+      "preferred": [
+        6,
+        8
+      ]
+    },
+    "height_classes": {
+      "allowed": [
+        "MID_RISE"
+      ],
+      "preferred": [
+        "MID_RISE"
+      ]
+    },
+    "plan_shapes": {
+      "allowed": [
+        "rectangle",
+        "wide_rectangle",
+        "narrow_rectangle",
+        "L_shape",
+        "U_shape",
+        "H_shape",
+        "T_shape",
+        "courtyard",
+        "polygonal",
+        "irregular"
+      ],
+      "preferred": [
+        "rectangle",
+        "H_shape"
+      ]
+    },
+    "volume_complexity": {
+      "allowed": [
+        "simple",
+        "composite",
+        "stacked",
+        "segmented",
+        "stepped"
+      ],
+      "preferred": [
+        "stacked",
+        "simple"
+      ]
+    },
+    "symmetry": {
+      "allowed": [
+        "symmetrical",
+        "approximately_symmetrical",
+        "asymmetrical",
+        "modular_repetition"
+      ],
+      "preferred": [
+        "modular_repetition"
+      ]
+    },
+    "footprint_units": {
+      "width": {
+        "min": 8,
+        "max": 40,
+        "preferred": [
+          14,
+          26
+        ]
+      },
+      "depth": {
+        "min": 8,
+        "max": 30,
+        "preferred": [
+          12,
+          20
+        ]
+      }
+    },
+    "structural_span": {
+      "min": 2.0,
+      "max": 9.0,
+      "preferred": [
+        4.0,
+        7.0
+      ]
+    }
+  },
+  "slots": {
+    "required": [
+      "FND",
+      "STR",
+      "WAL",
+      "FAC",
+      "ROF",
+      "DOR",
+      "WIN",
+      "VCR",
+      "HCR"
+    ],
+    "optional": [
+      "BAL",
+      "CLM",
+      "BND",
+      "PRK",
+      "SGN",
+      "ORN",
+      "TEC"
+    ],
+    "forbidden": []
+  },
+  "lot_relationship": {
+    "requires_independent_lot_access": true,
+    "street_frontages": {
+      "min": 1,
+      "max": 4,
+      "preferred": [
+        1,
+        2
+      ]
+    },
+    "lot_types": {
+      "allowed": [
+        "urban_regular",
+        "urban_deep",
+        "urban_corner",
+        "urban_irregular",
+        "waterfront"
+      ],
+      "preferred": [
+        "urban_regular",
+        "urban_corner"
+      ]
+    },
+    "lot_positions": {
+      "allowed": [
+        "front_aligned",
+        "front_setback",
+        "centered",
+        "corner_aligned",
+        "occupies_full_lot"
+      ],
+      "preferred": [
+        "front_aligned",
+        "front_setback"
+      ]
+    },
+    "street_relations": {
+      "allowed": [
+        "direct_access",
+        "front_yard",
+        "front_wall",
+        "front_fence",
+        "arcade",
+        "shopfront",
+        "parking_front",
+        "raised_access",
+        "internal_access"
+      ],
+      "preferred": [
+        "direct_access",
+        "front_yard"
+      ]
+    },
+    "setbacks": {
+      "front": {
+        "allowed": [
+          "none",
+          "minimal",
+          "small",
+          "medium",
+          "large"
+        ],
+        "preferred": [
+          "none",
+          "small"
+        ]
+      },
+      "side": {
+        "allowed": [
+          "none",
+          "minimal",
+          "small",
+          "medium",
+          "large"
+        ],
+        "preferred": [
+          "small",
+          "medium"
+        ]
+      },
+      "rear": {
+        "allowed": [
+          "none",
+          "minimal",
+          "small",
+          "medium",
+          "large"
+        ],
+        "preferred": [
+          "medium"
+        ]
+      }
+    },
+    "lot_coverage": {
+      "min": 0.2,
+      "max": 0.9,
+      "preferred": [
+        0.35,
+        0.65
+      ]
+    },
+    "external_spaces": {
+      "allowed": [
+        "front_yard",
+        "courtyard",
+        "patio",
+        "service_yard",
+        "parking_lot",
+        "playground",
+        "plaza",
+        "garden"
+      ],
+      "preferred": [
+        "courtyard",
+        "parking_lot"
+      ]
+    }
+  },
+  "context_compatibility": {
+    "densities": {
+      "allowed": [
+        "urban_low",
+        "urban_medium",
+        "urban_high",
+        "metropolitan",
+        "hyperdense"
+      ],
+      "preferred": [
+        "urban_high"
+      ]
+    },
+    "tech_levels": {
+      "allowed": [
+        "early_industrial",
+        "industrial",
+        "mass_produced",
+        "prefabricated",
+        "digital_fabrication",
+        "advanced"
+      ],
+      "preferred": [
+        "mass_produced",
+        "prefabricated"
+      ]
+    },
+    "notes": "Exclui tecnologias vernacular e craft por exigência estrutural e de circulação mecanizada, não por juízo cultural."
+  },
+  "transformations": {
+    "allowed": [
+      "vertical_extension",
+      "commercial_conversion",
+      "facade_renovation",
+      "roof_replacement",
+      "window_replacement",
+      "subdivision",
+      "merging",
+      "abandonment"
+    ],
+    "forbidden": [
+      "garage_conversion",
+      "informal_annex",
+      "side_extension"
+    ],
+    "limits": {
+      "max_floor_count_after_extension": 10,
+      "structural_recheck_required_on_vertical_extension": true
+    }
+  },
+  "archetype_escalation": [
+    {
+      "condition": "morphology.floor_count > 10",
+      "suggested_archetype": "BLD_RES_TOWER",
+      "note": "Acima de dez pavimentos a faixa de altura passa a HIGH_RISE."
+    },
+    {
+      "condition": "morphology.floor_count < 5",
+      "suggested_archetype": "BLD_RES_APARTMENT_WALKUP",
+      "note": "Abaixo da faixa média o acesso por escada volta a ser suficiente."
+    },
+    {
+      "condition": "terreo comercial ativo em uso permanente",
+      "suggested_archetype": "BLD_MIX_URBAN_BLOCK",
+      "note": "Terreo comercial consolidado desloca o edifício para uso misto."
+    }
+  ]
+}

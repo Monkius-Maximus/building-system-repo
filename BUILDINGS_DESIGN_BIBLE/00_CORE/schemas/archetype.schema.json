@@ -1,0 +1,608 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://buildings-design-bible.local/schemas/archetype.schema.json",
+  "title": "Buildings Design Bible Archetype",
+  "description": "Ficha normativa de um arquetipo. Descreve o que permanece reconhecivel antes de clima, cultura, riqueza e materiais entrarem em cena. Campos de aparencia, contexto climatico e classe economica sao deliberadamente ausentes.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "archetype_id",
+    "display_name",
+    "description",
+    "status",
+    "references",
+    "usage",
+    "identity",
+    "invariants",
+    "morphology",
+    "slots",
+    "lot_relationship",
+    "context_compatibility",
+    "transformations",
+    "archetype_escalation"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "0.1"
+    },
+    "archetype_id": {
+      "type": "string",
+      "pattern": "^BLD_[A-Z]{3}_[A-Z0-9_]+$"
+    },
+    "display_name": {
+      "type": "string",
+      "minLength": 3
+    },
+    "description": {
+      "type": "string",
+      "minLength": 10
+    },
+    "status": {
+      "enum": [
+        "hypothesis",
+        "researched",
+        "validated",
+        "deprecated"
+      ]
+    },
+    "references": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "bdb001_archetype",
+        "bdb001_section"
+      ],
+      "properties": {
+        "bdb001_archetype": {
+          "type": "string",
+          "minLength": 3
+        },
+        "bdb001_section": {
+          "type": "string",
+          "minLength": 1
+        },
+        "notes": {
+          "type": "string"
+        }
+      }
+    },
+    "usage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "primary",
+        "subtype",
+        "typical_occupancy"
+      ],
+      "properties": {
+        "primary": {
+          "$ref": "#/$defs/usage_enum"
+        },
+        "secondary": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/usage_enum"
+          },
+          "uniqueItems": true
+        },
+        "subtype": {
+          "type": "string",
+          "minLength": 3
+        },
+        "typical_occupancy": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "private",
+              "shared",
+              "public",
+              "restricted",
+              "abandoned",
+              "seasonal",
+              "temporary"
+            ]
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        }
+      }
+    },
+    "identity": {
+      "description": "Fatos invariantes. Alterar qualquer um deles significa trocar de arquetipo.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "volume_types",
+        "party_walls",
+        "independent_street_access",
+        "unit_count",
+        "unit_stacking",
+        "public_ground_floor"
+      ],
+      "properties": {
+        "volume_types": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "detached",
+              "semi_detached",
+              "attached",
+              "row",
+              "courtyard",
+              "perimeter_block",
+              "tower",
+              "podium_tower",
+              "slab",
+              "pavilion",
+              "cluster",
+              "linear",
+              "terraced",
+              "compound",
+              "irregular"
+            ]
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "party_walls": {
+          "$ref": "#/$defs/requirement"
+        },
+        "independent_street_access": {
+          "$ref": "#/$defs/requirement"
+        },
+        "unit_count": {
+          "description": "Numero de unidades de ocupacao independentes dentro do edificio.",
+          "$ref": "#/$defs/int_range"
+        },
+        "unit_stacking": {
+          "description": "Empilhamento vertical de unidades de ocupacao independentes.",
+          "$ref": "#/$defs/requirement"
+        },
+        "public_ground_floor": {
+          "description": "Pavimento terreo acessivel ao publico sem convite previo.",
+          "$ref": "#/$defs/requirement"
+        },
+        "barrier_free_entrance": {
+          "$ref": "#/$defs/requirement"
+        },
+        "vertical_use_stack": {
+          "description": "Sequencia de usos do terreo para o topo. Apenas para arquetipos de uso misto.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/usage_enum"
+          },
+          "minItems": 2
+        }
+      }
+    },
+    "invariants": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "invariant_id",
+          "statement",
+          "target",
+          "test",
+          "violation_action"
+        ],
+        "properties": {
+          "invariant_id": {
+            "type": "string",
+            "pattern": "^INV_[A-Z0-9_]+$"
+          },
+          "statement": {
+            "type": "string",
+            "minLength": 10
+          },
+          "target": {
+            "type": "string",
+            "minLength": 3
+          },
+          "test": {
+            "type": "string",
+            "minLength": 3
+          },
+          "violation_action": {
+            "enum": [
+              "reject",
+              "reject_or_reclassify",
+              "warn"
+            ]
+          }
+        }
+      }
+    },
+    "morphology": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "floor_count",
+        "height_classes",
+        "plan_shapes",
+        "volume_complexity",
+        "footprint_units"
+      ],
+      "properties": {
+        "floor_count": {
+          "$ref": "#/$defs/int_range"
+        },
+        "height_classes": {
+          "$ref": "#/$defs/choice_set"
+        },
+        "plan_shapes": {
+          "$ref": "#/$defs/choice_set"
+        },
+        "volume_complexity": {
+          "$ref": "#/$defs/choice_set"
+        },
+        "symmetry": {
+          "$ref": "#/$defs/choice_set"
+        },
+        "footprint_units": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "width",
+            "depth"
+          ],
+          "properties": {
+            "width": {
+              "$ref": "#/$defs/number_range"
+            },
+            "depth": {
+              "$ref": "#/$defs/number_range"
+            }
+          }
+        },
+        "structural_span": {
+          "description": "Vao livre estrutural relevante, em unidades normalizadas.",
+          "$ref": "#/$defs/number_range"
+        }
+      }
+    },
+    "slots": {
+      "description": "Categorias de componentes do BDB-001 secao 5, por codigo de tres letras.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "required",
+        "optional",
+        "forbidden"
+      ],
+      "properties": {
+        "required": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/slot_code"
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "optional": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/slot_code"
+          },
+          "uniqueItems": true
+        },
+        "forbidden": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/slot_code"
+          },
+          "uniqueItems": true
+        }
+      }
+    },
+    "lot_relationship": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "requires_independent_lot_access",
+        "street_frontages",
+        "lot_types",
+        "lot_positions",
+        "street_relations",
+        "setbacks",
+        "lot_coverage"
+      ],
+      "properties": {
+        "requires_independent_lot_access": {
+          "type": "boolean"
+        },
+        "requires_corner_lot": {
+          "type": "boolean"
+        },
+        "street_frontages": {
+          "$ref": "#/$defs/int_range"
+        },
+        "lot_types": {
+          "$ref": "#/$defs/choice_set"
+        },
+        "lot_positions": {
+          "$ref": "#/$defs/choice_set"
+        },
+        "street_relations": {
+          "$ref": "#/$defs/choice_set"
+        },
+        "setbacks": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "front",
+            "side",
+            "rear"
+          ],
+          "properties": {
+            "front": {
+              "$ref": "#/$defs/choice_set"
+            },
+            "side": {
+              "$ref": "#/$defs/choice_set"
+            },
+            "rear": {
+              "$ref": "#/$defs/choice_set"
+            }
+          }
+        },
+        "lot_coverage": {
+          "$ref": "#/$defs/number_range"
+        },
+        "external_spaces": {
+          "$ref": "#/$defs/choice_set"
+        },
+        "required_external_spaces": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/external_space_enum"
+          },
+          "uniqueItems": true
+        }
+      }
+    },
+    "context_compatibility": {
+      "description": "Compatibilidade morfologica e funcional apenas. Clima, cultura e riqueza nao pertencem ao arquetipo.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "densities",
+        "tech_levels"
+      ],
+      "properties": {
+        "densities": {
+          "$ref": "#/$defs/choice_set"
+        },
+        "development_stages": {
+          "$ref": "#/$defs/choice_set"
+        },
+        "tech_levels": {
+          "$ref": "#/$defs/choice_set"
+        },
+        "notes": {
+          "type": "string"
+        }
+      }
+    },
+    "transformations": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "allowed",
+        "forbidden"
+      ],
+      "properties": {
+        "allowed": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/transformation_enum"
+          },
+          "uniqueItems": true
+        },
+        "forbidden": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/transformation_enum"
+          },
+          "uniqueItems": true
+        },
+        "limits": {
+          "type": "object"
+        }
+      }
+    },
+    "archetype_escalation": {
+      "description": "Para onde reclassificar quando uma restricao e ultrapassada, em vez de gerar uma aberracao.",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "condition",
+          "suggested_archetype",
+          "note"
+        ],
+        "properties": {
+          "condition": {
+            "type": "string",
+            "minLength": 5
+          },
+          "suggested_archetype": {
+            "type": "string",
+            "minLength": 3
+          },
+          "note": {
+            "type": "string",
+            "minLength": 5
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "requirement": {
+      "enum": [
+        "required",
+        "forbidden",
+        "optional"
+      ]
+    },
+    "usage_enum": {
+      "enum": [
+        "residential",
+        "commercial",
+        "mixed_use",
+        "industrial",
+        "civic",
+        "institutional",
+        "religious",
+        "agricultural",
+        "infrastructure",
+        "transport",
+        "recreational",
+        "hospitality",
+        "military",
+        "special"
+      ]
+    },
+    "slot_code": {
+      "enum": [
+        "FND",
+        "STR",
+        "WAL",
+        "FAC",
+        "ROF",
+        "DOR",
+        "WIN",
+        "BAL",
+        "VCR",
+        "HCR",
+        "CLM",
+        "BND",
+        "PRK",
+        "SGN",
+        "ORN",
+        "TEC"
+      ]
+    },
+    "external_space_enum": {
+      "enum": [
+        "front_yard",
+        "backyard",
+        "side_yard",
+        "courtyard",
+        "patio",
+        "garden",
+        "vegetable_garden",
+        "service_yard",
+        "plaza",
+        "playground",
+        "parking_lot",
+        "loading_area",
+        "agricultural_field"
+      ]
+    },
+    "transformation_enum": {
+      "enum": [
+        "vertical_extension",
+        "rear_extension",
+        "side_extension",
+        "garage_conversion",
+        "commercial_conversion",
+        "facade_renovation",
+        "informal_annex",
+        "roof_replacement",
+        "window_replacement",
+        "subdivision",
+        "merging",
+        "abandonment"
+      ]
+    },
+    "int_range": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "min",
+        "max",
+        "preferred"
+      ],
+      "properties": {
+        "min": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "max": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "preferred": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "minItems": 2,
+          "maxItems": 2
+        }
+      }
+    },
+    "number_range": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "min",
+        "max",
+        "preferred"
+      ],
+      "properties": {
+        "min": {
+          "type": "number",
+          "minimum": 0
+        },
+        "max": {
+          "type": "number",
+          "minimum": 0
+        },
+        "preferred": {
+          "type": "array",
+          "items": {
+            "type": "number",
+            "minimum": 0
+          },
+          "minItems": 2,
+          "maxItems": 2
+        }
+      }
+    },
+    "choice_set": {
+      "description": "allowed e restricao. preferred e apenas comportamento tipico e deve ser subconjunto de allowed.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "allowed",
+        "preferred"
+      ],
+      "properties": {
+        "allowed": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "preferred": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "uniqueItems": true
+        }
+      }
+    }
+  }
+}

@@ -10,7 +10,7 @@ Biblioteca de regras, componentes, arquétipos e perfis contextuais para geraç�
 |---|---|---|
 | BDB-001 | Taxonomia Universal de Edifícios | 🟡 Estrutura-base; requer protótipo |
 | BDB-002 | Sistema de Modificadores Ambientais e Urbanos | 🟡 Especificado; requer implementação |
-| BDB-003 | Arquétipos Universais de Edifícios | ⚪ Não iniciado |
+| BDB-003 | Arquétipos Universais de Edifícios | 🟡 Especificado; requer implementação |
 | BDB-004 | Sistema de DNA Arquitetônico | ⚪ Não iniciado |
 | BDB-005 | Biblioteca Modular e Regras de Encaixe | ⚪ Não iniciado |
 | BDB-006 | Famílias Arquitetônicas Globais | ⚪ Não iniciado |
@@ -47,15 +47,31 @@ BUILDINGS_DESIGN_BIBLE/
 ## Documento atual
 
 ```text
-BUILDINGS_DESIGN_BIBLE/04_CONTEXT_MODIFIERS/BDB-002_SISTEMA_MODIFICADORES.md
+BUILDINGS_DESIGN_BIBLE/01_ARCHETYPES/BDB-003_ARQUETIPOS_UNIVERSAIS.md
+```
+
+## Cadeia de geração
+
+```text
+ARQUÉTIPO          BDB-003    "O que é?"
+     ↓
+CONTEXTO           BDB-002    "Onde está?"
+     ↓
+DNA                BDB-004    "Que características recebeu?"
+     ↓
+MÓDULOS            BDB-005    "Com quais peças será construído?"
+     ↓
+RECEITA            BDB-006+   "Como montar?"
+     ↓
+EDIFÍCIO GERADO
 ```
 
 ## Próxima etapa
 
-Produzir o `BDB-003 — Arquétipos Universais de Edifícios`, começando pela ficha normativa de:
+Produzir o `BDB-004 — Sistema de DNA Arquitetônico`, que cruza arquétipo e contexto:
 
 ```text
-BLD_RES_HOUSE_DETACHED
+arquétipo (BDB-003)  +  contexto (BDB-002)  =  DNA (BDB-004)
 ```
 
 ## Princípio do projeto

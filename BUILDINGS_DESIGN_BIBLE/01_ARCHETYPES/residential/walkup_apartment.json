@@ -1,0 +1,354 @@
+{
+  "schema_version": "0.1",
+  "archetype_id": "BLD_RES_APARTMENT_WALKUP",
+  "display_name": "Walk-up Apartment",
+  "description": "Habitação multifamiliar de poucos pavimentos, com unidades empilhadas servidas exclusivamente por escada.",
+  "status": "hypothesis",
+  "references": {
+    "bdb001_archetype": "walkup_apartment",
+    "bdb001_section": "8.1 / 15"
+  },
+  "usage": {
+    "primary": "residential",
+    "secondary": [],
+    "subtype": "multifamily",
+    "typical_occupancy": [
+      "private",
+      "shared"
+    ]
+  },
+  "identity": {
+    "volume_types": [
+      "detached",
+      "attached",
+      "row",
+      "slab",
+      "perimeter_block",
+      "linear"
+    ],
+    "party_walls": "optional",
+    "independent_street_access": "required",
+    "unit_count": {
+      "min": 3,
+      "max": 24,
+      "preferred": [
+        4,
+        12
+      ]
+    },
+    "unit_stacking": "required",
+    "public_ground_floor": "optional"
+  },
+  "invariants": [
+    {
+      "invariant_id": "INV_RES_WALKUP_STACKED_UNITS",
+      "statement": "As unidades de ocupação estao empilhadas verticalmente.",
+      "target": "identity.unit_stacking",
+      "test": "identity.unit_stacking == 'required'",
+      "violation_action": "reject_or_reclassify"
+    },
+    {
+      "invariant_id": "INV_RES_WALKUP_STAIR_SERVED",
+      "statement": "Todas as unidades são alcançáveis por escada, sem depender de elevador.",
+      "target": "morphology.floor_count",
+      "test": "morphology.floor_count.max <= 5",
+      "violation_action": "reject_or_reclassify"
+    },
+    {
+      "invariant_id": "INV_RES_WALKUP_SHARED_CIRCULATION",
+      "statement": "Existe circulação vertical coletiva servindo as unidades.",
+      "target": "slots.required",
+      "test": "'VCR' in slots.required",
+      "violation_action": "reject"
+    }
+  ],
+  "morphology": {
+    "floor_count": {
+      "min": 2,
+      "max": 5,
+      "preferred": [
+        3,
+        4
+      ]
+    },
+    "height_classes": {
+      "allowed": [
+        "LOW_RISE",
+        "MID_RISE"
+      ],
+      "preferred": [
+        "LOW_RISE"
+      ]
+    },
+    "plan_shapes": {
+      "allowed": [
+        "rectangle",
+        "wide_rectangle",
+        "narrow_rectangle",
+        "L_shape",
+        "U_shape",
+        "H_shape",
+        "courtyard",
+        "irregular"
+      ],
+      "preferred": [
+        "rectangle",
+        "wide_rectangle"
+      ]
+    },
+    "volume_complexity": {
+      "allowed": [
+        "simple",
+        "composite",
+        "stacked",
+        "segmented"
+      ],
+      "preferred": [
+        "simple",
+        "stacked"
+      ]
+    },
+    "symmetry": {
+      "allowed": [
+        "symmetrical",
+        "approximately_symmetrical",
+        "asymmetrical",
+        "modular_repetition"
+      ],
+      "preferred": [
+        "modular_repetition"
+      ]
+    },
+    "footprint_units": {
+      "width": {
+        "min": 6,
+        "max": 24,
+        "preferred": [
+          9,
+          16
+        ]
+      },
+      "depth": {
+        "min": 6,
+        "max": 22,
+        "preferred": [
+          9,
+          14
+        ]
+      }
+    }
+  },
+  "slots": {
+    "required": [
+      "FND",
+      "STR",
+      "WAL",
+      "FAC",
+      "ROF",
+      "DOR",
+      "WIN",
+      "VCR"
+    ],
+    "optional": [
+      "BAL",
+      "HCR",
+      "CLM",
+      "BND",
+      "PRK",
+      "SGN",
+      "ORN",
+      "TEC"
+    ],
+    "forbidden": []
+  },
+  "lot_relationship": {
+    "requires_independent_lot_access": true,
+    "street_frontages": {
+      "min": 1,
+      "max": 3,
+      "preferred": [
+        1,
+        2
+      ]
+    },
+    "lot_types": {
+      "allowed": [
+        "urban_regular",
+        "urban_narrow",
+        "urban_deep",
+        "urban_corner",
+        "urban_irregular",
+        "suburban",
+        "informal"
+      ],
+      "preferred": [
+        "urban_regular",
+        "urban_corner"
+      ]
+    },
+    "lot_positions": {
+      "allowed": [
+        "front_aligned",
+        "front_setback",
+        "centered",
+        "corner_aligned",
+        "occupies_full_lot",
+        "side_aligned"
+      ],
+      "preferred": [
+        "front_aligned",
+        "front_setback"
+      ]
+    },
+    "street_relations": {
+      "allowed": [
+        "direct_access",
+        "front_yard",
+        "front_wall",
+        "front_fence",
+        "shopfront",
+        "parking_front",
+        "raised_access",
+        "internal_access"
+      ],
+      "preferred": [
+        "front_yard",
+        "direct_access"
+      ]
+    },
+    "setbacks": {
+      "front": {
+        "allowed": [
+          "none",
+          "minimal",
+          "small",
+          "medium",
+          "large"
+        ],
+        "preferred": [
+          "none",
+          "small"
+        ]
+      },
+      "side": {
+        "allowed": [
+          "none",
+          "minimal",
+          "small",
+          "medium",
+          "large"
+        ],
+        "preferred": [
+          "minimal",
+          "small"
+        ]
+      },
+      "rear": {
+        "allowed": [
+          "none",
+          "minimal",
+          "small",
+          "medium",
+          "large"
+        ],
+        "preferred": [
+          "small",
+          "medium"
+        ]
+      }
+    },
+    "lot_coverage": {
+      "min": 0.2,
+      "max": 0.95,
+      "preferred": [
+        0.4,
+        0.7
+      ]
+    },
+    "external_spaces": {
+      "allowed": [
+        "front_yard",
+        "backyard",
+        "side_yard",
+        "courtyard",
+        "patio",
+        "service_yard",
+        "parking_lot",
+        "playground"
+      ],
+      "preferred": [
+        "courtyard",
+        "service_yard"
+      ]
+    }
+  },
+  "context_compatibility": {
+    "densities": {
+      "allowed": [
+        "suburban_low",
+        "urban_low",
+        "urban_medium",
+        "urban_high",
+        "metropolitan"
+      ],
+      "preferred": [
+        "urban_medium"
+      ]
+    },
+    "tech_levels": {
+      "allowed": [
+        "vernacular",
+        "craft",
+        "early_industrial",
+        "industrial",
+        "mass_produced",
+        "prefabricated",
+        "digital_fabrication",
+        "advanced"
+      ],
+      "preferred": [
+        "mass_produced",
+        "industrial"
+      ]
+    },
+    "notes": "Limite de altura decorre do acesso por escada, não de restrição econômica."
+  },
+  "transformations": {
+    "allowed": [
+      "vertical_extension",
+      "rear_extension",
+      "commercial_conversion",
+      "facade_renovation",
+      "informal_annex",
+      "roof_replacement",
+      "window_replacement",
+      "subdivision",
+      "merging",
+      "abandonment"
+    ],
+    "forbidden": [
+      "garage_conversion"
+    ],
+    "limits": {
+      "max_floor_count_after_extension": 5,
+      "vertical_extension_requires_elevator_check": true
+    }
+  },
+  "archetype_escalation": [
+    {
+      "condition": "morphology.floor_count > 5",
+      "suggested_archetype": "BLD_RES_APARTMENT_MIDRISE",
+      "note": "Acima do alcance confortavel de escada o edifício passa a exigir elevador."
+    },
+    {
+      "condition": "identity.unit_count.max <= 1",
+      "suggested_archetype": "BLD_RES_HOUSE_ATTACHED",
+      "note": "Unidade única deixa de caracterizar habitação multifamiliar."
+    },
+    {
+      "condition": "terreo comercial ativo em uso permanente",
+      "suggested_archetype": "BLD_MIX_URBAN_BLOCK",
+      "note": "Terreo comercial consolidado desloca o edifício para uso misto."
+    }
+  ]
+}

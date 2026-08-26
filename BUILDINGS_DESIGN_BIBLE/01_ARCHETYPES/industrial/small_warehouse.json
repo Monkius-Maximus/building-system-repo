@@ -1,0 +1,343 @@
+{
+  "schema_version": "0.1",
+  "archetype_id": "BLD_IND_WAREHOUSE_SMALL",
+  "display_name": "Small Warehouse",
+  "description": "Galpão de armazenagem de pequeno porte, com vão livre amplo, poucas aberturas e área de carga própria.",
+  "status": "hypothesis",
+  "references": {
+    "bdb001_archetype": "warehouse",
+    "bdb001_section": "8.5 / 15"
+  },
+  "usage": {
+    "primary": "industrial",
+    "secondary": [],
+    "subtype": "warehouse",
+    "typical_occupancy": [
+      "restricted",
+      "private"
+    ]
+  },
+  "identity": {
+    "volume_types": [
+      "detached",
+      "attached",
+      "linear",
+      "pavilion"
+    ],
+    "party_walls": "optional",
+    "independent_street_access": "required",
+    "unit_count": {
+      "min": 1,
+      "max": 4,
+      "preferred": [
+        1,
+        2
+      ]
+    },
+    "unit_stacking": "forbidden",
+    "public_ground_floor": "forbidden"
+  },
+  "invariants": [
+    {
+      "invariant_id": "INV_IND_WAREHOUSE_LOADING_AREA",
+      "statement": "O edifício depende de área de carga e descarga própria.",
+      "target": "lot_relationship.required_external_spaces",
+      "test": "'loading_area' in lot_relationship.required_external_spaces",
+      "violation_action": "reject"
+    },
+    {
+      "invariant_id": "INV_IND_WAREHOUSE_LARGE_SPAN",
+      "statement": "O volume interno e um vão livre amplo, sem apoios frequentes.",
+      "target": "morphology.structural_span",
+      "test": "morphology.structural_span.min >= 6.0",
+      "violation_action": "reject_or_reclassify"
+    },
+    {
+      "invariant_id": "INV_IND_WAREHOUSE_NO_PUBLIC_GROUND_FLOOR",
+      "statement": "Não há atendimento público direto no térreo.",
+      "target": "identity.public_ground_floor",
+      "test": "identity.public_ground_floor == 'forbidden'",
+      "violation_action": "reject_or_reclassify"
+    }
+  ],
+  "morphology": {
+    "floor_count": {
+      "min": 1,
+      "max": 2,
+      "preferred": [
+        1,
+        1
+      ]
+    },
+    "height_classes": {
+      "allowed": [
+        "SINGLE_STOREY",
+        "LOW_RISE"
+      ],
+      "preferred": [
+        "SINGLE_STOREY"
+      ]
+    },
+    "plan_shapes": {
+      "allowed": [
+        "rectangle",
+        "wide_rectangle",
+        "narrow_rectangle"
+      ],
+      "preferred": [
+        "rectangle",
+        "wide_rectangle"
+      ]
+    },
+    "volume_complexity": {
+      "allowed": [
+        "simple",
+        "composite"
+      ],
+      "preferred": [
+        "simple"
+      ]
+    },
+    "symmetry": {
+      "allowed": [
+        "symmetrical",
+        "approximately_symmetrical",
+        "modular_repetition"
+      ],
+      "preferred": [
+        "symmetrical",
+        "modular_repetition"
+      ]
+    },
+    "footprint_units": {
+      "width": {
+        "min": 8,
+        "max": 45,
+        "preferred": [
+          14,
+          28
+        ]
+      },
+      "depth": {
+        "min": 10,
+        "max": 70,
+        "preferred": [
+          20,
+          42
+        ]
+      }
+    },
+    "structural_span": {
+      "min": 6.0,
+      "max": 25.0,
+      "preferred": [
+        10.0,
+        18.0
+      ]
+    }
+  },
+  "slots": {
+    "required": [
+      "FND",
+      "STR",
+      "WAL",
+      "FAC",
+      "ROF",
+      "DOR"
+    ],
+    "optional": [
+      "WIN",
+      "SGN",
+      "TEC",
+      "PRK",
+      "BND",
+      "HCR",
+      "CLM",
+      "VCR"
+    ],
+    "forbidden": [
+      "BAL",
+      "ORN"
+    ]
+  },
+  "lot_relationship": {
+    "requires_independent_lot_access": true,
+    "street_frontages": {
+      "min": 1,
+      "max": 3,
+      "preferred": [
+        1,
+        1
+      ]
+    },
+    "lot_types": {
+      "allowed": [
+        "industrial",
+        "rural",
+        "suburban",
+        "urban_irregular",
+        "waterfront",
+        "urban_deep",
+        "isolated"
+      ],
+      "preferred": [
+        "industrial",
+        "suburban"
+      ]
+    },
+    "lot_positions": {
+      "allowed": [
+        "centered",
+        "rear_aligned",
+        "front_setback",
+        "side_aligned",
+        "occupies_full_lot",
+        "front_aligned"
+      ],
+      "preferred": [
+        "centered",
+        "rear_aligned"
+      ]
+    },
+    "street_relations": {
+      "allowed": [
+        "service_lane",
+        "direct_access",
+        "parking_front",
+        "internal_access"
+      ],
+      "preferred": [
+        "service_lane"
+      ]
+    },
+    "setbacks": {
+      "front": {
+        "allowed": [
+          "none",
+          "minimal",
+          "small",
+          "medium",
+          "large"
+        ],
+        "preferred": [
+          "small",
+          "medium"
+        ]
+      },
+      "side": {
+        "allowed": [
+          "none",
+          "minimal",
+          "small",
+          "medium",
+          "large"
+        ],
+        "preferred": [
+          "minimal",
+          "small"
+        ]
+      },
+      "rear": {
+        "allowed": [
+          "none",
+          "minimal",
+          "small",
+          "medium",
+          "large"
+        ],
+        "preferred": [
+          "minimal",
+          "small"
+        ]
+      }
+    },
+    "lot_coverage": {
+      "min": 0.3,
+      "max": 0.95,
+      "preferred": [
+        0.5,
+        0.8
+      ]
+    },
+    "external_spaces": {
+      "allowed": [
+        "loading_area",
+        "service_yard",
+        "parking_lot",
+        "side_yard"
+      ],
+      "preferred": [
+        "loading_area",
+        "service_yard"
+      ]
+    },
+    "required_external_spaces": [
+      "loading_area"
+    ]
+  },
+  "context_compatibility": {
+    "densities": {
+      "allowed": [
+        "isolated",
+        "rural_sparse",
+        "rural_clustered",
+        "suburban_low",
+        "urban_low",
+        "urban_medium"
+      ],
+      "preferred": [
+        "suburban_low",
+        "urban_low"
+      ]
+    },
+    "tech_levels": {
+      "allowed": [
+        "early_industrial",
+        "industrial",
+        "mass_produced",
+        "prefabricated",
+        "digital_fabrication",
+        "advanced"
+      ],
+      "preferred": [
+        "prefabricated",
+        "mass_produced"
+      ]
+    },
+    "notes": "O vão livre amplo depende de sistemas estruturais industriais ou posteriores."
+  },
+  "transformations": {
+    "allowed": [
+      "rear_extension",
+      "side_extension",
+      "commercial_conversion",
+      "facade_renovation",
+      "roof_replacement",
+      "merging",
+      "subdivision",
+      "abandonment",
+      "window_replacement"
+    ],
+    "forbidden": [
+      "vertical_extension",
+      "garage_conversion",
+      "informal_annex"
+    ],
+    "limits": {
+      "loading_area_must_remain": true,
+      "clear_span_must_remain": true
+    }
+  },
+  "archetype_escalation": [
+    {
+      "condition": "area cresce muito alem da faixa",
+      "suggested_archetype": "BLD_IND_DISTRIBUTION_CENTER",
+      "note": "Escala logistica maior exige ficha própria."
+    },
+    {
+      "condition": "terreo passa a atendimento publico permanente",
+      "suggested_archetype": "BLD_COM_STREET_SHOP",
+      "note": "Venda direta no térreo descaracteriza o galpao de armazenagem."
+    }
+  ]
+}

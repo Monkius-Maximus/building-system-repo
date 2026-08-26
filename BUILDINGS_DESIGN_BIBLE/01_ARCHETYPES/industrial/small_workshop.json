@@ -1,0 +1,351 @@
+{
+  "schema_version": "0.1",
+  "archetype_id": "BLD_IND_WORKSHOP_SMALL",
+  "display_name": "Small Workshop",
+  "description": "Oficina de pequeno porte com galpao de trabalho, acesso de carga próprio e envoltória simples.",
+  "status": "hypothesis",
+  "references": {
+    "bdb001_archetype": "workshop",
+    "bdb001_section": "8.5 / 15"
+  },
+  "usage": {
+    "primary": "industrial",
+    "secondary": [
+      "commercial"
+    ],
+    "subtype": "workshop",
+    "typical_occupancy": [
+      "restricted",
+      "private"
+    ]
+  },
+  "identity": {
+    "volume_types": [
+      "detached",
+      "attached",
+      "pavilion",
+      "linear",
+      "row"
+    ],
+    "party_walls": "optional",
+    "independent_street_access": "required",
+    "unit_count": {
+      "min": 1,
+      "max": 3,
+      "preferred": [
+        1,
+        1
+      ]
+    },
+    "unit_stacking": "forbidden",
+    "public_ground_floor": "optional"
+  },
+  "invariants": [
+    {
+      "invariant_id": "INV_IND_WORKSHOP_SERVICE_DOOR",
+      "statement": "Existe ao menos uma abertura de carga dimensionada para equipamento ou veículo.",
+      "target": "components.doors",
+      "test": "any(door.type in ['industrial','garage','rolling_shutter','sliding'])",
+      "violation_action": "reject"
+    },
+    {
+      "invariant_id": "INV_IND_WORKSHOP_CLEAR_SPAN",
+      "statement": "O espaço de trabalho principal e um vão livre sem subdivisão permanente.",
+      "target": "morphology.structural_span",
+      "test": "morphology.structural_span.min >= 3.0",
+      "violation_action": "reject_or_reclassify"
+    },
+    {
+      "invariant_id": "INV_IND_WORKSHOP_NO_STACKED_UNITS",
+      "statement": "Não há unidades de ocupação empilhadas.",
+      "target": "identity.unit_stacking",
+      "test": "identity.unit_stacking == 'forbidden'",
+      "violation_action": "reject_or_reclassify"
+    }
+  ],
+  "morphology": {
+    "floor_count": {
+      "min": 1,
+      "max": 2,
+      "preferred": [
+        1,
+        1
+      ]
+    },
+    "height_classes": {
+      "allowed": [
+        "SINGLE_STOREY",
+        "LOW_RISE"
+      ],
+      "preferred": [
+        "SINGLE_STOREY"
+      ]
+    },
+    "plan_shapes": {
+      "allowed": [
+        "rectangle",
+        "wide_rectangle",
+        "narrow_rectangle",
+        "L_shape",
+        "irregular"
+      ],
+      "preferred": [
+        "rectangle",
+        "wide_rectangle"
+      ]
+    },
+    "volume_complexity": {
+      "allowed": [
+        "simple",
+        "composite",
+        "segmented"
+      ],
+      "preferred": [
+        "simple"
+      ]
+    },
+    "symmetry": {
+      "allowed": [
+        "symmetrical",
+        "approximately_symmetrical",
+        "asymmetrical"
+      ],
+      "preferred": [
+        "asymmetrical"
+      ]
+    },
+    "footprint_units": {
+      "width": {
+        "min": 5,
+        "max": 25,
+        "preferred": [
+          8,
+          15
+        ]
+      },
+      "depth": {
+        "min": 6,
+        "max": 30,
+        "preferred": [
+          10,
+          18
+        ]
+      }
+    },
+    "structural_span": {
+      "min": 3.0,
+      "max": 15.0,
+      "preferred": [
+        6.0,
+        11.0
+      ]
+    }
+  },
+  "slots": {
+    "required": [
+      "FND",
+      "STR",
+      "WAL",
+      "FAC",
+      "ROF",
+      "DOR"
+    ],
+    "optional": [
+      "WIN",
+      "HCR",
+      "CLM",
+      "BND",
+      "PRK",
+      "SGN",
+      "TEC",
+      "VCR",
+      "ORN"
+    ],
+    "forbidden": [
+      "BAL"
+    ]
+  },
+  "lot_relationship": {
+    "requires_independent_lot_access": true,
+    "street_frontages": {
+      "min": 1,
+      "max": 3,
+      "preferred": [
+        1,
+        1
+      ]
+    },
+    "lot_types": {
+      "allowed": [
+        "industrial",
+        "urban_irregular",
+        "urban_regular",
+        "urban_deep",
+        "suburban",
+        "rural",
+        "informal"
+      ],
+      "preferred": [
+        "industrial",
+        "urban_irregular"
+      ]
+    },
+    "lot_positions": {
+      "allowed": [
+        "front_aligned",
+        "occupies_full_lot",
+        "front_setback",
+        "centered",
+        "side_aligned",
+        "rear_aligned"
+      ],
+      "preferred": [
+        "front_aligned",
+        "occupies_full_lot"
+      ]
+    },
+    "street_relations": {
+      "allowed": [
+        "direct_access",
+        "service_lane",
+        "parking_front",
+        "front_yard",
+        "front_fence",
+        "internal_access"
+      ],
+      "preferred": [
+        "direct_access",
+        "service_lane"
+      ]
+    },
+    "setbacks": {
+      "front": {
+        "allowed": [
+          "none",
+          "minimal",
+          "small",
+          "medium",
+          "large"
+        ],
+        "preferred": [
+          "none",
+          "minimal"
+        ]
+      },
+      "side": {
+        "allowed": [
+          "none",
+          "minimal",
+          "small",
+          "medium",
+          "large"
+        ],
+        "preferred": [
+          "none",
+          "minimal"
+        ]
+      },
+      "rear": {
+        "allowed": [
+          "none",
+          "minimal",
+          "small",
+          "medium",
+          "large"
+        ],
+        "preferred": [
+          "none",
+          "minimal"
+        ]
+      }
+    },
+    "lot_coverage": {
+      "min": 0.2,
+      "max": 1.0,
+      "preferred": [
+        0.4,
+        0.75
+      ]
+    },
+    "external_spaces": {
+      "allowed": [
+        "service_yard",
+        "loading_area",
+        "parking_lot",
+        "backyard",
+        "side_yard"
+      ],
+      "preferred": [
+        "service_yard"
+      ]
+    }
+  },
+  "context_compatibility": {
+    "densities": {
+      "allowed": [
+        "rural_sparse",
+        "rural_clustered",
+        "suburban_low",
+        "urban_low",
+        "urban_medium",
+        "urban_high"
+      ],
+      "preferred": [
+        "urban_low",
+        "suburban_low"
+      ]
+    },
+    "tech_levels": {
+      "allowed": [
+        "vernacular",
+        "craft",
+        "early_industrial",
+        "industrial",
+        "mass_produced",
+        "prefabricated",
+        "digital_fabrication",
+        "advanced"
+      ],
+      "preferred": [
+        "industrial",
+        "mass_produced",
+        "craft"
+      ]
+    },
+    "notes": "Convive com tecido residencial em muitos contextos; a compatibilidade é morfológica, não normativa."
+  },
+  "transformations": {
+    "allowed": [
+      "rear_extension",
+      "side_extension",
+      "vertical_extension",
+      "commercial_conversion",
+      "facade_renovation",
+      "informal_annex",
+      "roof_replacement",
+      "window_replacement",
+      "merging",
+      "subdivision",
+      "abandonment"
+    ],
+    "forbidden": [
+      "garage_conversion"
+    ],
+    "limits": {
+      "max_floor_count_after_extension": 2,
+      "clear_span_must_remain": true
+    }
+  },
+  "archetype_escalation": [
+    {
+      "condition": "area e vao crescem alem da faixa",
+      "suggested_archetype": "BLD_IND_WAREHOUSE_SMALL",
+      "note": "Predominancia de armazenagem sobre producao muda o programa."
+    },
+    {
+      "condition": "terreo passa a atendimento publico permanente",
+      "suggested_archetype": "BLD_COM_STREET_SHOP",
+      "note": "Quando a venda direta domina, o arquétipo comercial descreve melhor o edifício."
+    }
+  ]
+}

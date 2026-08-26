@@ -1,0 +1,342 @@
+{
+  "schema_version": "0.1",
+  "archetype_id": "BLD_RES_HOUSE_RURAL",
+  "display_name": "Rural House",
+  "description": "Habitação unifamiliar isolada em contexto rural, associada a terreno amplo e a anexos de servico ou producao.",
+  "status": "hypothesis",
+  "references": {
+    "bdb001_archetype": "rural_house",
+    "bdb001_section": "8.1 / 15"
+  },
+  "usage": {
+    "primary": "residential",
+    "secondary": [
+      "agricultural"
+    ],
+    "subtype": "single_family",
+    "typical_occupancy": [
+      "private",
+      "seasonal"
+    ]
+  },
+  "identity": {
+    "volume_types": [
+      "detached",
+      "cluster",
+      "compound"
+    ],
+    "party_walls": "forbidden",
+    "independent_street_access": "required",
+    "unit_count": {
+      "min": 1,
+      "max": 2,
+      "preferred": [
+        1,
+        1
+      ]
+    },
+    "unit_stacking": "forbidden",
+    "public_ground_floor": "forbidden"
+  },
+  "invariants": [
+    {
+      "invariant_id": "INV_RES_RURAL_NO_PARTY_WALL",
+      "statement": "O volume principal permanece isolado, sem parede compartilhada.",
+      "target": "identity.party_walls",
+      "test": "identity.party_walls == 'forbidden'",
+      "violation_action": "reject_or_reclassify"
+    },
+    {
+      "invariant_id": "INV_RES_RURAL_LOW_COVERAGE",
+      "statement": "A taxa de ocupação do lote permanece baixa em relação a área disponivel.",
+      "target": "lot_relationship.lot_coverage",
+      "test": "lot_relationship.lot_coverage.max <= 0.4",
+      "violation_action": "warn"
+    },
+    {
+      "invariant_id": "INV_RES_RURAL_OWN_ACCESS",
+      "statement": "O acesso ocorre diretamente pelo terreno, sem circulação coletiva.",
+      "target": "identity.independent_street_access",
+      "test": "identity.independent_street_access == 'required'",
+      "violation_action": "reject"
+    }
+  ],
+  "morphology": {
+    "floor_count": {
+      "min": 1,
+      "max": 2,
+      "preferred": [
+        1,
+        1
+      ]
+    },
+    "height_classes": {
+      "allowed": [
+        "SINGLE_STOREY",
+        "LOW_RISE"
+      ],
+      "preferred": [
+        "SINGLE_STOREY"
+      ]
+    },
+    "plan_shapes": {
+      "allowed": [
+        "rectangle",
+        "wide_rectangle",
+        "square",
+        "L_shape",
+        "U_shape",
+        "courtyard",
+        "irregular",
+        "modular_cluster"
+      ],
+      "preferred": [
+        "rectangle",
+        "L_shape"
+      ]
+    },
+    "volume_complexity": {
+      "allowed": [
+        "simple",
+        "composite",
+        "segmented",
+        "fragmented"
+      ],
+      "preferred": [
+        "simple",
+        "composite"
+      ]
+    },
+    "symmetry": {
+      "allowed": [
+        "symmetrical",
+        "approximately_symmetrical",
+        "asymmetrical"
+      ],
+      "preferred": [
+        "asymmetrical",
+        "approximately_symmetrical"
+      ]
+    },
+    "footprint_units": {
+      "width": {
+        "min": 4,
+        "max": 18,
+        "preferred": [
+          6,
+          11
+        ]
+      },
+      "depth": {
+        "min": 4,
+        "max": 20,
+        "preferred": [
+          6,
+          12
+        ]
+      }
+    }
+  },
+  "slots": {
+    "required": [
+      "FND",
+      "STR",
+      "WAL",
+      "FAC",
+      "ROF",
+      "DOR",
+      "WIN"
+    ],
+    "optional": [
+      "BAL",
+      "VCR",
+      "HCR",
+      "CLM",
+      "BND",
+      "PRK",
+      "SGN",
+      "ORN",
+      "TEC"
+    ],
+    "forbidden": []
+  },
+  "lot_relationship": {
+    "requires_independent_lot_access": true,
+    "street_frontages": {
+      "min": 0,
+      "max": 2,
+      "preferred": [
+        1,
+        1
+      ]
+    },
+    "lot_types": {
+      "allowed": [
+        "rural",
+        "isolated",
+        "hillside",
+        "waterfront",
+        "compound",
+        "informal",
+        "urban_irregular"
+      ],
+      "preferred": [
+        "rural",
+        "isolated"
+      ]
+    },
+    "lot_positions": {
+      "allowed": [
+        "centered",
+        "front_setback",
+        "scattered",
+        "terrain_following",
+        "side_aligned"
+      ],
+      "preferred": [
+        "centered",
+        "terrain_following"
+      ]
+    },
+    "street_relations": {
+      "allowed": [
+        "direct_access",
+        "front_yard",
+        "service_lane",
+        "internal_access",
+        "front_fence"
+      ],
+      "preferred": [
+        "direct_access"
+      ]
+    },
+    "setbacks": {
+      "front": {
+        "allowed": [
+          "none",
+          "minimal",
+          "small",
+          "medium",
+          "large"
+        ],
+        "preferred": [
+          "large"
+        ]
+      },
+      "side": {
+        "allowed": [
+          "none",
+          "minimal",
+          "small",
+          "medium",
+          "large"
+        ],
+        "preferred": [
+          "large"
+        ]
+      },
+      "rear": {
+        "allowed": [
+          "none",
+          "minimal",
+          "small",
+          "medium",
+          "large"
+        ],
+        "preferred": [
+          "large"
+        ]
+      }
+    },
+    "lot_coverage": {
+      "min": 0.01,
+      "max": 0.4,
+      "preferred": [
+        0.02,
+        0.15
+      ]
+    },
+    "external_spaces": {
+      "allowed": [
+        "front_yard",
+        "backyard",
+        "side_yard",
+        "courtyard",
+        "patio",
+        "garden",
+        "vegetable_garden",
+        "service_yard",
+        "agricultural_field",
+        "parking_lot"
+      ],
+      "preferred": [
+        "vegetable_garden",
+        "service_yard",
+        "agricultural_field"
+      ]
+    }
+  },
+  "context_compatibility": {
+    "densities": {
+      "allowed": [
+        "isolated",
+        "rural_sparse",
+        "rural_clustered"
+      ],
+      "preferred": [
+        "rural_sparse"
+      ]
+    },
+    "tech_levels": {
+      "allowed": [
+        "vernacular",
+        "craft",
+        "early_industrial",
+        "industrial",
+        "mass_produced",
+        "prefabricated",
+        "digital_fabrication",
+        "advanced"
+      ],
+      "preferred": [
+        "vernacular",
+        "craft",
+        "mass_produced"
+      ]
+    },
+    "notes": "Técnica vernacular e contemporânea coexistem: período e tecnologia são eixos separados."
+  },
+  "transformations": {
+    "allowed": [
+      "vertical_extension",
+      "rear_extension",
+      "side_extension",
+      "facade_renovation",
+      "informal_annex",
+      "roof_replacement",
+      "window_replacement",
+      "commercial_conversion",
+      "abandonment"
+    ],
+    "forbidden": [
+      "subdivision",
+      "merging"
+    ],
+    "limits": {
+      "max_floor_count_after_extension": 2,
+      "annex_growth_preferred_over_vertical": true
+    }
+  },
+  "archetype_escalation": [
+    {
+      "condition": "uso agricola passa a dominar o conjunto",
+      "suggested_archetype": "BLD_AGR_FARMHOUSE",
+      "note": "Quando a producao define o programa, o arquétipo agricola descreve melhor o conjunto."
+    },
+    {
+      "condition": "context.densities sobe para urban_low ou acima",
+      "suggested_archetype": "BLD_RES_HOUSE_DETACHED",
+      "note": "Em tecido urbano a casa isolada comum descreve melhor a implantação."
+    }
+  ]
+}

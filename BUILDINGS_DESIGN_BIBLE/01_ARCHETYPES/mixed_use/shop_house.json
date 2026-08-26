@@ -1,0 +1,335 @@
+{
+  "schema_version": "0.1",
+  "archetype_id": "BLD_MIX_SHOP_HOUSE",
+  "display_name": "Shop House",
+  "description": "Edifício de uso misto de pequeno porte, com comércio no térreo e moradia nos pavimentos superiores, sob uma mesma estrutura.",
+  "status": "hypothesis",
+  "references": {
+    "bdb001_archetype": "shop_house",
+    "bdb001_section": "8.3 / 15"
+  },
+  "usage": {
+    "primary": "mixed_use",
+    "secondary": [
+      "commercial",
+      "residential"
+    ],
+    "subtype": "shop_with_dwelling",
+    "typical_occupancy": [
+      "private",
+      "public"
+    ]
+  },
+  "identity": {
+    "volume_types": [
+      "attached",
+      "row",
+      "detached",
+      "terraced",
+      "linear"
+    ],
+    "party_walls": "optional",
+    "independent_street_access": "required",
+    "unit_count": {
+      "min": 2,
+      "max": 6,
+      "preferred": [
+        2,
+        3
+      ]
+    },
+    "unit_stacking": "required",
+    "public_ground_floor": "required",
+    "vertical_use_stack": [
+      "commercial",
+      "residential"
+    ]
+  },
+  "invariants": [
+    {
+      "invariant_id": "INV_MIX_SHOPHOUSE_USE_STACK",
+      "statement": "O uso comercial ocupa o térreo e o uso residencial ocupa os pavimentos superiores.",
+      "target": "identity.vertical_use_stack",
+      "test": "identity.vertical_use_stack == ['commercial','residential']",
+      "violation_action": "reject_or_reclassify"
+    },
+    {
+      "invariant_id": "INV_MIX_SHOPHOUSE_SEPARATE_ACCESS",
+      "statement": "Comercio e moradia possuem acessos distintos a partir do logradouro.",
+      "target": "identity.independent_street_access",
+      "test": "identity.independent_street_access == 'required'",
+      "violation_action": "reject"
+    },
+    {
+      "invariant_id": "INV_MIX_SHOPHOUSE_PUBLIC_GROUND_FLOOR",
+      "statement": "O térreo permanece acessível ao público.",
+      "target": "identity.public_ground_floor",
+      "test": "identity.public_ground_floor == 'required'",
+      "violation_action": "reject_or_reclassify"
+    }
+  ],
+  "morphology": {
+    "floor_count": {
+      "min": 2,
+      "max": 4,
+      "preferred": [
+        2,
+        3
+      ]
+    },
+    "height_classes": {
+      "allowed": [
+        "LOW_RISE"
+      ],
+      "preferred": [
+        "LOW_RISE"
+      ]
+    },
+    "plan_shapes": {
+      "allowed": [
+        "narrow_rectangle",
+        "rectangle",
+        "L_shape",
+        "courtyard",
+        "irregular"
+      ],
+      "preferred": [
+        "narrow_rectangle"
+      ]
+    },
+    "volume_complexity": {
+      "allowed": [
+        "simple",
+        "composite",
+        "stacked"
+      ],
+      "preferred": [
+        "simple",
+        "stacked"
+      ]
+    },
+    "symmetry": {
+      "allowed": [
+        "symmetrical",
+        "approximately_symmetrical",
+        "asymmetrical",
+        "modular_repetition"
+      ],
+      "preferred": [
+        "modular_repetition"
+      ]
+    },
+    "footprint_units": {
+      "width": {
+        "min": 3,
+        "max": 10,
+        "preferred": [
+          4,
+          7
+        ]
+      },
+      "depth": {
+        "min": 6,
+        "max": 24,
+        "preferred": [
+          10,
+          16
+        ]
+      }
+    }
+  },
+  "slots": {
+    "required": [
+      "FND",
+      "STR",
+      "WAL",
+      "FAC",
+      "ROF",
+      "DOR",
+      "WIN",
+      "SGN",
+      "VCR"
+    ],
+    "optional": [
+      "BAL",
+      "HCR",
+      "CLM",
+      "BND",
+      "PRK",
+      "ORN",
+      "TEC"
+    ],
+    "forbidden": []
+  },
+  "lot_relationship": {
+    "requires_independent_lot_access": true,
+    "street_frontages": {
+      "min": 1,
+      "max": 2,
+      "preferred": [
+        1,
+        1
+      ]
+    },
+    "lot_types": {
+      "allowed": [
+        "urban_regular",
+        "urban_narrow",
+        "urban_deep",
+        "urban_corner",
+        "urban_irregular",
+        "informal"
+      ],
+      "preferred": [
+        "urban_narrow",
+        "urban_regular"
+      ]
+    },
+    "lot_positions": {
+      "allowed": [
+        "front_aligned",
+        "occupies_full_lot",
+        "corner_aligned"
+      ],
+      "preferred": [
+        "front_aligned"
+      ]
+    },
+    "street_relations": {
+      "allowed": [
+        "shopfront",
+        "direct_access",
+        "arcade",
+        "pedestrian_only"
+      ],
+      "preferred": [
+        "shopfront"
+      ]
+    },
+    "setbacks": {
+      "front": {
+        "allowed": [
+          "none",
+          "minimal"
+        ],
+        "preferred": [
+          "none"
+        ]
+      },
+      "side": {
+        "allowed": [
+          "none",
+          "minimal"
+        ],
+        "preferred": [
+          "none"
+        ]
+      },
+      "rear": {
+        "allowed": [
+          "none",
+          "minimal",
+          "small",
+          "medium",
+          "large"
+        ],
+        "preferred": [
+          "none",
+          "minimal"
+        ]
+      }
+    },
+    "lot_coverage": {
+      "min": 0.4,
+      "max": 1.0,
+      "preferred": [
+        0.7,
+        0.95
+      ]
+    },
+    "external_spaces": {
+      "allowed": [
+        "backyard",
+        "courtyard",
+        "patio",
+        "service_yard"
+      ],
+      "preferred": [
+        "service_yard"
+      ]
+    }
+  },
+  "context_compatibility": {
+    "densities": {
+      "allowed": [
+        "rural_clustered",
+        "suburban_low",
+        "urban_low",
+        "urban_medium",
+        "urban_high",
+        "metropolitan",
+        "hyperdense"
+      ],
+      "preferred": [
+        "urban_medium",
+        "urban_high"
+      ]
+    },
+    "tech_levels": {
+      "allowed": [
+        "vernacular",
+        "craft",
+        "early_industrial",
+        "industrial",
+        "mass_produced",
+        "prefabricated",
+        "digital_fabrication",
+        "advanced"
+      ],
+      "preferred": [
+        "mass_produced",
+        "industrial"
+      ]
+    },
+    "notes": "Forma recorrente em muitas culturas urbanas; a expressão vem do contexto, não do arquétipo."
+  },
+  "transformations": {
+    "allowed": [
+      "vertical_extension",
+      "rear_extension",
+      "facade_renovation",
+      "informal_annex",
+      "roof_replacement",
+      "window_replacement",
+      "subdivision",
+      "merging",
+      "commercial_conversion",
+      "abandonment"
+    ],
+    "forbidden": [
+      "garage_conversion",
+      "side_extension"
+    ],
+    "limits": {
+      "max_floor_count_after_extension": 4,
+      "ground_floor_must_remain_public": true
+    }
+  },
+  "archetype_escalation": [
+    {
+      "condition": "morphology.floor_count > 4",
+      "suggested_archetype": "BLD_MIX_URBAN_BLOCK",
+      "note": "Acima de quatro pavimentos o edifício passa a operar como bloco urbano."
+    },
+    {
+      "condition": "terreo deixa de ser publico",
+      "suggested_archetype": "BLD_RES_HOUSE_ATTACHED",
+      "note": "Sem comércio ativo o edifício volta a ser puramente residencial."
+    },
+    {
+      "condition": "uso residencial desaparece",
+      "suggested_archetype": "BLD_COM_STREET_SHOP",
+      "note": "Sem moradia o edifício deixa de ser misto."
+    }
+  ]
+}
