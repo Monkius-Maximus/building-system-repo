@@ -1,0 +1,13 @@
+{
+  "name": "buildings-design-bible",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "validate": "node tools/validate.mjs"
+  },
+  "devDependencies": {
+    "ajv": "8.17.1"
+  }
+}
+

@@ -11,7 +11,7 @@ Biblioteca de regras, componentes, arquétipos e perfis contextuais para geraç�
 | BDB-001 | Taxonomia Universal de Edifícios | 🟡 Estrutura-base; requer protótipo |
 | BDB-002 | Sistema de Modificadores Ambientais e Urbanos | 🟡 Especificado; requer implementação |
 | BDB-003 | Arquétipos Universais de Edifícios | 🟡 Especificado; requer implementação |
-| BDB-004 | Sistema de DNA Arquitetônico | ⚪ Não iniciado |
+| BDB-004 | Sistema de DNA Arquitetônico | 🟡 Especificado; requer implementação |
 | BDB-005 | Biblioteca Modular e Regras de Encaixe | ⚪ Não iniciado |
 | BDB-006 | Famílias Arquitetônicas Globais | ⚪ Não iniciado |
 | BDB-007 | Receitas Regionais | ⚪ Não iniciado |
@@ -47,7 +47,7 @@ BUILDINGS_DESIGN_BIBLE/
 ## Documento atual
 
 ```text
-BUILDINGS_DESIGN_BIBLE/01_ARCHETYPES/BDB-003_ARQUETIPOS_UNIVERSAIS.md
+BUILDINGS_DESIGN_BIBLE/00_CORE/BDB-004_SISTEMA_DNA_ARQUITETONICO.md
 ```
 
 ## Cadeia de geração
@@ -68,11 +68,20 @@ EDIFÍCIO GERADO
 
 ## Próxima etapa
 
-Produzir o `BDB-004 — Sistema de DNA Arquitetônico`, que cruza arquétipo e contexto:
+Produzir o `BDB-005 — Biblioteca Modular e Regras de Encaixe`, que consumirá as diretivas do DNA:
 
 ```text
-arquétipo (BDB-003)  +  contexto (BDB-002)  =  DNA (BDB-004)
+DNA (BDB-004)  +  catálogo de módulos (BDB-005)  =  receita compatível
 ```
+
+## Validação
+
+```bash
+npm ci
+npm run validate
+```
+
+O validador confere schemas JSON 2020-12, relações semânticas entre arquétipos, contextos, perfis e DNAs, além dos cálculos de força efetiva e da ordenação determinística. O mesmo comando é executado em pull requests pelo GitHub Actions.
 
 ## Princípio do projeto
 

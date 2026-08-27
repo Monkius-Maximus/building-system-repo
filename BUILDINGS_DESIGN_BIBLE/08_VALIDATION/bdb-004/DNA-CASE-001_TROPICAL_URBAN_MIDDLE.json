@@ -1,0 +1,476 @@
+{
+  "schema_version": "0.1",
+  "dna_id": "DNA_TEST_TROPICAL_URBAN_MIDDLE_001",
+  "status": "partial",
+  "provenance": {
+    "archetype_id": "BLD_RES_HOUSE_DETACHED",
+    "context_ids": [
+      "CTX_TEST_TROPICAL_URBAN_MIDDLE_001"
+    ],
+    "modifier_profile_ids": [
+      "MOD_CLIMATE_TROPICAL_HUMID_001"
+    ],
+    "input_seed": 21001,
+    "resolver_version": "spec-fixture-0.1",
+    "canonicalization": "RFC8785"
+  },
+  "identity_lock": {
+    "archetype_id": "BLD_RES_HOUSE_DETACHED",
+    "invariant_ids": [
+      "INV_RES_DETACHED_NO_PARTY_WALL",
+      "INV_RES_DETACHED_SINGLE_UNIT",
+      "INV_RES_DETACHED_OWN_ACCESS"
+    ],
+    "locked_paths": [
+      "identity.party_walls",
+      "identity.unit_count",
+      "identity.independent_street_access",
+      "usage.primary"
+    ]
+  },
+  "context_summary": {
+    "scope": "lot",
+    "climate": "tropical_humid",
+    "climate_intensity": 0.85,
+    "density": "urban_medium",
+    "development": "established",
+    "infrastructure": "standard",
+    "wealth_level": 3,
+    "construction_period": "contemporary",
+    "tech_level": "mass_produced"
+  },
+  "constraint_envelope": {
+    "compatibility_check": "passed",
+    "morphology": {
+      "floor_count": {
+        "min": 1,
+        "max": 4,
+        "preferred": [
+          1,
+          2
+        ]
+      },
+      "height_classes": {
+        "allowed": [
+          "SINGLE_STOREY",
+          "LOW_RISE"
+        ],
+        "preferred": [
+          "SINGLE_STOREY",
+          "LOW_RISE"
+        ]
+      },
+      "plan_shapes": {
+        "allowed": [
+          "rectangle",
+          "square",
+          "narrow_rectangle",
+          "wide_rectangle",
+          "L_shape",
+          "U_shape",
+          "T_shape",
+          "courtyard",
+          "irregular"
+        ],
+        "preferred": [
+          "rectangle",
+          "L_shape",
+          "square"
+        ]
+      },
+      "volume_complexity": {
+        "allowed": [
+          "simple",
+          "composite",
+          "segmented",
+          "stepped"
+        ],
+        "preferred": [
+          "simple",
+          "composite"
+        ]
+      },
+      "symmetry": {
+        "allowed": [
+          "symmetrical",
+          "approximately_symmetrical",
+          "asymmetrical",
+          "modular_repetition"
+        ],
+        "preferred": [
+          "approximately_symmetrical",
+          "asymmetrical"
+        ]
+      },
+      "footprint_units": {
+        "width": {
+          "min": 3,
+          "max": 14,
+          "preferred": [
+            5,
+            9
+          ]
+        },
+        "depth": {
+          "min": 4,
+          "max": 18,
+          "preferred": [
+            7,
+            12
+          ]
+        }
+      }
+    },
+    "slot_policy": {
+      "required": [
+        "FND",
+        "STR",
+        "WAL",
+        "FAC",
+        "ROF",
+        "DOR",
+        "WIN"
+      ],
+      "optional": [
+        "BAL",
+        "VCR",
+        "HCR",
+        "CLM",
+        "BND",
+        "PRK",
+        "SGN",
+        "ORN",
+        "TEC"
+      ],
+      "forbidden": []
+    },
+    "lot": {
+      "lot_types": {
+        "allowed": [
+          "urban_regular",
+          "urban_narrow",
+          "urban_deep",
+          "urban_corner",
+          "urban_irregular",
+          "suburban",
+          "rural",
+          "waterfront",
+          "hillside",
+          "isolated",
+          "compound",
+          "informal"
+        ],
+        "preferred": [
+          "suburban",
+          "urban_regular",
+          "rural"
+        ]
+      },
+      "lot_positions": {
+        "allowed": [
+          "front_aligned",
+          "front_setback",
+          "centered",
+          "rear_aligned",
+          "side_aligned",
+          "corner_aligned",
+          "terrain_following"
+        ],
+        "preferred": [
+          "front_setback",
+          "centered"
+        ]
+      },
+      "street_relations": {
+        "allowed": [
+          "direct_access",
+          "front_yard",
+          "front_wall",
+          "front_fence",
+          "parking_front",
+          "raised_access",
+          "internal_access"
+        ],
+        "preferred": [
+          "front_yard",
+          "front_fence"
+        ]
+      },
+      "setbacks": {
+        "front": {
+          "allowed": [
+            "none",
+            "minimal",
+            "small",
+            "medium",
+            "large"
+          ],
+          "preferred": [
+            "small",
+            "medium"
+          ]
+        },
+        "side": {
+          "allowed": [
+            "none",
+            "minimal",
+            "small",
+            "medium",
+            "large"
+          ],
+          "preferred": [
+            "minimal",
+            "small"
+          ]
+        },
+        "rear": {
+          "allowed": [
+            "none",
+            "minimal",
+            "small",
+            "medium",
+            "large"
+          ],
+          "preferred": [
+            "medium",
+            "large"
+          ]
+        }
+      },
+      "lot_coverage": {
+        "min": 0.05,
+        "max": 0.75,
+        "preferred": [
+          0.2,
+          0.5
+        ]
+      }
+    }
+  },
+  "directives": [
+    {
+      "directive_id": "DIR_TROP_HUM_ROOF_DRAINAGE_001",
+      "source_rule_id": "CLM_TROP_HUM_ROOF_DRAINAGE_001",
+      "target": "components.roof.drainage_system",
+      "operation": "require",
+      "declared_value": {
+        "tag": "rain_drainage_capable"
+      },
+      "effective_value": {
+        "tag": "rain_drainage_capable"
+      },
+      "selector": {
+        "candidate_tags_any": [
+          "roof"
+        ]
+      },
+      "effective_strength": 0.765,
+      "priority": 68,
+      "confidence": "hypothesis",
+      "state": "carried_forward",
+      "reason": "O catalogo de coberturas sera definido no BDB-005."
+    },
+    {
+      "directive_id": "DIR_TROP_HUM_ROOF_OVERHANG_001",
+      "source_rule_id": "CLM_TROP_HUM_ROOF_OVERHANG_001",
+      "target": "components.roof.roof_overhang",
+      "operation": "range_shift",
+      "declared_value": {
+        "min_delta": 0.15,
+        "max_delta": 0.3
+      },
+      "effective_value": {
+        "min_delta": 0.102,
+        "max_delta": 0.204
+      },
+      "selector": {
+        "candidate_tags_any": [
+          "roof"
+        ]
+      },
+      "effective_strength": 0.68,
+      "priority": 64,
+      "confidence": "hypothesis",
+      "state": "carried_forward",
+      "reason": "O intervalo base de beiral pertence ao futuro catalogo de coberturas."
+    },
+    {
+      "directive_id": "DIR_TROP_HUM_CROSS_VENT_001",
+      "source_rule_id": "CLM_TROP_HUM_CROSS_VENT_001",
+      "target": "building.performance_tags",
+      "operation": "add_tag",
+      "declared_value": "cross_ventilation_preferred",
+      "effective_value": "cross_ventilation_preferred",
+      "selector": {
+        "candidate_tags_any": [
+          "habitable"
+        ]
+      },
+      "effective_strength": 0.6375,
+      "priority": 63,
+      "confidence": "hypothesis",
+      "state": "applied",
+      "reason": "A tag de desempenho pode ser registrada antes da selecao de modulos."
+    },
+    {
+      "directive_id": "DIR_TROP_HUM_ROOF_FORM_001",
+      "source_rule_id": "CLM_TROP_HUM_ROOF_FORM_001",
+      "target": "components.roof.roof_type",
+      "operation": "weight_multiplier",
+      "declared_value": 1.45,
+      "effective_value": 1.286875,
+      "selector": {
+        "candidate_tags_any": [
+          "pitched",
+          "rain_shedding"
+        ]
+      },
+      "effective_strength": 0.6375,
+      "priority": 62,
+      "confidence": "hypothesis",
+      "state": "carried_forward",
+      "reason": "O multiplicador aguarda candidatos de cobertura do BDB-005."
+    },
+    {
+      "directive_id": "DIR_TROP_HUM_MOISTURE_MATERIAL_001",
+      "source_rule_id": "CLM_TROP_HUM_MOISTURE_MATERIAL_001",
+      "target": "components.materials",
+      "operation": "weight_multiplier",
+      "declared_value": 1.3,
+      "effective_value": 1.1785,
+      "selector": {
+        "candidate_tags_any": [
+          "moisture_resistant",
+          "ventilated_assembly"
+        ]
+      },
+      "effective_strength": 0.595,
+      "priority": 61,
+      "confidence": "hypothesis",
+      "state": "carried_forward",
+      "reason": "O multiplicador aguarda materiais e montagens do BDB-005."
+    },
+    {
+      "directive_id": "DIR_TROP_HUM_OPENING_RATIO_001",
+      "source_rule_id": "CLM_TROP_HUM_OPENING_RATIO_001",
+      "target": "components.facade.opening_ratio",
+      "operation": "range_shift",
+      "declared_value": {
+        "min_delta": 0.08,
+        "max_delta": 0.18
+      },
+      "effective_value": {
+        "min_delta": 0.0442,
+        "max_delta": 0.09945
+      },
+      "selector": {
+        "candidate_tags_any": [
+          "facade"
+        ]
+      },
+      "effective_strength": 0.5525,
+      "priority": 61,
+      "confidence": "hypothesis",
+      "state": "carried_forward",
+      "reason": "O intervalo base de aberturas sera fornecido pelos modulos de fachada."
+    },
+    {
+      "directive_id": "DIR_TROP_HUM_SHADE_001",
+      "source_rule_id": "CLM_TROP_HUM_SHADE_001",
+      "target": "components.climate_control",
+      "operation": "weight_multiplier",
+      "declared_value": 1.35,
+      "effective_value": 1.20825,
+      "selector": {
+        "candidate_tags_any": [
+          "awning",
+          "screen",
+          "brise_soleil",
+          "veranda",
+          "arcade"
+        ]
+      },
+      "effective_strength": 0.595,
+      "priority": 60,
+      "confidence": "hypothesis",
+      "state": "carried_forward",
+      "reason": "O multiplicador aguarda candidatos de protecao climatica."
+    },
+    {
+      "directive_id": "DIR_TROP_HUM_WEATHERING_001",
+      "source_rule_id": "CLM_TROP_HUM_WEATHERING_001",
+      "target": "visual_variation.weathering",
+      "operation": "add_tag",
+      "declared_value": "humid_weathering_palette",
+      "effective_value": "humid_weathering_palette",
+      "selector": {
+        "candidate_tags_any": [
+          "exterior"
+        ]
+      },
+      "effective_strength": 0.3825,
+      "priority": 15,
+      "confidence": "hypothesis",
+      "state": "applied",
+      "reason": "A tag fica disponivel sem impor degradacao ao edificio."
+    }
+  ],
+  "tags": [
+    "cross_ventilation_preferred",
+    "humid_weathering_palette"
+  ],
+  "conflicts": [],
+  "warnings": [
+    {
+      "code": "INCOMPLETE_DOMAIN_COVERAGE",
+      "severity": "warning",
+      "message": "Somente o dominio climate possui perfil carregado; os demais eixos permanecem sem regras nesta versao.",
+      "sources": [
+        "topography",
+        "hydrography",
+        "environmental_risk",
+        "density",
+        "wealth",
+        "infrastructure",
+        "development",
+        "construction_period",
+        "tech_level",
+        "cultural_matrix",
+        "maintenance"
+      ]
+    },
+    {
+      "code": "TARGET_CATALOG_UNAVAILABLE",
+      "severity": "warning",
+      "message": "Seis diretivas aguardam catalogos de componentes e materiais do BDB-005.",
+      "sources": [
+        "BDB-005"
+      ]
+    }
+  ],
+  "decision_trace": {
+    "rule_order": [
+      "CLM_TROP_HUM_ROOF_DRAINAGE_001",
+      "CLM_TROP_HUM_ROOF_OVERHANG_001",
+      "CLM_TROP_HUM_CROSS_VENT_001",
+      "CLM_TROP_HUM_ROOF_FORM_001",
+      "CLM_TROP_HUM_MOISTURE_MATERIAL_001",
+      "CLM_TROP_HUM_OPENING_RATIO_001",
+      "CLM_TROP_HUM_SHADE_001",
+      "CLM_TROP_HUM_WEATHERING_001"
+    ],
+    "blocked_attempts": [],
+    "pending_targets": [
+      "components.roof.drainage_system",
+      "components.roof.roof_overhang",
+      "components.roof.roof_type",
+      "components.materials",
+      "components.facade.opening_ratio",
+      "components.climate_control"
+    ],
+    "deterministic_keys": [
+      "DNA_TEST_TROPICAL_URBAN_MIDDLE_001|constraints",
+      "DNA_TEST_TROPICAL_URBAN_MIDDLE_001|directives"
+    ]
+  }
+}

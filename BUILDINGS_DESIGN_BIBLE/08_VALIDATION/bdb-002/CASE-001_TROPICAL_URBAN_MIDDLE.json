@@ -1,8 +1,8 @@
 {
   "schema_version": "0.1",
   "context_id": "CTX_TEST_TROPICAL_URBAN_MIDDLE_001",
-  "display_name": "Tropical Humid Urban High — Middle Income Test",
-  "description": "Caso integrado para validar o mesmo arquétipo em contexto tropical úmido, urbano e consolidado.",
+  "display_name": "Tropical Humid Urban Medium — Middle Income Test",
+  "description": "Caso integrado para validar o mesmo arquétipo em contexto tropical úmido, urbano médio e consolidado.",
   "seed": 21001,
   "scope": "lot",
   "parent_context_id": null,
@@ -59,7 +59,7 @@
     }
   ],
   "urban": {
-    "density": "urban_high",
+    "density": "urban_medium",
     "development": "established",
     "infrastructure": "standard",
     "street_wall_continuity": 0.72,
