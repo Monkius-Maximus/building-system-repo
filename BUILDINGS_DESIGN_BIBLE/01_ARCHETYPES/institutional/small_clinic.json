@@ -1,0 +1,352 @@
+{
+  "schema_version": "0.1",
+  "archetype_id": "BLD_INS_CLINIC_SMALL",
+  "display_name": "Small Clinic",
+  "description": "Equipamento de saúde de pequeno porte, com acesso público controlado, circulação interna definida e apoio técnico próprio.",
+  "status": "hypothesis",
+  "references": {
+    "bdb001_archetype": "clinic",
+    "bdb001_section": "8.4 / 15"
+  },
+  "usage": {
+    "primary": "institutional",
+    "secondary": [
+      "civic"
+    ],
+    "subtype": "health",
+    "typical_occupancy": [
+      "public",
+      "restricted"
+    ]
+  },
+  "identity": {
+    "volume_types": [
+      "detached",
+      "attached",
+      "pavilion",
+      "linear",
+      "row"
+    ],
+    "party_walls": "optional",
+    "independent_street_access": "required",
+    "unit_count": {
+      "min": 1,
+      "max": 1,
+      "preferred": [
+        1,
+        1
+      ]
+    },
+    "unit_stacking": "forbidden",
+    "public_ground_floor": "required",
+    "barrier_free_entrance": "required"
+  },
+  "invariants": [
+    {
+      "invariant_id": "INV_INS_CLINIC_ACCESSIBLE_ENTRANCE",
+      "statement": "O acesso público principal é livre de barreiras.",
+      "target": "identity.barrier_free_entrance",
+      "test": "identity.barrier_free_entrance == 'required'",
+      "violation_action": "reject"
+    },
+    {
+      "invariant_id": "INV_INS_CLINIC_INTERNAL_CIRCULATION",
+      "statement": "O programa exige circulação interna que separe espera e atendimento.",
+      "target": "slots.required",
+      "test": "'HCR' in slots.required",
+      "violation_action": "reject"
+    },
+    {
+      "invariant_id": "INV_INS_CLINIC_TECHNICAL_SUPPORT",
+      "statement": "O edifício depende de infraestrutura tecnica própria.",
+      "target": "slots.required",
+      "test": "'TEC' in slots.required",
+      "violation_action": "reject_or_reclassify"
+    }
+  ],
+  "morphology": {
+    "floor_count": {
+      "min": 1,
+      "max": 3,
+      "preferred": [
+        1,
+        2
+      ]
+    },
+    "height_classes": {
+      "allowed": [
+        "SINGLE_STOREY",
+        "LOW_RISE"
+      ],
+      "preferred": [
+        "SINGLE_STOREY",
+        "LOW_RISE"
+      ]
+    },
+    "plan_shapes": {
+      "allowed": [
+        "rectangle",
+        "wide_rectangle",
+        "L_shape",
+        "U_shape",
+        "T_shape",
+        "courtyard",
+        "irregular"
+      ],
+      "preferred": [
+        "rectangle",
+        "L_shape"
+      ]
+    },
+    "volume_complexity": {
+      "allowed": [
+        "simple",
+        "composite",
+        "segmented"
+      ],
+      "preferred": [
+        "simple",
+        "composite"
+      ]
+    },
+    "symmetry": {
+      "allowed": [
+        "symmetrical",
+        "approximately_symmetrical",
+        "asymmetrical"
+      ],
+      "preferred": [
+        "approximately_symmetrical"
+      ]
+    },
+    "footprint_units": {
+      "width": {
+        "min": 5,
+        "max": 30,
+        "preferred": [
+          9,
+          18
+        ]
+      },
+      "depth": {
+        "min": 5,
+        "max": 28,
+        "preferred": [
+          8,
+          16
+        ]
+      }
+    }
+  },
+  "slots": {
+    "required": [
+      "FND",
+      "STR",
+      "WAL",
+      "FAC",
+      "ROF",
+      "DOR",
+      "WIN",
+      "HCR",
+      "SGN",
+      "TEC"
+    ],
+    "optional": [
+      "VCR",
+      "CLM",
+      "BND",
+      "PRK",
+      "ORN"
+    ],
+    "forbidden": [
+      "BAL"
+    ]
+  },
+  "lot_relationship": {
+    "requires_independent_lot_access": true,
+    "street_frontages": {
+      "min": 1,
+      "max": 3,
+      "preferred": [
+        1,
+        2
+      ]
+    },
+    "lot_types": {
+      "allowed": [
+        "urban_regular",
+        "urban_narrow",
+        "urban_corner",
+        "urban_irregular",
+        "suburban",
+        "rural",
+        "informal"
+      ],
+      "preferred": [
+        "urban_regular",
+        "urban_corner"
+      ]
+    },
+    "lot_positions": {
+      "allowed": [
+        "front_aligned",
+        "front_setback",
+        "centered",
+        "corner_aligned",
+        "side_aligned"
+      ],
+      "preferred": [
+        "front_setback",
+        "front_aligned"
+      ]
+    },
+    "street_relations": {
+      "allowed": [
+        "direct_access",
+        "front_yard",
+        "front_fence",
+        "front_wall",
+        "raised_access",
+        "parking_front",
+        "pedestrian_only"
+      ],
+      "preferred": [
+        "direct_access",
+        "front_yard"
+      ]
+    },
+    "setbacks": {
+      "front": {
+        "allowed": [
+          "none",
+          "minimal",
+          "small",
+          "medium",
+          "large"
+        ],
+        "preferred": [
+          "minimal",
+          "small"
+        ]
+      },
+      "side": {
+        "allowed": [
+          "none",
+          "minimal",
+          "small",
+          "medium",
+          "large"
+        ],
+        "preferred": [
+          "minimal",
+          "small"
+        ]
+      },
+      "rear": {
+        "allowed": [
+          "none",
+          "minimal",
+          "small",
+          "medium",
+          "large"
+        ],
+        "preferred": [
+          "small",
+          "medium"
+        ]
+      }
+    },
+    "lot_coverage": {
+      "min": 0.15,
+      "max": 0.85,
+      "preferred": [
+        0.35,
+        0.6
+      ]
+    },
+    "external_spaces": {
+      "allowed": [
+        "front_yard",
+        "parking_lot",
+        "service_yard",
+        "courtyard",
+        "garden",
+        "patio",
+        "side_yard"
+      ],
+      "preferred": [
+        "parking_lot",
+        "service_yard"
+      ]
+    }
+  },
+  "context_compatibility": {
+    "densities": {
+      "allowed": [
+        "rural_sparse",
+        "rural_clustered",
+        "suburban_low",
+        "urban_low",
+        "urban_medium",
+        "urban_high",
+        "metropolitan",
+        "hyperdense"
+      ],
+      "preferred": [
+        "urban_medium",
+        "urban_low"
+      ]
+    },
+    "tech_levels": {
+      "allowed": [
+        "vernacular",
+        "craft",
+        "early_industrial",
+        "industrial",
+        "mass_produced",
+        "prefabricated",
+        "digital_fabrication",
+        "advanced"
+      ],
+      "preferred": [
+        "mass_produced",
+        "industrial",
+        "prefabricated"
+      ]
+    },
+    "notes": "Equipamento de base presente em toda a faixa de densidade."
+  },
+  "transformations": {
+    "allowed": [
+      "vertical_extension",
+      "rear_extension",
+      "side_extension",
+      "facade_renovation",
+      "roof_replacement",
+      "window_replacement",
+      "merging",
+      "abandonment"
+    ],
+    "forbidden": [
+      "garage_conversion",
+      "subdivision",
+      "informal_annex"
+    ],
+    "limits": {
+      "max_floor_count_after_extension": 3,
+      "accessible_entrance_must_remain": true
+    }
+  },
+  "archetype_escalation": [
+    {
+      "condition": "morphology.floor_count > 3 ou internacao permanente",
+      "suggested_archetype": "BLD_INS_HOSPITAL",
+      "note": "Internacao e porte maior exigem ficha hospitalar própria."
+    },
+    {
+      "condition": "acesso publico deixa de existir",
+      "suggested_archetype": "BLD_COM_OFFICE_HOUSE",
+      "note": "Sem atendimento público o programa se aproxima de escritório de servicos."
+    }
+  ]
+}

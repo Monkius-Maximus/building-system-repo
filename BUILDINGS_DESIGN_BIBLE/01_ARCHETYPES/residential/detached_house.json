@@ -1,0 +1,362 @@
+{
+  "schema_version": "0.1",
+  "archetype_id": "BLD_RES_HOUSE_DETACHED",
+  "display_name": "Detached House",
+  "description": "Habitação unifamiliar em volume isolado, sem parede compartilhada com vizinhos e com acesso próprio ao lote.",
+  "status": "hypothesis",
+  "references": {
+    "bdb001_archetype": "detached_house",
+    "bdb001_section": "8.1 / 15"
+  },
+  "usage": {
+    "primary": "residential",
+    "secondary": [],
+    "subtype": "single_family",
+    "typical_occupancy": [
+      "private"
+    ]
+  },
+  "identity": {
+    "volume_types": [
+      "detached"
+    ],
+    "party_walls": "forbidden",
+    "independent_street_access": "required",
+    "unit_count": {
+      "min": 1,
+      "max": 1,
+      "preferred": [
+        1,
+        1
+      ]
+    },
+    "unit_stacking": "forbidden",
+    "public_ground_floor": "forbidden"
+  },
+  "invariants": [
+    {
+      "invariant_id": "INV_RES_DETACHED_NO_PARTY_WALL",
+      "statement": "O volume principal não compartilha parede estrutural com edifícios vizinhos.",
+      "target": "identity.party_walls",
+      "test": "identity.party_walls == 'forbidden'",
+      "violation_action": "reject_or_reclassify"
+    },
+    {
+      "invariant_id": "INV_RES_DETACHED_SINGLE_UNIT",
+      "statement": "O edifício abriga uma única unidade de ocupação independente.",
+      "target": "identity.unit_count",
+      "test": "identity.unit_count.max == 1",
+      "violation_action": "reject_or_reclassify"
+    },
+    {
+      "invariant_id": "INV_RES_DETACHED_OWN_ACCESS",
+      "statement": "A unidade possui acesso próprio a partir do logradouro ou do lote.",
+      "target": "identity.independent_street_access",
+      "test": "identity.independent_street_access == 'required'",
+      "violation_action": "reject"
+    }
+  ],
+  "morphology": {
+    "floor_count": {
+      "min": 1,
+      "max": 4,
+      "preferred": [
+        1,
+        2
+      ]
+    },
+    "height_classes": {
+      "allowed": [
+        "SINGLE_STOREY",
+        "LOW_RISE"
+      ],
+      "preferred": [
+        "SINGLE_STOREY",
+        "LOW_RISE"
+      ]
+    },
+    "plan_shapes": {
+      "allowed": [
+        "rectangle",
+        "square",
+        "narrow_rectangle",
+        "wide_rectangle",
+        "L_shape",
+        "U_shape",
+        "T_shape",
+        "courtyard",
+        "irregular"
+      ],
+      "preferred": [
+        "rectangle",
+        "L_shape",
+        "square"
+      ]
+    },
+    "volume_complexity": {
+      "allowed": [
+        "simple",
+        "composite",
+        "segmented",
+        "stepped"
+      ],
+      "preferred": [
+        "simple",
+        "composite"
+      ]
+    },
+    "symmetry": {
+      "allowed": [
+        "symmetrical",
+        "approximately_symmetrical",
+        "asymmetrical",
+        "modular_repetition"
+      ],
+      "preferred": [
+        "approximately_symmetrical",
+        "asymmetrical"
+      ]
+    },
+    "footprint_units": {
+      "width": {
+        "min": 3,
+        "max": 14,
+        "preferred": [
+          5,
+          9
+        ]
+      },
+      "depth": {
+        "min": 4,
+        "max": 18,
+        "preferred": [
+          7,
+          12
+        ]
+      }
+    }
+  },
+  "slots": {
+    "required": [
+      "FND",
+      "STR",
+      "WAL",
+      "FAC",
+      "ROF",
+      "DOR",
+      "WIN"
+    ],
+    "optional": [
+      "BAL",
+      "VCR",
+      "HCR",
+      "CLM",
+      "BND",
+      "PRK",
+      "SGN",
+      "ORN",
+      "TEC"
+    ],
+    "forbidden": []
+  },
+  "lot_relationship": {
+    "requires_independent_lot_access": true,
+    "street_frontages": {
+      "min": 1,
+      "max": 2,
+      "preferred": [
+        1,
+        1
+      ]
+    },
+    "lot_types": {
+      "allowed": [
+        "urban_regular",
+        "urban_narrow",
+        "urban_deep",
+        "urban_corner",
+        "urban_irregular",
+        "suburban",
+        "rural",
+        "waterfront",
+        "hillside",
+        "isolated",
+        "compound",
+        "informal"
+      ],
+      "preferred": [
+        "suburban",
+        "urban_regular",
+        "rural"
+      ]
+    },
+    "lot_positions": {
+      "allowed": [
+        "front_aligned",
+        "front_setback",
+        "centered",
+        "rear_aligned",
+        "side_aligned",
+        "corner_aligned",
+        "terrain_following"
+      ],
+      "preferred": [
+        "front_setback",
+        "centered"
+      ]
+    },
+    "street_relations": {
+      "allowed": [
+        "direct_access",
+        "front_yard",
+        "front_wall",
+        "front_fence",
+        "parking_front",
+        "raised_access",
+        "internal_access"
+      ],
+      "preferred": [
+        "front_yard",
+        "front_fence"
+      ]
+    },
+    "setbacks": {
+      "front": {
+        "allowed": [
+          "none",
+          "minimal",
+          "small",
+          "medium",
+          "large"
+        ],
+        "preferred": [
+          "small",
+          "medium"
+        ]
+      },
+      "side": {
+        "allowed": [
+          "none",
+          "minimal",
+          "small",
+          "medium",
+          "large"
+        ],
+        "preferred": [
+          "minimal",
+          "small"
+        ]
+      },
+      "rear": {
+        "allowed": [
+          "none",
+          "minimal",
+          "small",
+          "medium",
+          "large"
+        ],
+        "preferred": [
+          "medium",
+          "large"
+        ]
+      }
+    },
+    "lot_coverage": {
+      "min": 0.05,
+      "max": 0.75,
+      "preferred": [
+        0.2,
+        0.5
+      ]
+    },
+    "external_spaces": {
+      "allowed": [
+        "front_yard",
+        "backyard",
+        "side_yard",
+        "courtyard",
+        "patio",
+        "garden",
+        "vegetable_garden",
+        "service_yard",
+        "parking_lot"
+      ],
+      "preferred": [
+        "front_yard",
+        "backyard"
+      ]
+    }
+  },
+  "context_compatibility": {
+    "densities": {
+      "allowed": [
+        "isolated",
+        "rural_sparse",
+        "rural_clustered",
+        "suburban_low",
+        "urban_low",
+        "urban_medium"
+      ],
+      "preferred": [
+        "suburban_low",
+        "urban_low"
+      ]
+    },
+    "tech_levels": {
+      "allowed": [
+        "vernacular",
+        "craft",
+        "early_industrial",
+        "industrial",
+        "mass_produced",
+        "prefabricated",
+        "digital_fabrication",
+        "advanced"
+      ],
+      "preferred": [
+        "mass_produced",
+        "industrial"
+      ]
+    },
+    "notes": "Ausente em tecidos hiperdensos por incompatibilidade morfológica, não por classe econômica."
+  },
+  "transformations": {
+    "allowed": [
+      "vertical_extension",
+      "rear_extension",
+      "side_extension",
+      "garage_conversion",
+      "commercial_conversion",
+      "facade_renovation",
+      "informal_annex",
+      "roof_replacement",
+      "window_replacement",
+      "subdivision",
+      "abandonment"
+    ],
+    "forbidden": [
+      "merging"
+    ],
+    "limits": {
+      "max_floor_count_after_extension": 4,
+      "subdivision_requires_reclassification": true
+    }
+  },
+  "archetype_escalation": [
+    {
+      "condition": "morphology.floor_count > 4",
+      "suggested_archetype": "BLD_RES_APARTMENT_WALKUP",
+      "note": "Altura acima do limite deixa de descrever uma casa unifamiliar isolada."
+    },
+    {
+      "condition": "identity.party_walls passa a 'required'",
+      "suggested_archetype": "BLD_RES_HOUSE_ATTACHED",
+      "note": "O surgimento de parede compartilhada troca a familia volumetrica."
+    },
+    {
+      "condition": "identity.unit_count.max > 1 com empilhamento",
+      "suggested_archetype": "BLD_RES_APARTMENT_WALKUP",
+      "note": "Multiplas unidades empilhadas caracterizam habitação multifamiliar."
+    }
+  ]
+}

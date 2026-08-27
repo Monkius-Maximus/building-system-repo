@@ -1,0 +1,380 @@
+{
+  "schema_version": "0.1",
+  "archetype_id": "BLD_INS_SCHOOL_SMALL",
+  "display_name": "Small School",
+  "description": "Equipamento educacional de pequeno porte, organizado em blocos ou pavilhões com circulação coletiva e pátio próprio.",
+  "status": "hypothesis",
+  "references": {
+    "bdb001_archetype": "school",
+    "bdb001_section": "8.4 / 15"
+  },
+  "usage": {
+    "primary": "institutional",
+    "secondary": [
+      "civic"
+    ],
+    "subtype": "education",
+    "typical_occupancy": [
+      "public",
+      "restricted"
+    ]
+  },
+  "identity": {
+    "volume_types": [
+      "pavilion",
+      "cluster",
+      "detached",
+      "courtyard",
+      "linear",
+      "attached"
+    ],
+    "party_walls": "optional",
+    "independent_street_access": "required",
+    "unit_count": {
+      "min": 1,
+      "max": 1,
+      "preferred": [
+        1,
+        1
+      ]
+    },
+    "unit_stacking": "forbidden",
+    "public_ground_floor": "required",
+    "barrier_free_entrance": "required"
+  },
+  "invariants": [
+    {
+      "invariant_id": "INV_INS_SCHOOL_COLLECTIVE_CIRCULATION",
+      "statement": "As salas dependem de circulação horizontal coletiva.",
+      "target": "slots.required",
+      "test": "'HCR' in slots.required",
+      "violation_action": "reject"
+    },
+    {
+      "invariant_id": "INV_INS_SCHOOL_CONTROLLED_PERIMETER",
+      "statement": "O conjunto possui perímetro delimitado e acesso controlado.",
+      "target": "slots.required",
+      "test": "'BND' in slots.required",
+      "violation_action": "reject_or_reclassify"
+    },
+    {
+      "invariant_id": "INV_INS_SCHOOL_OUTDOOR_AREA",
+      "statement": "O programa exige área externa coletiva própria.",
+      "target": "lot_relationship.required_external_spaces",
+      "test": "len(lot_relationship.required_external_spaces) >= 1",
+      "violation_action": "reject_or_reclassify"
+    },
+    {
+      "invariant_id": "INV_INS_SCHOOL_ACCESSIBLE_ENTRANCE",
+      "statement": "O acesso principal é livre de barreiras.",
+      "target": "identity.barrier_free_entrance",
+      "test": "identity.barrier_free_entrance == 'required'",
+      "violation_action": "reject"
+    }
+  ],
+  "morphology": {
+    "floor_count": {
+      "min": 1,
+      "max": 4,
+      "preferred": [
+        1,
+        2
+      ]
+    },
+    "height_classes": {
+      "allowed": [
+        "SINGLE_STOREY",
+        "LOW_RISE"
+      ],
+      "preferred": [
+        "SINGLE_STOREY",
+        "LOW_RISE"
+      ]
+    },
+    "plan_shapes": {
+      "allowed": [
+        "rectangle",
+        "wide_rectangle",
+        "L_shape",
+        "U_shape",
+        "H_shape",
+        "T_shape",
+        "cross_shape",
+        "courtyard",
+        "modular_cluster",
+        "irregular"
+      ],
+      "preferred": [
+        "L_shape",
+        "U_shape",
+        "courtyard"
+      ]
+    },
+    "volume_complexity": {
+      "allowed": [
+        "simple",
+        "composite",
+        "segmented",
+        "stepped"
+      ],
+      "preferred": [
+        "composite",
+        "segmented"
+      ]
+    },
+    "symmetry": {
+      "allowed": [
+        "symmetrical",
+        "approximately_symmetrical",
+        "asymmetrical",
+        "modular_repetition"
+      ],
+      "preferred": [
+        "modular_repetition"
+      ]
+    },
+    "footprint_units": {
+      "width": {
+        "min": 10,
+        "max": 60,
+        "preferred": [
+          18,
+          36
+        ]
+      },
+      "depth": {
+        "min": 8,
+        "max": 50,
+        "preferred": [
+          14,
+          30
+        ]
+      }
+    },
+    "structural_span": {
+      "min": 3.0,
+      "max": 12.0,
+      "preferred": [
+        5.0,
+        8.0
+      ]
+    }
+  },
+  "slots": {
+    "required": [
+      "FND",
+      "STR",
+      "WAL",
+      "FAC",
+      "ROF",
+      "DOR",
+      "WIN",
+      "HCR",
+      "BND",
+      "SGN"
+    ],
+    "optional": [
+      "VCR",
+      "CLM",
+      "PRK",
+      "ORN",
+      "TEC",
+      "BAL"
+    ],
+    "forbidden": []
+  },
+  "lot_relationship": {
+    "requires_independent_lot_access": true,
+    "street_frontages": {
+      "min": 1,
+      "max": 4,
+      "preferred": [
+        1,
+        2
+      ]
+    },
+    "lot_types": {
+      "allowed": [
+        "urban_regular",
+        "urban_deep",
+        "urban_corner",
+        "urban_irregular",
+        "suburban",
+        "rural",
+        "informal"
+      ],
+      "preferred": [
+        "urban_regular",
+        "suburban"
+      ]
+    },
+    "lot_positions": {
+      "allowed": [
+        "front_setback",
+        "centered",
+        "front_aligned",
+        "side_aligned",
+        "corner_aligned",
+        "scattered",
+        "terrain_following"
+      ],
+      "preferred": [
+        "front_setback",
+        "centered"
+      ]
+    },
+    "street_relations": {
+      "allowed": [
+        "front_wall",
+        "front_fence",
+        "front_yard",
+        "direct_access",
+        "raised_access",
+        "pedestrian_only",
+        "internal_access"
+      ],
+      "preferred": [
+        "front_wall",
+        "front_fence"
+      ]
+    },
+    "setbacks": {
+      "front": {
+        "allowed": [
+          "none",
+          "minimal",
+          "small",
+          "medium",
+          "large"
+        ],
+        "preferred": [
+          "small",
+          "medium"
+        ]
+      },
+      "side": {
+        "allowed": [
+          "none",
+          "minimal",
+          "small",
+          "medium",
+          "large"
+        ],
+        "preferred": [
+          "small",
+          "medium"
+        ]
+      },
+      "rear": {
+        "allowed": [
+          "none",
+          "minimal",
+          "small",
+          "medium",
+          "large"
+        ],
+        "preferred": [
+          "medium",
+          "large"
+        ]
+      }
+    },
+    "lot_coverage": {
+      "min": 0.1,
+      "max": 0.7,
+      "preferred": [
+        0.2,
+        0.45
+      ]
+    },
+    "external_spaces": {
+      "allowed": [
+        "playground",
+        "plaza",
+        "courtyard",
+        "garden",
+        "service_yard",
+        "parking_lot",
+        "front_yard",
+        "side_yard",
+        "vegetable_garden"
+      ],
+      "preferred": [
+        "playground",
+        "courtyard"
+      ]
+    },
+    "required_external_spaces": [
+      "playground"
+    ]
+  },
+  "context_compatibility": {
+    "densities": {
+      "allowed": [
+        "rural_sparse",
+        "rural_clustered",
+        "suburban_low",
+        "urban_low",
+        "urban_medium",
+        "urban_high",
+        "metropolitan"
+      ],
+      "preferred": [
+        "suburban_low",
+        "urban_medium"
+      ]
+    },
+    "tech_levels": {
+      "allowed": [
+        "vernacular",
+        "craft",
+        "early_industrial",
+        "industrial",
+        "mass_produced",
+        "prefabricated",
+        "digital_fabrication",
+        "advanced"
+      ],
+      "preferred": [
+        "mass_produced",
+        "prefabricated",
+        "industrial"
+      ]
+    },
+    "notes": "Presente em praticamente todas as densidades: é equipamento de base, não marcador de riqueza."
+  },
+  "transformations": {
+    "allowed": [
+      "vertical_extension",
+      "rear_extension",
+      "side_extension",
+      "facade_renovation",
+      "roof_replacement",
+      "window_replacement",
+      "informal_annex",
+      "merging",
+      "abandonment"
+    ],
+    "forbidden": [
+      "garage_conversion",
+      "subdivision",
+      "commercial_conversion"
+    ],
+    "limits": {
+      "max_floor_count_after_extension": 4,
+      "outdoor_area_must_remain": true
+    }
+  },
+  "archetype_escalation": [
+    {
+      "condition": "morphology.floor_count > 4 ou area muito superior a faixa",
+      "suggested_archetype": "BLD_INS_UNIVERSITY_BUILDING",
+      "note": "Porte acima da faixa exige ficha de equipamento educacional maior."
+    },
+    {
+      "condition": "perimetro controlado desaparece",
+      "suggested_archetype": "BLD_CIV_COMMUNITY_CENTER",
+      "note": "Sem controle de acesso o programa se aproxima de equipamento comunitario aberto."
+    }
+  ]
+}

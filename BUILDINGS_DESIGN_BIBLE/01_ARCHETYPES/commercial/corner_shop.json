@@ -1,0 +1,315 @@
+{
+  "schema_version": "0.1",
+  "archetype_id": "BLD_COM_CORNER_SHOP",
+  "display_name": "Corner Shop",
+  "description": "Unidade comercial térrea implantada em lote de esquina, com duas fachadas ativas e acesso pelo ângulo.",
+  "status": "hypothesis",
+  "references": {
+    "bdb001_archetype": "corner_shop",
+    "bdb001_section": "8.2 / 15"
+  },
+  "usage": {
+    "primary": "commercial",
+    "secondary": [],
+    "subtype": "retail",
+    "typical_occupancy": [
+      "public"
+    ]
+  },
+  "identity": {
+    "volume_types": [
+      "attached",
+      "row",
+      "detached",
+      "irregular"
+    ],
+    "party_walls": "optional",
+    "independent_street_access": "required",
+    "unit_count": {
+      "min": 1,
+      "max": 2,
+      "preferred": [
+        1,
+        1
+      ]
+    },
+    "unit_stacking": "forbidden",
+    "public_ground_floor": "required"
+  },
+  "invariants": [
+    {
+      "invariant_id": "INV_COM_CORNER_TWO_FRONTAGES",
+      "statement": "A unidade possui ao menos duas testadas voltadas para logradouro.",
+      "target": "lot_relationship.street_frontages",
+      "test": "lot_relationship.street_frontages.min >= 2",
+      "violation_action": "reject_or_reclassify"
+    },
+    {
+      "invariant_id": "INV_COM_CORNER_LOT",
+      "statement": "A implantação exige lote de esquina.",
+      "target": "lot_relationship.requires_corner_lot",
+      "test": "lot_relationship.requires_corner_lot == true",
+      "violation_action": "reject_or_reclassify"
+    },
+    {
+      "invariant_id": "INV_COM_CORNER_PUBLIC_GROUND_FLOOR",
+      "statement": "O pavimento térreo e acessível ao público diretamente pelo logradouro.",
+      "target": "identity.public_ground_floor",
+      "test": "identity.public_ground_floor == 'required'",
+      "violation_action": "reject"
+    }
+  ],
+  "morphology": {
+    "floor_count": {
+      "min": 1,
+      "max": 3,
+      "preferred": [
+        1,
+        2
+      ]
+    },
+    "height_classes": {
+      "allowed": [
+        "SINGLE_STOREY",
+        "LOW_RISE"
+      ],
+      "preferred": [
+        "SINGLE_STOREY",
+        "LOW_RISE"
+      ]
+    },
+    "plan_shapes": {
+      "allowed": [
+        "rectangle",
+        "narrow_rectangle",
+        "L_shape",
+        "polygonal",
+        "irregular"
+      ],
+      "preferred": [
+        "L_shape",
+        "rectangle"
+      ]
+    },
+    "volume_complexity": {
+      "allowed": [
+        "simple",
+        "composite"
+      ],
+      "preferred": [
+        "simple"
+      ]
+    },
+    "symmetry": {
+      "allowed": [
+        "asymmetrical",
+        "approximately_symmetrical",
+        "radial"
+      ],
+      "preferred": [
+        "asymmetrical"
+      ]
+    },
+    "footprint_units": {
+      "width": {
+        "min": 3,
+        "max": 14,
+        "preferred": [
+          5,
+          9
+        ]
+      },
+      "depth": {
+        "min": 4,
+        "max": 18,
+        "preferred": [
+          6,
+          11
+        ]
+      }
+    }
+  },
+  "slots": {
+    "required": [
+      "FND",
+      "STR",
+      "WAL",
+      "FAC",
+      "ROF",
+      "DOR",
+      "WIN",
+      "SGN"
+    ],
+    "optional": [
+      "HCR",
+      "CLM",
+      "BND",
+      "PRK",
+      "ORN",
+      "TEC",
+      "VCR",
+      "BAL"
+    ],
+    "forbidden": []
+  },
+  "lot_relationship": {
+    "requires_independent_lot_access": true,
+    "requires_corner_lot": true,
+    "street_frontages": {
+      "min": 2,
+      "max": 3,
+      "preferred": [
+        2,
+        2
+      ]
+    },
+    "lot_types": {
+      "allowed": [
+        "urban_corner",
+        "urban_irregular"
+      ],
+      "preferred": [
+        "urban_corner"
+      ]
+    },
+    "lot_positions": {
+      "allowed": [
+        "corner_aligned",
+        "front_aligned",
+        "occupies_full_lot"
+      ],
+      "preferred": [
+        "corner_aligned"
+      ]
+    },
+    "street_relations": {
+      "allowed": [
+        "shopfront",
+        "direct_access",
+        "arcade",
+        "pedestrian_only"
+      ],
+      "preferred": [
+        "shopfront"
+      ]
+    },
+    "setbacks": {
+      "front": {
+        "allowed": [
+          "none",
+          "minimal"
+        ],
+        "preferred": [
+          "none"
+        ]
+      },
+      "side": {
+        "allowed": [
+          "none",
+          "minimal"
+        ],
+        "preferred": [
+          "none"
+        ]
+      },
+      "rear": {
+        "allowed": [
+          "none",
+          "minimal",
+          "small",
+          "medium",
+          "large"
+        ],
+        "preferred": [
+          "none",
+          "minimal"
+        ]
+      }
+    },
+    "lot_coverage": {
+      "min": 0.4,
+      "max": 1.0,
+      "preferred": [
+        0.7,
+        0.95
+      ]
+    },
+    "external_spaces": {
+      "allowed": [
+        "service_yard",
+        "patio",
+        "parking_lot",
+        "loading_area"
+      ],
+      "preferred": [
+        "service_yard"
+      ]
+    }
+  },
+  "context_compatibility": {
+    "densities": {
+      "allowed": [
+        "rural_clustered",
+        "suburban_low",
+        "urban_low",
+        "urban_medium",
+        "urban_high",
+        "metropolitan",
+        "hyperdense"
+      ],
+      "preferred": [
+        "urban_medium",
+        "urban_high"
+      ]
+    },
+    "tech_levels": {
+      "allowed": [
+        "vernacular",
+        "craft",
+        "early_industrial",
+        "industrial",
+        "mass_produced",
+        "prefabricated",
+        "digital_fabrication",
+        "advanced"
+      ],
+      "preferred": [
+        "mass_produced",
+        "industrial"
+      ]
+    },
+    "notes": "A esquina concentra fluxo e visibilidade, o que sustenta o programa comercial."
+  },
+  "transformations": {
+    "allowed": [
+      "vertical_extension",
+      "rear_extension",
+      "facade_renovation",
+      "informal_annex",
+      "roof_replacement",
+      "window_replacement",
+      "subdivision",
+      "merging",
+      "abandonment"
+    ],
+    "forbidden": [
+      "garage_conversion"
+    ],
+    "limits": {
+      "max_floor_count_after_extension": 3,
+      "corner_frontage_must_remain_active": true
+    }
+  },
+  "archetype_escalation": [
+    {
+      "condition": "lot_relationship.street_frontages < 2",
+      "suggested_archetype": "BLD_COM_STREET_SHOP",
+      "note": "Com uma única testada a loja volta a ser de meio de quadra."
+    },
+    {
+      "condition": "residencia permanente acima do terreo",
+      "suggested_archetype": "BLD_MIX_SHOP_HOUSE",
+      "note": "Moradia sobre o comércio caracteriza uso misto."
+    }
+  ]
+}

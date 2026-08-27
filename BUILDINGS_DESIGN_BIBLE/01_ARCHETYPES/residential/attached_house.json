@@ -1,0 +1,332 @@
+{
+  "schema_version": "0.1",
+  "archetype_id": "BLD_RES_HOUSE_ATTACHED",
+  "display_name": "Attached House",
+  "description": "Habitação unifamiliar geminada ou em fita, com pelo menos uma parede compartilhada e acesso próprio ao logradouro.",
+  "status": "hypothesis",
+  "references": {
+    "bdb001_archetype": "row_house",
+    "bdb001_section": "8.1 / 15"
+  },
+  "usage": {
+    "primary": "residential",
+    "secondary": [],
+    "subtype": "single_family",
+    "typical_occupancy": [
+      "private"
+    ]
+  },
+  "identity": {
+    "volume_types": [
+      "attached",
+      "semi_detached",
+      "row",
+      "terraced"
+    ],
+    "party_walls": "required",
+    "independent_street_access": "required",
+    "unit_count": {
+      "min": 1,
+      "max": 1,
+      "preferred": [
+        1,
+        1
+      ]
+    },
+    "unit_stacking": "forbidden",
+    "public_ground_floor": "forbidden"
+  },
+  "invariants": [
+    {
+      "invariant_id": "INV_RES_ATTACHED_PARTY_WALL",
+      "statement": "A unidade compartilha ao menos uma parede com uma unidade vizinha.",
+      "target": "identity.party_walls",
+      "test": "identity.party_walls == 'required'",
+      "violation_action": "reject_or_reclassify"
+    },
+    {
+      "invariant_id": "INV_RES_ATTACHED_OWN_STREET_DOOR",
+      "statement": "Cada unidade mantem porta própria para o logradouro, sem hall coletivo.",
+      "target": "identity.independent_street_access",
+      "test": "identity.independent_street_access == 'required'",
+      "violation_action": "reject_or_reclassify"
+    },
+    {
+      "invariant_id": "INV_RES_ATTACHED_SINGLE_UNIT",
+      "statement": "Cada volume corresponde a uma única unidade de ocupação.",
+      "target": "identity.unit_count",
+      "test": "identity.unit_count.max == 1",
+      "violation_action": "reject_or_reclassify"
+    }
+  ],
+  "morphology": {
+    "floor_count": {
+      "min": 1,
+      "max": 4,
+      "preferred": [
+        2,
+        3
+      ]
+    },
+    "height_classes": {
+      "allowed": [
+        "SINGLE_STOREY",
+        "LOW_RISE"
+      ],
+      "preferred": [
+        "LOW_RISE"
+      ]
+    },
+    "plan_shapes": {
+      "allowed": [
+        "narrow_rectangle",
+        "rectangle",
+        "L_shape",
+        "T_shape",
+        "courtyard",
+        "irregular"
+      ],
+      "preferred": [
+        "narrow_rectangle"
+      ]
+    },
+    "volume_complexity": {
+      "allowed": [
+        "simple",
+        "composite",
+        "segmented"
+      ],
+      "preferred": [
+        "simple"
+      ]
+    },
+    "symmetry": {
+      "allowed": [
+        "symmetrical",
+        "approximately_symmetrical",
+        "asymmetrical",
+        "modular_repetition"
+      ],
+      "preferred": [
+        "modular_repetition",
+        "approximately_symmetrical"
+      ]
+    },
+    "footprint_units": {
+      "width": {
+        "min": 3,
+        "max": 9,
+        "preferred": [
+          4,
+          6
+        ]
+      },
+      "depth": {
+        "min": 6,
+        "max": 25,
+        "preferred": [
+          10,
+          18
+        ]
+      }
+    }
+  },
+  "slots": {
+    "required": [
+      "FND",
+      "STR",
+      "WAL",
+      "FAC",
+      "ROF",
+      "DOR",
+      "WIN"
+    ],
+    "optional": [
+      "BAL",
+      "VCR",
+      "HCR",
+      "CLM",
+      "BND",
+      "PRK",
+      "SGN",
+      "ORN",
+      "TEC"
+    ],
+    "forbidden": []
+  },
+  "lot_relationship": {
+    "requires_independent_lot_access": true,
+    "street_frontages": {
+      "min": 1,
+      "max": 2,
+      "preferred": [
+        1,
+        1
+      ]
+    },
+    "lot_types": {
+      "allowed": [
+        "urban_regular",
+        "urban_narrow",
+        "urban_deep",
+        "urban_corner",
+        "informal"
+      ],
+      "preferred": [
+        "urban_narrow",
+        "urban_regular"
+      ]
+    },
+    "lot_positions": {
+      "allowed": [
+        "front_aligned",
+        "front_setback",
+        "occupies_full_lot",
+        "corner_aligned"
+      ],
+      "preferred": [
+        "front_aligned"
+      ]
+    },
+    "street_relations": {
+      "allowed": [
+        "direct_access",
+        "front_yard",
+        "front_wall",
+        "front_fence",
+        "raised_access"
+      ],
+      "preferred": [
+        "direct_access"
+      ]
+    },
+    "setbacks": {
+      "front": {
+        "allowed": [
+          "none",
+          "minimal",
+          "small",
+          "medium",
+          "large"
+        ],
+        "preferred": [
+          "none",
+          "minimal"
+        ]
+      },
+      "side": {
+        "allowed": [
+          "none",
+          "minimal"
+        ],
+        "preferred": [
+          "none"
+        ]
+      },
+      "rear": {
+        "allowed": [
+          "none",
+          "minimal",
+          "small",
+          "medium",
+          "large"
+        ],
+        "preferred": [
+          "small",
+          "medium"
+        ]
+      }
+    },
+    "lot_coverage": {
+      "min": 0.3,
+      "max": 1.0,
+      "preferred": [
+        0.5,
+        0.8
+      ]
+    },
+    "external_spaces": {
+      "allowed": [
+        "backyard",
+        "courtyard",
+        "patio",
+        "service_yard",
+        "front_yard"
+      ],
+      "preferred": [
+        "backyard"
+      ]
+    }
+  },
+  "context_compatibility": {
+    "densities": {
+      "allowed": [
+        "suburban_low",
+        "urban_low",
+        "urban_medium",
+        "urban_high",
+        "metropolitan"
+      ],
+      "preferred": [
+        "urban_medium",
+        "urban_high"
+      ]
+    },
+    "tech_levels": {
+      "allowed": [
+        "vernacular",
+        "craft",
+        "early_industrial",
+        "industrial",
+        "mass_produced",
+        "prefabricated",
+        "digital_fabrication",
+        "advanced"
+      ],
+      "preferred": [
+        "mass_produced",
+        "industrial"
+      ]
+    },
+    "notes": "Depende de parcelamento regular com testadas estreitas e repetidas."
+  },
+  "transformations": {
+    "allowed": [
+      "vertical_extension",
+      "rear_extension",
+      "garage_conversion",
+      "commercial_conversion",
+      "facade_renovation",
+      "informal_annex",
+      "roof_replacement",
+      "window_replacement",
+      "subdivision",
+      "merging",
+      "abandonment"
+    ],
+    "forbidden": [
+      "side_extension"
+    ],
+    "limits": {
+      "side_extension_blocked_by_party_walls": true,
+      "max_floor_count_after_extension": 4
+    }
+  },
+  "archetype_escalation": [
+    {
+      "condition": "identity.party_walls passa a 'forbidden'",
+      "suggested_archetype": "BLD_RES_HOUSE_DETACHED",
+      "note": "Sem parede compartilhada o volume deixa de ser geminado."
+    },
+    {
+      "condition": "morphology.floor_count > 4 com unidades empilhadas",
+      "suggested_archetype": "BLD_RES_APARTMENT_WALKUP",
+      "note": "Empilhamento de unidades caracteriza habitação multifamiliar."
+    },
+    {
+      "condition": "identity.public_ground_floor passa a 'required'",
+      "suggested_archetype": "BLD_MIX_SHOP_HOUSE",
+      "note": "Terreo comercial ativo com residencia acima e uso misto."
+    }
+  ]
+}

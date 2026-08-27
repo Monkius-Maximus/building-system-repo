@@ -1,0 +1,335 @@
+{
+  "schema_version": "0.1",
+  "archetype_id": "BLD_COM_ROADSIDE_BUSINESS",
+  "display_name": "Roadside Business",
+  "description": "Estabelecimento comercial isolado voltado ao acesso veicular, com recuo frontal ocupado por manobra e estacionamento.",
+  "status": "hypothesis",
+  "references": {
+    "bdb001_archetype": "roadside_business",
+    "bdb001_section": "8.2 / 15"
+  },
+  "usage": {
+    "primary": "commercial",
+    "secondary": [],
+    "subtype": "services",
+    "typical_occupancy": [
+      "public"
+    ]
+  },
+  "identity": {
+    "volume_types": [
+      "detached",
+      "pavilion",
+      "linear",
+      "cluster"
+    ],
+    "party_walls": "forbidden",
+    "independent_street_access": "required",
+    "unit_count": {
+      "min": 1,
+      "max": 4,
+      "preferred": [
+        1,
+        2
+      ]
+    },
+    "unit_stacking": "forbidden",
+    "public_ground_floor": "required"
+  },
+  "invariants": [
+    {
+      "invariant_id": "INV_COM_ROADSIDE_VEHICLE_ACCESS",
+      "statement": "O acesso principal do público ocorre por veículo, com área de manobra própria.",
+      "target": "slots.required",
+      "test": "'PRK' in slots.required",
+      "violation_action": "reject_or_reclassify"
+    },
+    {
+      "invariant_id": "INV_COM_ROADSIDE_SETBACK",
+      "statement": "Existe recuo frontal ocupado por estacionamento ou manobra.",
+      "target": "lot_relationship.street_relations",
+      "test": "'parking_front' in lot_relationship.street_relations.allowed",
+      "violation_action": "reject"
+    },
+    {
+      "invariant_id": "INV_COM_ROADSIDE_ISOLATED_VOLUME",
+      "statement": "O volume permanece isolado, sem parede compartilhada.",
+      "target": "identity.party_walls",
+      "test": "identity.party_walls == 'forbidden'",
+      "violation_action": "reject_or_reclassify"
+    }
+  ],
+  "morphology": {
+    "floor_count": {
+      "min": 1,
+      "max": 2,
+      "preferred": [
+        1,
+        1
+      ]
+    },
+    "height_classes": {
+      "allowed": [
+        "SINGLE_STOREY",
+        "LOW_RISE"
+      ],
+      "preferred": [
+        "SINGLE_STOREY"
+      ]
+    },
+    "plan_shapes": {
+      "allowed": [
+        "rectangle",
+        "wide_rectangle",
+        "L_shape",
+        "square",
+        "irregular"
+      ],
+      "preferred": [
+        "wide_rectangle",
+        "rectangle"
+      ]
+    },
+    "volume_complexity": {
+      "allowed": [
+        "simple",
+        "composite",
+        "segmented"
+      ],
+      "preferred": [
+        "simple"
+      ]
+    },
+    "symmetry": {
+      "allowed": [
+        "symmetrical",
+        "approximately_symmetrical",
+        "asymmetrical"
+      ],
+      "preferred": [
+        "approximately_symmetrical"
+      ]
+    },
+    "footprint_units": {
+      "width": {
+        "min": 5,
+        "max": 30,
+        "preferred": [
+          8,
+          16
+        ]
+      },
+      "depth": {
+        "min": 4,
+        "max": 24,
+        "preferred": [
+          7,
+          14
+        ]
+      }
+    }
+  },
+  "slots": {
+    "required": [
+      "FND",
+      "STR",
+      "WAL",
+      "FAC",
+      "ROF",
+      "DOR",
+      "SGN",
+      "PRK"
+    ],
+    "optional": [
+      "WIN",
+      "HCR",
+      "CLM",
+      "BND",
+      "ORN",
+      "TEC",
+      "VCR"
+    ],
+    "forbidden": [
+      "BAL"
+    ]
+  },
+  "lot_relationship": {
+    "requires_independent_lot_access": true,
+    "street_frontages": {
+      "min": 1,
+      "max": 3,
+      "preferred": [
+        1,
+        2
+      ]
+    },
+    "lot_types": {
+      "allowed": [
+        "suburban",
+        "rural",
+        "urban_irregular",
+        "industrial",
+        "isolated",
+        "urban_regular",
+        "urban_corner",
+        "waterfront"
+      ],
+      "preferred": [
+        "suburban",
+        "rural"
+      ]
+    },
+    "lot_positions": {
+      "allowed": [
+        "front_setback",
+        "centered",
+        "rear_aligned",
+        "side_aligned",
+        "corner_aligned",
+        "scattered"
+      ],
+      "preferred": [
+        "front_setback",
+        "rear_aligned"
+      ]
+    },
+    "street_relations": {
+      "allowed": [
+        "parking_front",
+        "direct_access",
+        "service_lane",
+        "front_yard"
+      ],
+      "preferred": [
+        "parking_front"
+      ]
+    },
+    "setbacks": {
+      "front": {
+        "allowed": [
+          "small",
+          "medium",
+          "large"
+        ],
+        "preferred": [
+          "medium",
+          "large"
+        ]
+      },
+      "side": {
+        "allowed": [
+          "none",
+          "minimal",
+          "small",
+          "medium",
+          "large"
+        ],
+        "preferred": [
+          "small",
+          "medium"
+        ]
+      },
+      "rear": {
+        "allowed": [
+          "none",
+          "minimal",
+          "small",
+          "medium",
+          "large"
+        ],
+        "preferred": [
+          "small",
+          "medium"
+        ]
+      }
+    },
+    "lot_coverage": {
+      "min": 0.05,
+      "max": 0.6,
+      "preferred": [
+        0.1,
+        0.3
+      ]
+    },
+    "external_spaces": {
+      "allowed": [
+        "parking_lot",
+        "loading_area",
+        "service_yard",
+        "front_yard",
+        "side_yard"
+      ],
+      "preferred": [
+        "parking_lot"
+      ]
+    },
+    "required_external_spaces": [
+      "parking_lot"
+    ]
+  },
+  "context_compatibility": {
+    "densities": {
+      "allowed": [
+        "isolated",
+        "rural_sparse",
+        "rural_clustered",
+        "suburban_low",
+        "urban_low"
+      ],
+      "preferred": [
+        "suburban_low",
+        "rural_clustered"
+      ]
+    },
+    "tech_levels": {
+      "allowed": [
+        "vernacular",
+        "craft",
+        "early_industrial",
+        "industrial",
+        "mass_produced",
+        "prefabricated",
+        "digital_fabrication",
+        "advanced"
+      ],
+      "preferred": [
+        "mass_produced",
+        "prefabricated"
+      ]
+    },
+    "notes": "Depende de via de passagem e de espaço para manobra, não de nível de renda do entorno."
+  },
+  "transformations": {
+    "allowed": [
+      "rear_extension",
+      "side_extension",
+      "facade_renovation",
+      "informal_annex",
+      "roof_replacement",
+      "window_replacement",
+      "merging",
+      "abandonment",
+      "commercial_conversion"
+    ],
+    "forbidden": [
+      "vertical_extension",
+      "garage_conversion",
+      "subdivision"
+    ],
+    "limits": {
+      "parking_area_must_remain": true
+    }
+  },
+  "archetype_escalation": [
+    {
+      "condition": "recuo frontal desaparece e a fachada alinha ao passeio",
+      "suggested_archetype": "BLD_COM_STREET_SHOP",
+      "note": "Sem área de manobra o estabelecimento passa a depender do pedestre."
+    },
+    {
+      "condition": "context.densities sobe para urban_medium ou acima",
+      "suggested_archetype": "BLD_COM_STREET_SHOP",
+      "note": "Em tecido denso o padrao de implantação recuada deixa de ser viavel."
+    }
+  ]
+}
