@@ -1,0 +1,150 @@
+{
+  "schema_version": "0.1",
+  "case_id": "BDB005_CASE_SEMIARID_CANDIDATES_001",
+  "dna_id": "DNA_TEST_SEMIARID_LOW_DENSITY_LOW_INCOME_001",
+  "catalog_version": "0.1",
+  "status": "partial",
+  "candidate_evaluations": [
+    {
+      "target": "components.windows.sun_protection",
+      "directive_ids": ["DIR_SEMI_ARID_OPENING_SHADE_001"],
+      "candidates": [
+        {
+          "candidate_id": "WIN_CASEMENT_SHADED_GENERIC_001",
+          "candidate_kind": "module",
+          "eligible": true,
+          "base_weight": 1.0,
+          "final_weight": 1.0,
+          "applied_directive_ids": ["DIR_SEMI_ARID_OPENING_SHADE_001"],
+          "missing_capabilities": [],
+          "reason": "A janela declara sun_protection_capable."
+        },
+        {
+          "candidate_id": "WIN_CASEMENT_UNSHADED_GENERIC_001",
+          "candidate_kind": "module",
+          "eligible": false,
+          "base_weight": 1.0,
+          "final_weight": 0,
+          "applied_directive_ids": ["DIR_SEMI_ARID_OPENING_SHADE_001"],
+          "missing_capabilities": ["sun_protection_capable"],
+          "reason": "Reprovada por ausencia da capability obrigatoria de protecao solar."
+        }
+      ]
+    },
+    {
+      "target": "components.climate_control",
+      "directive_ids": ["DIR_SEMI_ARID_SHADE_001"],
+      "candidates": [
+        {
+          "candidate_id": "CLM_HORIZONTAL_SHADE_GENERIC_001",
+          "candidate_kind": "module",
+          "eligible": true,
+          "base_weight": 1.0,
+          "final_weight": 1.352,
+          "applied_directive_ids": ["DIR_SEMI_ARID_SHADE_001"],
+          "missing_capabilities": [],
+          "reason": "As tags awning e brise_soleil ativam a preferencia semiárida."
+        }
+      ]
+    },
+    {
+      "target": "components.walls",
+      "directive_ids": ["DIR_SEMI_ARID_THERMAL_MASS_001"],
+      "candidates": [
+        {
+          "candidate_id": "MAT_MASONRY_DENSE_GENERIC_001",
+          "candidate_kind": "material",
+          "eligible": true,
+          "base_weight": 1.0,
+          "final_weight": 1.2002,
+          "applied_directive_ids": ["DIR_SEMI_ARID_THERMAL_MASS_001"],
+          "missing_capabilities": [],
+          "reason": "A tag thermal_mass ativa o multiplicador, sem tornar o material obrigatorio."
+        },
+        {
+          "candidate_id": "MAT_PANEL_LIGHT_GENERIC_001",
+          "candidate_kind": "material",
+          "eligible": true,
+          "base_weight": 1.0,
+          "final_weight": 1.0,
+          "applied_directive_ids": [],
+          "missing_capabilities": [],
+          "reason": "Permanece como alternativa funcional sem preferencia de massa termica."
+        }
+      ]
+    },
+    {
+      "target": "components.technical_equipment",
+      "directive_ids": ["DIR_SEMI_ARID_WATER_STORAGE_001"],
+      "candidates": [
+        {
+          "candidate_id": "TEC_WATER_TANK_BASIC_GENERIC_001",
+          "candidate_kind": "module",
+          "eligible": true,
+          "base_weight": 1.0,
+          "final_weight": 1.2772,
+          "applied_directive_ids": ["DIR_SEMI_ARID_WATER_STORAGE_001"],
+          "missing_capabilities": [],
+          "reason": "A tag private_water_storage ativa a preferencia de equipamento."
+        }
+      ]
+    },
+    {
+      "target": "materials.surface_tags",
+      "directive_ids": ["DIR_SEMI_ARID_LIGHT_SURFACE_001"],
+      "candidates": [
+        {
+          "candidate_id": "MAT_SURFACE_REFLECTIVE_GENERIC_001",
+          "candidate_kind": "material",
+          "eligible": true,
+          "base_weight": 1.0,
+          "final_weight": 1.11,
+          "applied_directive_ids": ["DIR_SEMI_ARID_LIGHT_SURFACE_001"],
+          "missing_capabilities": [],
+          "reason": "As tags high_solar_reflectance e light_surface ativam a preferencia."
+        },
+        {
+          "candidate_id": "MAT_SURFACE_NEUTRAL_GENERIC_001",
+          "candidate_kind": "material",
+          "eligible": true,
+          "base_weight": 1.0,
+          "final_weight": 1.0,
+          "applied_directive_ids": [],
+          "missing_capabilities": [],
+          "reason": "Permanece elegivel para evitar uma paleta climatica obrigatoria."
+        }
+      ]
+    }
+  ],
+  "assembly_probe": {
+    "module_ids": [
+      "FND_SLAB_GENERIC_001",
+      "STR_FRAME_LOWRISE_GENERIC_001",
+      "WAL_MASONRY_GENERIC_001",
+      "FAC_HABITABLE_BAY_GENERIC_001",
+      "ROF_FLAT_DRAINED_GENERIC_001",
+      "DOR_SINGLE_EXTERNAL_GENERIC_001",
+      "WIN_CASEMENT_SHADED_GENERIC_001",
+      "CLM_HORIZONTAL_SHADE_GENERIC_001",
+      "TEC_WATER_TANK_BASIC_GENERIC_001"
+    ],
+    "connections": [
+      {"from_module_id": "FND_SLAB_GENERIC_001", "from_socket_id": "structure_top", "to_module_id": "STR_FRAME_LOWRISE_GENERIC_001", "to_socket_id": "foundation_bottom", "interface": "foundation_to_structure"},
+      {"from_module_id": "STR_FRAME_LOWRISE_GENERIC_001", "from_socket_id": "wall_anchor", "to_module_id": "WAL_MASONRY_GENERIC_001", "to_socket_id": "structure_inner", "interface": "structure_to_wall"},
+      {"from_module_id": "STR_FRAME_LOWRISE_GENERIC_001", "from_socket_id": "facade_anchor", "to_module_id": "FAC_HABITABLE_BAY_GENERIC_001", "to_socket_id": "structure_inner", "interface": "structure_to_facade"},
+      {"from_module_id": "STR_FRAME_LOWRISE_GENERIC_001", "from_socket_id": "roof_top", "to_module_id": "ROF_FLAT_DRAINED_GENERIC_001", "to_socket_id": "structure_bottom", "interface": "structure_to_roof"},
+      {"from_module_id": "FAC_HABITABLE_BAY_GENERIC_001", "from_socket_id": "window_opening", "to_module_id": "WIN_CASEMENT_SHADED_GENERIC_001", "to_socket_id": "facade_opening", "interface": "opening_window"},
+      {"from_module_id": "FAC_HABITABLE_BAY_GENERIC_001", "from_socket_id": "door_opening", "to_module_id": "DOR_SINGLE_EXTERNAL_GENERIC_001", "to_socket_id": "facade_opening", "interface": "opening_door"},
+      {"from_module_id": "FAC_HABITABLE_BAY_GENERIC_001", "from_socket_id": "shade_anchor", "to_module_id": "CLM_HORIZONTAL_SHADE_GENERIC_001", "to_socket_id": "facade_anchor", "interface": "climate_control_anchor"},
+      {"from_module_id": "STR_FRAME_LOWRISE_GENERIC_001", "from_socket_id": "technical_anchor", "to_module_id": "TEC_WATER_TANK_BASIC_GENERIC_001", "to_socket_id": "structure_anchor", "interface": "technical_anchor"}
+    ]
+  },
+  "unresolved_directive_ids": [
+    "DIR_SEMI_ARID_COMPACT_001",
+    "DIR_SEMI_ARID_COURTYARD_001"
+  ],
+  "warnings": [
+    {"code": "MORPHOLOGY_CATALOG_UNAVAILABLE", "message": "Volume complexity e plan shape aguardam catalogo de candidatos morfologicos."},
+    {"code": "DNA_INPUT_PARTIAL", "message": "O DNA ainda possui dominios contextuais sem perfil; o catalogo resolveu somente seus alvos modulares."}
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "schema_version": "0.1",
+  "module_id": "DOR_SINGLE_EXTERNAL_GENERIC_001",
+  "display_name": "Single External Door — Generic Prototype",
+  "description": "Porta externa simples para preencher abertura funcional da fachada de prototipo.",
+  "status": "hypothesis",
+  "slot_code": "DOR",
+  "module_type": "single_external_door",
+  "lod_support": [2, 3],
+  "base_weight": 1.0,
+  "tags": ["door", "external", "single_leaf", "generic_prototype"],
+  "capabilities": ["independent_access_capable", "weather_seal_capable"],
+  "geometry": {
+    "width_units": {"min": 0.8, "max": 1.2},
+    "height_units": {"min": 0.9, "max": 1.2},
+    "depth_units": {"min": 0.05, "max": 0.2},
+    "repeatable_axes": [],
+    "mirror_allowed": true,
+    "rotation_steps": [0, 90, 180, 270]
+  },
+  "sockets": [
+    {"socket_id": "facade_opening", "interface": "opening_door", "role": "consumer", "normal": "inward", "required": true, "capacity": 1}
+  ],
+  "material_refs": [],
+  "compatibility": {
+    "archetype_ids": ["BLD_RES_HOUSE_DETACHED"],
+    "usage": ["residential"],
+    "height_classes": ["SINGLE_STOREY", "LOW_RISE"],
+    "tech_levels": ["vernacular", "craft", "early_industrial", "industrial", "mass_produced", "prefabricated", "digital_fabrication", "advanced"],
+    "max_floor_count": 4
+  },
+  "parameters": {"leaf_count": 1}
+}

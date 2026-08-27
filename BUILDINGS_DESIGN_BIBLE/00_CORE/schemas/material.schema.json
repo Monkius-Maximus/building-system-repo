@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://buildings-design-bible.local/schemas/material.schema.json",
+  "title": "Buildings Design Bible Material",
+  "description": "Material funcional do BDB-005, independente de paleta regional e acabamento final.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "material_id", "display_name", "description", "status",
+    "family", "base_weight", "tags", "capabilities", "compatible_slots", "performance"
+  ],
+  "properties": {
+    "schema_version": {"type": "string", "const": "0.1"},
+    "material_id": {"type": "string", "pattern": "^MAT_[A-Z0-9_]+$"},
+    "display_name": {"type": "string", "minLength": 3},
+    "description": {"type": "string", "minLength": 10},
+    "status": {"enum": ["hypothesis", "researched", "validated", "deprecated"]},
+    "family": {
+      "enum": ["mineral", "masonry", "cementitious", "metal", "timber", "glass", "polymer", "composite", "earth", "membrane"]
+    },
+    "base_weight": {"type": "number", "exclusiveMinimum": 0},
+    "tags": {
+      "type": "array",
+      "items": {"type": "string", "pattern": "^[a-z][a-z0-9_]+$"},
+      "uniqueItems": true
+    },
+    "capabilities": {
+      "type": "array",
+      "items": {"type": "string", "pattern": "^[a-z][a-z0-9_]+$"},
+      "uniqueItems": true
+    },
+    "compatible_slots": {
+      "type": "array",
+      "items": {"enum": ["FND", "STR", "WAL", "FAC", "ROF", "DOR", "WIN", "BAL", "VCR", "HCR", "CLM", "BND", "PRK", "SGN", "ORN", "TEC"]},
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "performance": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "thermal_mass": {"type": "number", "minimum": 0, "maximum": 1},
+        "moisture_resistance": {"type": "number", "minimum": 0, "maximum": 1},
+        "solar_reflectance": {"type": "number", "minimum": 0, "maximum": 1},
+        "structural_capacity": {"type": "number", "minimum": 0, "maximum": 1},
+        "weathering_resistance": {"type": "number", "minimum": 0, "maximum": 1}
+      }
+    },
+    "notes": {"type": "string"}
+  }
+}

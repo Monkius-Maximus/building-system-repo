@@ -1,0 +1,18 @@
+{
+  "schema_version": "0.1",
+  "material_id": "MAT_SURFACE_NEUTRAL_GENERIC_001",
+  "display_name": "Neutral Surface — Generic Prototype",
+  "description": "Acabamento superficial neutro usado como candidato de controle sem preferencia climatica especifica.",
+  "status": "hypothesis",
+  "family": "cementitious",
+  "base_weight": 1.0,
+  "tags": ["neutral_surface", "generic_prototype"],
+  "capabilities": ["exterior_finish_capable"],
+  "compatible_slots": ["WAL", "FAC", "ROF", "BND"],
+  "performance": {
+    "moisture_resistance": 0.55,
+    "solar_reflectance": 0.35,
+    "weathering_resistance": 0.55
+  },
+  "notes": "Candidato de controle para comparacao de pesos."
+}

@@ -1,0 +1,33 @@
+{
+  "schema_version": "0.1",
+  "module_id": "CLM_HORIZONTAL_SHADE_GENERIC_001",
+  "display_name": "Horizontal Shade — Generic Prototype",
+  "description": "Elemento horizontal generico de sombra e protecao climatica para fachada.",
+  "status": "hypothesis",
+  "slot_code": "CLM",
+  "module_type": "horizontal_shade",
+  "lod_support": [2, 3],
+  "base_weight": 1.0,
+  "tags": ["brise_soleil", "awning", "shade", "generic_prototype"],
+  "capabilities": ["sun_protection_capable", "rain_protection_capable"],
+  "geometry": {
+    "width_units": {"min": 0.5, "max": 4},
+    "height_units": {"min": 0.05, "max": 0.5},
+    "depth_units": {"min": 0.2, "max": 1.5},
+    "repeatable_axes": ["x"],
+    "mirror_allowed": true,
+    "rotation_steps": [0, 90, 180, 270]
+  },
+  "sockets": [
+    {"socket_id": "facade_anchor", "interface": "climate_control_anchor", "role": "consumer", "normal": "inward", "required": true, "capacity": 1}
+  ],
+  "material_refs": [],
+  "compatibility": {
+    "archetype_ids": ["BLD_RES_HOUSE_DETACHED"],
+    "usage": ["residential"],
+    "height_classes": ["SINGLE_STOREY", "LOW_RISE"],
+    "tech_levels": ["craft", "early_industrial", "industrial", "mass_produced", "prefabricated", "digital_fabrication", "advanced"],
+    "max_floor_count": 4
+  },
+  "parameters": {"shade_projection": {"min": 0.2, "max": 1.5}}
+}

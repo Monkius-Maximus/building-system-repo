@@ -1,0 +1,181 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://buildings-design-bible.local/schemas/component-module.schema.json",
+  "title": "Buildings Design Bible Component Module",
+  "description": "Modulo funcional e encaixavel do BDB-005. Nao representa estilo regional nem malha final.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "module_id",
+    "display_name",
+    "description",
+    "status",
+    "slot_code",
+    "module_type",
+    "lod_support",
+    "base_weight",
+    "tags",
+    "capabilities",
+    "geometry",
+    "sockets",
+    "material_refs",
+    "compatibility",
+    "parameters"
+  ],
+  "properties": {
+    "schema_version": {"type": "string", "const": "0.1"},
+    "module_id": {
+      "type": "string",
+      "pattern": "^(FND|STR|WAL|FAC|ROF|DOR|WIN|BAL|VCR|HCR|CLM|BND|PRK|SGN|ORN|TEC)_[A-Z0-9_]+$"
+    },
+    "display_name": {"type": "string", "minLength": 3},
+    "description": {"type": "string", "minLength": 10},
+    "status": {
+      "enum": ["hypothesis", "researched", "validated", "deprecated"]
+    },
+    "slot_code": {"$ref": "#/$defs/slot_code"},
+    "module_type": {"type": "string", "pattern": "^[a-z][a-z0-9_]+$"},
+    "lod_support": {
+      "type": "array",
+      "items": {"type": "integer", "minimum": 0, "maximum": 4},
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "base_weight": {"type": "number", "exclusiveMinimum": 0},
+    "tags": {
+      "type": "array",
+      "items": {"type": "string", "pattern": "^[a-z][a-z0-9_]+$"},
+      "uniqueItems": true
+    },
+    "capabilities": {
+      "type": "array",
+      "items": {"type": "string", "pattern": "^[a-z][a-z0-9_]+$"},
+      "uniqueItems": true
+    },
+    "geometry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["width_units", "height_units", "depth_units", "repeatable_axes", "mirror_allowed", "rotation_steps"],
+      "properties": {
+        "width_units": {"$ref": "#/$defs/dimension_range"},
+        "height_units": {"$ref": "#/$defs/dimension_range"},
+        "depth_units": {"$ref": "#/$defs/dimension_range"},
+        "repeatable_axes": {
+          "type": "array",
+          "items": {"enum": ["x", "y", "z"]},
+          "uniqueItems": true
+        },
+        "mirror_allowed": {"type": "boolean"},
+        "rotation_steps": {
+          "type": "array",
+          "items": {"enum": [0, 90, 180, 270]},
+          "minItems": 1,
+          "uniqueItems": true
+        }
+      }
+    },
+    "sockets": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/socket"},
+      "uniqueItems": true
+    },
+    "material_refs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["role", "allowed_material_ids", "required"],
+        "properties": {
+          "role": {"type": "string", "pattern": "^[a-z][a-z0-9_]+$"},
+          "allowed_material_ids": {
+            "type": "array",
+            "items": {"type": "string", "pattern": "^MAT_[A-Z0-9_]+$"},
+            "minItems": 1,
+            "uniqueItems": true
+          },
+          "required": {"type": "boolean"}
+        }
+      }
+    },
+    "compatibility": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["usage", "height_classes", "tech_levels"],
+      "properties": {
+        "archetype_ids": {
+          "type": "array",
+          "items": {"type": "string", "pattern": "^BLD_[A-Z]{3}_[A-Z0-9_]+$"},
+          "uniqueItems": true
+        },
+        "usage": {
+          "type": "array",
+          "items": {"type": "string"},
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "height_classes": {
+          "type": "array",
+          "items": {"type": "string"},
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "tech_levels": {
+          "type": "array",
+          "items": {"type": "string"},
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "max_floor_count": {"type": "integer", "minimum": 1}
+      }
+    },
+    "parameters": {
+      "type": "object"
+    },
+    "notes": {"type": "string"}
+  },
+  "$defs": {
+    "slot_code": {
+      "enum": ["FND", "STR", "WAL", "FAC", "ROF", "DOR", "WIN", "BAL", "VCR", "HCR", "CLM", "BND", "PRK", "SGN", "ORN", "TEC"]
+    },
+    "dimension_range": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["min", "max"],
+      "properties": {
+        "min": {"type": "number", "minimum": 0},
+        "max": {"type": "number", "minimum": 0}
+      }
+    },
+    "socket": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["socket_id", "interface", "role", "normal", "required", "capacity"],
+      "properties": {
+        "socket_id": {"type": "string", "pattern": "^[a-z][a-z0-9_]+$"},
+        "interface": {
+          "enum": [
+            "foundation_to_structure",
+            "structure_to_wall",
+            "structure_to_facade",
+            "structure_to_roof",
+            "facade_horizontal",
+            "facade_vertical",
+            "opening_window",
+            "opening_door",
+            "balcony_anchor",
+            "signage_anchor",
+            "climate_control_anchor",
+            "technical_anchor",
+            "ground_anchor",
+            "lot_boundary"
+          ]
+        },
+        "role": {"enum": ["provider", "consumer"]},
+        "normal": {"enum": ["up", "down", "left", "right", "front", "back", "inward", "outward"]},
+        "required": {"type": "boolean"},
+        "capacity": {"type": "integer", "minimum": 1}
+      }
+    }
+  }
+}

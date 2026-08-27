@@ -1,0 +1,39 @@
+{
+  "schema_version": "0.1",
+  "module_id": "ROF_GABLE_DRAINED_GENERIC_001",
+  "display_name": "Drained Gable Roof — Generic Prototype",
+  "description": "Cobertura inclinada generica com capacidade explicita de escoamento e drenagem de chuva.",
+  "status": "hypothesis",
+  "slot_code": "ROF",
+  "module_type": "gable_roof",
+  "lod_support": [1, 2, 3],
+  "base_weight": 1.0,
+  "tags": ["roof", "pitched", "rain_shedding", "exterior", "generic_prototype"],
+  "capabilities": ["rain_drainage_capable", "weather_enclosure_capable"],
+  "geometry": {
+    "width_units": {"min": 3, "max": 14},
+    "height_units": {"min": 0.5, "max": 3},
+    "depth_units": {"min": 4, "max": 18},
+    "repeatable_axes": ["x", "z"],
+    "mirror_allowed": true,
+    "rotation_steps": [0, 90, 180, 270]
+  },
+  "sockets": [
+    {"socket_id": "structure_bottom", "interface": "structure_to_roof", "role": "consumer", "normal": "down", "required": true, "capacity": 1}
+  ],
+  "material_refs": [
+    {"role": "surface", "allowed_material_ids": ["MAT_SURFACE_REFLECTIVE_GENERIC_001", "MAT_SURFACE_NEUTRAL_GENERIC_001"], "required": true}
+  ],
+  "compatibility": {
+    "archetype_ids": ["BLD_RES_HOUSE_DETACHED"],
+    "usage": ["residential"],
+    "height_classes": ["SINGLE_STOREY", "LOW_RISE"],
+    "tech_levels": ["vernacular", "craft", "early_industrial", "industrial", "mass_produced", "prefabricated", "digital_fabrication", "advanced"],
+    "max_floor_count": 4
+  },
+  "parameters": {
+    "roof_overhang": {"min": 0.1, "max": 0.6},
+    "drainage_system": true,
+    "slope_class": "pitched"
+  }
+}

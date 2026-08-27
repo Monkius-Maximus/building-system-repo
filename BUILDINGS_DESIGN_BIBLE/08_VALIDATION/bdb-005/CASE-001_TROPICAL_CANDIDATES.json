@@ -1,0 +1,144 @@
+{
+  "schema_version": "0.1",
+  "case_id": "BDB005_CASE_TROPICAL_CANDIDATES_001",
+  "dna_id": "DNA_TEST_TROPICAL_URBAN_MIDDLE_001",
+  "catalog_version": "0.1",
+  "status": "partial",
+  "candidate_evaluations": [
+    {
+      "target": "components.roof",
+      "directive_ids": [
+        "DIR_TROP_HUM_ROOF_DRAINAGE_001",
+        "DIR_TROP_HUM_ROOF_OVERHANG_001",
+        "DIR_TROP_HUM_ROOF_FORM_001"
+      ],
+      "candidates": [
+        {
+          "candidate_id": "ROF_GABLE_DRAINED_GENERIC_001",
+          "candidate_kind": "module",
+          "eligible": true,
+          "base_weight": 1.0,
+          "final_weight": 1.286875,
+          "applied_directive_ids": [
+            "DIR_TROP_HUM_ROOF_DRAINAGE_001",
+            "DIR_TROP_HUM_ROOF_OVERHANG_001",
+            "DIR_TROP_HUM_ROOF_FORM_001"
+          ],
+          "missing_capabilities": [],
+          "effective_parameters": {"roof_overhang": {"min": 0.202, "max": 0.804}},
+          "reason": "Possui drenagem e recebe preferencia por pitched e rain_shedding."
+        },
+        {
+          "candidate_id": "ROF_FLAT_DRAINED_GENERIC_001",
+          "candidate_kind": "module",
+          "eligible": true,
+          "base_weight": 1.0,
+          "final_weight": 1.0,
+          "applied_directive_ids": [
+            "DIR_TROP_HUM_ROOF_DRAINAGE_001",
+            "DIR_TROP_HUM_ROOF_OVERHANG_001"
+          ],
+          "missing_capabilities": [],
+          "effective_parameters": {"roof_overhang": {"min": 0.102, "max": 0.404}},
+          "reason": "A alternativa plana permanece valida porque declara drenagem."
+        },
+        {
+          "candidate_id": "ROF_FLAT_UNCERTIFIED_GENERIC_001",
+          "candidate_kind": "module",
+          "eligible": false,
+          "base_weight": 1.0,
+          "final_weight": 0,
+          "applied_directive_ids": ["DIR_TROP_HUM_ROOF_DRAINAGE_001"],
+          "missing_capabilities": ["rain_drainage_capable"],
+          "effective_parameters": {},
+          "reason": "Reprovada por ausencia da capability obrigatoria de drenagem."
+        }
+      ]
+    },
+    {
+      "target": "components.facade.opening_ratio",
+      "directive_ids": ["DIR_TROP_HUM_OPENING_RATIO_001"],
+      "candidates": [
+        {
+          "candidate_id": "FAC_HABITABLE_BAY_GENERIC_001",
+          "candidate_kind": "module",
+          "eligible": true,
+          "base_weight": 1.0,
+          "final_weight": 1.0,
+          "applied_directive_ids": ["DIR_TROP_HUM_OPENING_RATIO_001"],
+          "missing_capabilities": [],
+          "effective_parameters": {"opening_ratio": {"min": 0.1942, "max": 0.44945}},
+          "reason": "A faixa de abertura recebe somente o delta efetivo calculado no DNA."
+        }
+      ]
+    },
+    {
+      "target": "components.climate_control",
+      "directive_ids": ["DIR_TROP_HUM_SHADE_001"],
+      "candidates": [
+        {
+          "candidate_id": "CLM_HORIZONTAL_SHADE_GENERIC_001",
+          "candidate_kind": "module",
+          "eligible": true,
+          "base_weight": 1.0,
+          "final_weight": 1.20825,
+          "applied_directive_ids": ["DIR_TROP_HUM_SHADE_001"],
+          "missing_capabilities": [],
+          "reason": "As tags awning e brise_soleil ativam o multiplicador tropical."
+        }
+      ]
+    },
+    {
+      "target": "components.materials",
+      "directive_ids": ["DIR_TROP_HUM_MOISTURE_MATERIAL_001"],
+      "candidates": [
+        {
+          "candidate_id": "MAT_MASONRY_DENSE_GENERIC_001",
+          "candidate_kind": "material",
+          "eligible": true,
+          "base_weight": 1.0,
+          "final_weight": 1.1785,
+          "applied_directive_ids": ["DIR_TROP_HUM_MOISTURE_MATERIAL_001"],
+          "missing_capabilities": [],
+          "reason": "A tag moisture_resistant recebe preferencia climatica."
+        },
+        {
+          "candidate_id": "MAT_PANEL_LIGHT_GENERIC_001",
+          "candidate_kind": "material",
+          "eligible": true,
+          "base_weight": 1.0,
+          "final_weight": 1.0,
+          "applied_directive_ids": [],
+          "missing_capabilities": [],
+          "reason": "Permanece elegivel, mas sem a preferencia por resistencia a umidade."
+        }
+      ]
+    }
+  ],
+  "assembly_probe": {
+    "module_ids": [
+      "FND_SLAB_GENERIC_001",
+      "STR_FRAME_LOWRISE_GENERIC_001",
+      "WAL_MASONRY_GENERIC_001",
+      "FAC_HABITABLE_BAY_GENERIC_001",
+      "ROF_GABLE_DRAINED_GENERIC_001",
+      "DOR_SINGLE_EXTERNAL_GENERIC_001",
+      "WIN_CASEMENT_SHADED_GENERIC_001",
+      "CLM_HORIZONTAL_SHADE_GENERIC_001"
+    ],
+    "connections": [
+      {"from_module_id": "FND_SLAB_GENERIC_001", "from_socket_id": "structure_top", "to_module_id": "STR_FRAME_LOWRISE_GENERIC_001", "to_socket_id": "foundation_bottom", "interface": "foundation_to_structure"},
+      {"from_module_id": "STR_FRAME_LOWRISE_GENERIC_001", "from_socket_id": "wall_anchor", "to_module_id": "WAL_MASONRY_GENERIC_001", "to_socket_id": "structure_inner", "interface": "structure_to_wall"},
+      {"from_module_id": "STR_FRAME_LOWRISE_GENERIC_001", "from_socket_id": "facade_anchor", "to_module_id": "FAC_HABITABLE_BAY_GENERIC_001", "to_socket_id": "structure_inner", "interface": "structure_to_facade"},
+      {"from_module_id": "STR_FRAME_LOWRISE_GENERIC_001", "from_socket_id": "roof_top", "to_module_id": "ROF_GABLE_DRAINED_GENERIC_001", "to_socket_id": "structure_bottom", "interface": "structure_to_roof"},
+      {"from_module_id": "FAC_HABITABLE_BAY_GENERIC_001", "from_socket_id": "window_opening", "to_module_id": "WIN_CASEMENT_SHADED_GENERIC_001", "to_socket_id": "facade_opening", "interface": "opening_window"},
+      {"from_module_id": "FAC_HABITABLE_BAY_GENERIC_001", "from_socket_id": "door_opening", "to_module_id": "DOR_SINGLE_EXTERNAL_GENERIC_001", "to_socket_id": "facade_opening", "interface": "opening_door"},
+      {"from_module_id": "FAC_HABITABLE_BAY_GENERIC_001", "from_socket_id": "shade_anchor", "to_module_id": "CLM_HORIZONTAL_SHADE_GENERIC_001", "to_socket_id": "facade_anchor", "interface": "climate_control_anchor"}
+    ]
+  },
+  "unresolved_directive_ids": [],
+  "warnings": [
+    {"code": "DNA_INPUT_PARTIAL", "message": "O DNA ainda possui dominios contextuais sem perfil; o catalogo resolveu somente seus alvos modulares."
+    }
+  ]
+}

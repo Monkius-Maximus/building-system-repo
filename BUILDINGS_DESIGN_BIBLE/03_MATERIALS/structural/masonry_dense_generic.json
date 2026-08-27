@@ -1,0 +1,19 @@
+{
+  "schema_version": "0.1",
+  "material_id": "MAT_MASONRY_DENSE_GENERIC_001",
+  "display_name": "Dense Masonry — Generic Prototype",
+  "description": "Material mineral denso de prototipo para testar massa termica, resistencia a umidade e uso estrutural.",
+  "status": "hypothesis",
+  "family": "masonry",
+  "base_weight": 1.0,
+  "tags": ["thermal_mass", "moisture_resistant", "mineral", "generic_prototype"],
+  "capabilities": ["thermal_mass_capable", "moisture_resistant", "load_bearing_capable"],
+  "compatible_slots": ["FND", "STR", "WAL", "FAC", "BND"],
+  "performance": {
+    "thermal_mass": 0.85,
+    "moisture_resistance": 0.65,
+    "structural_capacity": 0.75,
+    "weathering_resistance": 0.65
+  },
+  "notes": "Valores normalizados para teste; nao representam especificacao de engenharia."
+}

@@ -18,7 +18,10 @@ const schemas = {
   archetype: readJson("00_CORE/schemas/archetype.schema.json"),
   context: readJson("00_CORE/schemas/context-profile.schema.json"),
   modifier: readJson("00_CORE/schemas/modifier-profile.schema.json"),
-  dna: readJson("00_CORE/schemas/architectural-dna.schema.json")
+  dna: readJson("00_CORE/schemas/architectural-dna.schema.json"),
+  module: readJson("00_CORE/schemas/component-module.schema.json"),
+  material: readJson("00_CORE/schemas/material.schema.json"),
+  bdb005: readJson("00_CORE/schemas/bdb005-validation.schema.json")
 };
 
 for (const [name, schema] of Object.entries(schemas)) {
@@ -44,16 +47,25 @@ const archetypePaths = jsonFiles("01_ARCHETYPES");
 const contextPaths = jsonFiles("08_VALIDATION/bdb-002");
 const modifierPaths = jsonFiles("04_CONTEXT_MODIFIERS");
 const dnaPaths = jsonFiles("08_VALIDATION/bdb-004");
+const modulePaths = jsonFiles("02_COMPONENTS");
+const materialPaths = jsonFiles("03_MATERIALS");
+const bdb005Paths = jsonFiles("08_VALIDATION/bdb-005");
 
 validateAll("archetype", archetypePaths);
 validateAll("context", contextPaths);
 validateAll("modifier", modifierPaths);
 validateAll("dna", dnaPaths);
+validateAll("module", modulePaths);
+validateAll("material", materialPaths);
+validateAll("bdb005", bdb005Paths);
 
 const archetypes = archetypePaths.map(readJson);
 const contexts = contextPaths.map(readJson);
 const modifiers = modifierPaths.map(readJson);
 const dnas = dnaPaths.map(readJson);
+const modules = modulePaths.map(readJson);
+const materials = materialPaths.map(readJson);
+const bdb005Cases = bdb005Paths.map(readJson);
 
 function uniqueIndex(values, key, label) {
   const index = new Map();
@@ -68,7 +80,10 @@ function uniqueIndex(values, key, label) {
 const archetypeById = uniqueIndex(archetypes, "archetype_id", "archetype_id");
 const contextById = uniqueIndex(contexts, "context_id", "context_id");
 const modifierById = uniqueIndex(modifiers, "profile_id", "profile_id");
-uniqueIndex(dnas, "dna_id", "dna_id");
+const dnaById = uniqueIndex(dnas, "dna_id", "dna_id");
+const moduleById = uniqueIndex(modules, "module_id", "module_id");
+const materialById = uniqueIndex(materials, "material_id", "material_id");
+uniqueIndex(bdb005Cases, "case_id", "case_id");
 
 const slotCodes = new Set([
   "FND", "STR", "WAL", "FAC", "ROF", "DOR", "WIN", "BAL",
@@ -217,7 +232,228 @@ for (const dna of dnas) {
   }
 }
 
+for (const module of modules) {
+  inspectChoicesAndRanges(module, module.module_id);
+  assert.equal(
+    module.module_id.startsWith(`${module.slot_code}_`),
+    true,
+    `${module.module_id}: module ID prefix does not match slot ${module.slot_code}`
+  );
+
+  const socketIds = new Set();
+  for (const socket of module.sockets) {
+    assert.equal(socketIds.has(socket.socket_id), false, `${module.module_id}: duplicate socket ${socket.socket_id}`);
+    socketIds.add(socket.socket_id);
+  }
+
+  for (const materialRef of module.material_refs) {
+    for (const materialId of materialRef.allowed_material_ids) {
+      const material = materialById.get(materialId);
+      assert.ok(material, `${module.module_id}: unknown material ${materialId}`);
+      assert.equal(
+        material.compatible_slots.includes(module.slot_code),
+        true,
+        `${module.module_id}: material ${materialId} does not accept slot ${module.slot_code}`
+      );
+    }
+  }
+}
+
+for (const material of materials) {
+  inspectChoicesAndRanges(material, material.material_id);
+}
+
+const approximatelyEqual = (left, right) => Math.abs(left - right) < 1e-12;
+
+function assertModuleCompatible(module, dna, caseId) {
+  const archetypeId = dna.identity_lock.archetype_id;
+  const archetype = archetypeById.get(archetypeId);
+  assert.ok(archetype, `${caseId}: unknown archetype ${archetypeId}`);
+
+  if (module.compatibility.archetype_ids) {
+    assert.equal(
+      module.compatibility.archetype_ids.includes(archetypeId),
+      true,
+      `${caseId}: ${module.module_id} rejects archetype ${archetypeId}`
+    );
+  }
+  assert.equal(
+    module.compatibility.usage.includes(archetype.usage.primary),
+    true,
+    `${caseId}: ${module.module_id} rejects usage ${archetype.usage.primary}`
+  );
+
+  const allowedHeightClasses = dna.constraint_envelope.morphology.height_classes.allowed;
+  assert.equal(
+    module.compatibility.height_classes.some((heightClass) => allowedHeightClasses.includes(heightClass)),
+    true,
+    `${caseId}: ${module.module_id} has no compatible height class`
+  );
+  if (module.compatibility.max_floor_count !== undefined) {
+    assert.equal(
+      module.compatibility.max_floor_count >= dna.constraint_envelope.morphology.floor_count.min,
+      true,
+      `${caseId}: ${module.module_id} cannot satisfy the minimum floor count`
+    );
+  }
+
+  for (const contextId of dna.provenance.context_ids) {
+    const context = contextById.get(contextId);
+    assert.ok(context, `${caseId}: unknown context ${contextId}`);
+    assert.equal(
+      module.compatibility.tech_levels.includes(context.temporal.tech_level),
+      true,
+      `${caseId}: ${module.module_id} rejects technology ${context.temporal.tech_level}`
+    );
+  }
+}
+
+for (const validationCase of bdb005Cases) {
+  const dna = dnaById.get(validationCase.dna_id);
+  assert.ok(dna, `${validationCase.case_id}: unknown DNA ${validationCase.dna_id}`);
+  const directiveById = new Map(dna.directives.map((directive) => [directive.directive_id, directive]));
+  const evaluatedDirectiveIds = new Set();
+
+  for (const evaluation of validationCase.candidate_evaluations) {
+    for (const directiveId of evaluation.directive_ids) {
+      assert.ok(directiveById.has(directiveId), `${validationCase.case_id}: unknown directive ${directiveId}`);
+      evaluatedDirectiveIds.add(directiveId);
+    }
+
+    for (const candidate of evaluation.candidates) {
+      const source = candidate.candidate_kind === "module"
+        ? moduleById.get(candidate.candidate_id)
+        : materialById.get(candidate.candidate_id);
+      assert.ok(source, `${validationCase.case_id}: unknown candidate ${candidate.candidate_id}`);
+      if (candidate.candidate_kind === "module") {
+        assertModuleCompatible(source, dna, validationCase.case_id);
+      }
+      assert.ok(approximatelyEqual(candidate.base_weight, source.base_weight), `${candidate.candidate_id}: base weight drift`);
+
+      for (const directiveId of candidate.applied_directive_ids) {
+        assert.equal(
+          evaluation.directive_ids.includes(directiveId),
+          true,
+          `${candidate.candidate_id}: applied directive is outside target evaluation`
+        );
+        const directive = directiveById.get(directiveId);
+        const selectorTags = directive.selector.candidate_tags_any ?? [];
+        if (selectorTags.length > 0) {
+          const candidateTerms = new Set([...source.tags, ...source.capabilities]);
+          assert.equal(
+            selectorTags.some((tag) => candidateTerms.has(tag)),
+            true,
+            `${candidate.candidate_id}: applied directive selector does not match ${directiveId}`
+          );
+        }
+      }
+
+      if (!candidate.eligible) {
+        assert.equal(candidate.final_weight, 0, `${candidate.candidate_id}: ineligible candidate must have zero weight`);
+        assert.equal(candidate.missing_capabilities.length > 0, true, `${candidate.candidate_id}: rejection must name missing capability`);
+        for (const capability of candidate.missing_capabilities) {
+          assert.equal(source.capabilities.includes(capability), false, `${candidate.candidate_id}: capability is not actually missing`);
+        }
+        continue;
+      }
+
+      assert.deepEqual(candidate.missing_capabilities, [], `${candidate.candidate_id}: eligible candidate has missing capability`);
+      for (const directiveId of candidate.applied_directive_ids) {
+        const directive = directiveById.get(directiveId);
+        if (directive.operation === "require" && typeof directive.effective_value?.tag === "string") {
+          assert.equal(
+            source.capabilities.includes(directive.effective_value.tag),
+            true,
+            `${candidate.candidate_id}: required capability not satisfied for ${directiveId}`
+          );
+        }
+      }
+      const multiplier = candidate.applied_directive_ids
+        .map((id) => directiveById.get(id))
+        .filter((directive) => directive.operation === "weight_multiplier")
+        .reduce((product, directive) => product * directive.effective_value, 1);
+      const expectedWeight = Math.min(8, Math.max(0.05, source.base_weight * multiplier));
+      assert.ok(approximatelyEqual(candidate.final_weight, expectedWeight), `${candidate.candidate_id}: final weight mismatch`);
+
+      for (const directiveId of candidate.applied_directive_ids) {
+        const directive = directiveById.get(directiveId);
+        if (directive.operation !== "range_shift") continue;
+        const parameterName = directive.target.split(".").at(-1);
+        const baseRange = source.parameters[parameterName];
+        const effectiveRange = candidate.effective_parameters?.[parameterName];
+        assert.ok(baseRange, `${candidate.candidate_id}: missing base range ${parameterName}`);
+        assert.ok(effectiveRange, `${candidate.candidate_id}: missing effective range ${parameterName}`);
+        assert.ok(
+          approximatelyEqual(effectiveRange.min, baseRange.min + directive.effective_value.min_delta),
+          `${candidate.candidate_id}: shifted minimum mismatch for ${parameterName}`
+        );
+        assert.ok(
+          approximatelyEqual(effectiveRange.max, baseRange.max + directive.effective_value.max_delta),
+          `${candidate.candidate_id}: shifted maximum mismatch for ${parameterName}`
+        );
+      }
+    }
+  }
+
+  for (const unresolvedId of validationCase.unresolved_directive_ids) {
+    assert.ok(directiveById.has(unresolvedId), `${validationCase.case_id}: unknown unresolved directive ${unresolvedId}`);
+  }
+  const accountedFor = new Set([...evaluatedDirectiveIds, ...validationCase.unresolved_directive_ids]);
+  const carriedForward = dna.directives
+    .filter((directive) => directive.state === "carried_forward")
+    .map((directive) => directive.directive_id);
+  assert.deepEqual(accountedFor, new Set(carriedForward), `${validationCase.case_id}: carried directives not fully accounted for`);
+
+  const assemblyIds = new Set(validationCase.assembly_probe.module_ids);
+  for (const moduleId of assemblyIds) {
+    assert.ok(moduleById.has(moduleId), `${validationCase.case_id}: assembly references unknown module ${moduleId}`);
+    assertModuleCompatible(moduleById.get(moduleId), dna, validationCase.case_id);
+  }
+  for (const requiredSlot of dna.constraint_envelope.slot_policy.required) {
+    assert.equal(
+      [...assemblyIds].some((moduleId) => moduleById.get(moduleId).slot_code === requiredSlot),
+      true,
+      `${validationCase.case_id}: assembly misses required slot ${requiredSlot}`
+    );
+  }
+
+  const socketUsage = new Map();
+  for (const connection of validationCase.assembly_probe.connections) {
+    assert.equal(assemblyIds.has(connection.from_module_id), true, `${validationCase.case_id}: from module not in assembly`);
+    assert.equal(assemblyIds.has(connection.to_module_id), true, `${validationCase.case_id}: to module not in assembly`);
+    const fromModule = moduleById.get(connection.from_module_id);
+    const toModule = moduleById.get(connection.to_module_id);
+    const fromSocket = fromModule.sockets.find((socket) => socket.socket_id === connection.from_socket_id);
+    const toSocket = toModule.sockets.find((socket) => socket.socket_id === connection.to_socket_id);
+    assert.ok(fromSocket, `${validationCase.case_id}: unknown socket ${connection.from_module_id}.${connection.from_socket_id}`);
+    assert.ok(toSocket, `${validationCase.case_id}: unknown socket ${connection.to_module_id}.${connection.to_socket_id}`);
+    assert.equal(fromSocket.interface, connection.interface, `${validationCase.case_id}: from interface mismatch`);
+    assert.equal(toSocket.interface, connection.interface, `${validationCase.case_id}: to interface mismatch`);
+    assert.notEqual(connection.from_module_id, connection.to_module_id, `${validationCase.case_id}: self-connections are forbidden`);
+    assert.equal(fromSocket.role, "provider", `${validationCase.case_id}: from socket must be a provider`);
+    assert.equal(toSocket.role, "consumer", `${validationCase.case_id}: to socket must be a consumer`);
+
+    for (const [moduleId, socket] of [[connection.from_module_id, fromSocket], [connection.to_module_id, toSocket]]) {
+      const key = `${moduleId}.${socket.socket_id}`;
+      socketUsage.set(key, (socketUsage.get(key) ?? 0) + 1);
+      assert.equal(socketUsage.get(key) <= socket.capacity, true, `${validationCase.case_id}: socket capacity exceeded at ${key}`);
+    }
+  }
+
+  for (const moduleId of assemblyIds) {
+    const module = moduleById.get(moduleId);
+    for (const socket of module.sockets.filter((item) => item.required)) {
+      assert.equal(
+        (socketUsage.get(`${moduleId}.${socket.socket_id}`) ?? 0) > 0,
+        true,
+        `${validationCase.case_id}: required socket unconnected at ${moduleId}.${socket.socket_id}`
+      );
+    }
+  }
+}
+
 console.log(
   `ok -- ${archetypes.length} archetypes, ${contexts.length} contexts, ` +
-  `${modifiers.length} modifier profiles and ${dnas.length} DNA fixtures validated`
+  `${modifiers.length} modifier profiles, ${dnas.length} DNA fixtures, ` +
+  `${modules.length} modules, ${materials.length} materials and ${bdb005Cases.length} BDB-005 cases validated`
 );

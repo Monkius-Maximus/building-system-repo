@@ -1,0 +1,33 @@
+{
+  "schema_version": "0.1",
+  "module_id": "TEC_WATER_TANK_BASIC_GENERIC_001",
+  "display_name": "Basic Water Tank — Generic Prototype",
+  "description": "Equipamento generico de armazenamento privado de agua para testar preferencia contextual.",
+  "status": "hypothesis",
+  "slot_code": "TEC",
+  "module_type": "water_storage",
+  "lod_support": [2, 3],
+  "base_weight": 1.0,
+  "tags": ["water_tank", "private_water_storage", "technical_equipment", "generic_prototype"],
+  "capabilities": ["private_water_storage_capable"],
+  "geometry": {
+    "width_units": {"min": 0.5, "max": 2},
+    "height_units": {"min": 0.5, "max": 2},
+    "depth_units": {"min": 0.5, "max": 2},
+    "repeatable_axes": [],
+    "mirror_allowed": true,
+    "rotation_steps": [0, 90, 180, 270]
+  },
+  "sockets": [
+    {"socket_id": "structure_anchor", "interface": "technical_anchor", "role": "consumer", "normal": "down", "required": true, "capacity": 1}
+  ],
+  "material_refs": [],
+  "compatibility": {
+    "archetype_ids": ["BLD_RES_HOUSE_DETACHED"],
+    "usage": ["residential"],
+    "height_classes": ["SINGLE_STOREY", "LOW_RISE"],
+    "tech_levels": ["craft", "early_industrial", "industrial", "mass_produced", "prefabricated", "digital_fabrication", "advanced"],
+    "max_floor_count": 4
+  },
+  "parameters": {"water_storage_units": {"min": 1, "max": 4}}
+}

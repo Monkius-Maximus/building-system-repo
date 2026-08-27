@@ -1567,6 +1567,7 @@ BUILDINGS_DESIGN_BIBLE/
 │   ├── doors/
 │   ├── balconies/
 │   ├── circulation/
+│   ├── climate_control/
 │   ├── boundaries/
 │   ├── signage/
 │   ├── ornaments/
