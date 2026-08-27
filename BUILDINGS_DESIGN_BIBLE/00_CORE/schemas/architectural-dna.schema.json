@@ -1,0 +1,607 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://buildings-design-bible.local/schemas/architectural-dna.schema.json",
+  "title": "Buildings Design Bible Architectural DNA",
+  "description": "Contrato resolvido entre arquetipo, contexto e o futuro catalogo modular. Preserva invariantes, envelope de restricoes, diretivas e trilha deterministica.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "dna_id",
+    "status",
+    "provenance",
+    "identity_lock",
+    "context_summary",
+    "constraint_envelope",
+    "directives",
+    "tags",
+    "conflicts",
+    "warnings",
+    "decision_trace"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "0.1"
+    },
+    "dna_id": {
+      "type": "string",
+      "pattern": "^DNA_[A-Z0-9_]+$"
+    },
+    "status": {
+      "enum": [
+        "partial",
+        "resolved",
+        "rejected"
+      ]
+    },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "archetype_id",
+        "context_ids",
+        "modifier_profile_ids",
+        "input_seed",
+        "resolver_version",
+        "canonicalization"
+      ],
+      "properties": {
+        "archetype_id": {
+          "type": "string",
+          "pattern": "^BLD_[A-Z]{3}_[A-Z0-9_]+$"
+        },
+        "context_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^CTX_[A-Z0-9_]+$"
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "modifier_profile_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^MOD_[A-Z0-9_]+$"
+          },
+          "uniqueItems": true
+        },
+        "input_seed": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "resolver_version": {
+          "type": "string",
+          "minLength": 3
+        },
+        "canonicalization": {
+          "type": "string",
+          "const": "RFC8785"
+        },
+        "input_fingerprint": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        }
+      }
+    },
+    "identity_lock": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "archetype_id",
+        "invariant_ids",
+        "locked_paths"
+      ],
+      "properties": {
+        "archetype_id": {
+          "type": "string",
+          "pattern": "^BLD_[A-Z]{3}_[A-Z0-9_]+$"
+        },
+        "invariant_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^INV_[A-Z0-9_]+$"
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "locked_paths": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 3
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        }
+      }
+    },
+    "context_summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "scope",
+        "climate",
+        "climate_intensity",
+        "density",
+        "development",
+        "infrastructure",
+        "wealth_level",
+        "construction_period",
+        "tech_level"
+      ],
+      "properties": {
+        "scope": {
+          "enum": [
+            "global",
+            "region",
+            "city",
+            "district",
+            "block",
+            "lot",
+            "building_exception"
+          ]
+        },
+        "climate": {
+          "type": "string",
+          "minLength": 2
+        },
+        "climate_intensity": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "density": {
+          "type": "string",
+          "minLength": 2
+        },
+        "development": {
+          "type": "string",
+          "minLength": 2
+        },
+        "infrastructure": {
+          "type": "string",
+          "minLength": 2
+        },
+        "wealth_level": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 6
+        },
+        "construction_period": {
+          "type": "string",
+          "minLength": 2
+        },
+        "tech_level": {
+          "type": "string",
+          "minLength": 2
+        }
+      }
+    },
+    "constraint_envelope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "compatibility_check",
+        "morphology",
+        "slot_policy",
+        "lot"
+      ],
+      "properties": {
+        "compatibility_check": {
+          "enum": [
+            "passed",
+            "exception",
+            "rejected"
+          ]
+        },
+        "morphology": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "floor_count",
+            "height_classes",
+            "plan_shapes",
+            "volume_complexity",
+            "footprint_units"
+          ],
+          "properties": {
+            "floor_count": {
+              "$ref": "#/$defs/int_range"
+            },
+            "height_classes": {
+              "$ref": "#/$defs/choice_set"
+            },
+            "plan_shapes": {
+              "$ref": "#/$defs/choice_set"
+            },
+            "volume_complexity": {
+              "$ref": "#/$defs/choice_set"
+            },
+            "symmetry": {
+              "$ref": "#/$defs/choice_set"
+            },
+            "footprint_units": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "width",
+                "depth"
+              ],
+              "properties": {
+                "width": {
+                  "$ref": "#/$defs/number_range"
+                },
+                "depth": {
+                  "$ref": "#/$defs/number_range"
+                }
+              }
+            }
+          }
+        },
+        "slot_policy": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "required",
+            "optional",
+            "forbidden"
+          ],
+          "properties": {
+            "required": {
+              "$ref": "#/$defs/slot_list"
+            },
+            "optional": {
+              "$ref": "#/$defs/slot_list"
+            },
+            "forbidden": {
+              "$ref": "#/$defs/slot_list"
+            }
+          }
+        },
+        "lot": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "lot_types",
+            "lot_positions",
+            "street_relations",
+            "setbacks",
+            "lot_coverage"
+          ],
+          "properties": {
+            "lot_types": {
+              "$ref": "#/$defs/choice_set"
+            },
+            "lot_positions": {
+              "$ref": "#/$defs/choice_set"
+            },
+            "street_relations": {
+              "$ref": "#/$defs/choice_set"
+            },
+            "setbacks": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "front",
+                "side",
+                "rear"
+              ],
+              "properties": {
+                "front": {
+                  "$ref": "#/$defs/choice_set"
+                },
+                "side": {
+                  "$ref": "#/$defs/choice_set"
+                },
+                "rear": {
+                  "$ref": "#/$defs/choice_set"
+                }
+              }
+            },
+            "lot_coverage": {
+              "$ref": "#/$defs/number_range"
+            }
+          }
+        }
+      }
+    },
+    "directives": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/directive"
+      }
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 2
+      },
+      "uniqueItems": true
+    },
+    "conflicts": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/diagnostic"
+      }
+    },
+    "warnings": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/diagnostic"
+      }
+    },
+    "decision_trace": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "rule_order",
+        "blocked_attempts",
+        "pending_targets",
+        "deterministic_keys"
+      ],
+      "properties": {
+        "rule_order": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[A-Z0-9_]+$"
+          },
+          "uniqueItems": true
+        },
+        "blocked_attempts": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/diagnostic"
+          }
+        },
+        "pending_targets": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 3
+          },
+          "uniqueItems": true
+        },
+        "deterministic_keys": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 3
+          },
+          "uniqueItems": true
+        }
+      }
+    }
+  },
+  "$defs": {
+    "slot_code": {
+      "enum": [
+        "FND",
+        "STR",
+        "WAL",
+        "FAC",
+        "ROF",
+        "DOR",
+        "WIN",
+        "BAL",
+        "VCR",
+        "HCR",
+        "CLM",
+        "BND",
+        "PRK",
+        "SGN",
+        "ORN",
+        "TEC"
+      ]
+    },
+    "slot_list": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/slot_code"
+      },
+      "uniqueItems": true
+    },
+    "int_range": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "min",
+        "max",
+        "preferred"
+      ],
+      "properties": {
+        "min": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "max": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "preferred": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "minItems": 2,
+          "maxItems": 2
+        }
+      }
+    },
+    "number_range": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "min",
+        "max",
+        "preferred"
+      ],
+      "properties": {
+        "min": {
+          "type": "number",
+          "minimum": 0
+        },
+        "max": {
+          "type": "number",
+          "minimum": 0
+        },
+        "preferred": {
+          "type": "array",
+          "items": {
+            "type": "number",
+            "minimum": 0
+          },
+          "minItems": 2,
+          "maxItems": 2
+        }
+      }
+    },
+    "choice_set": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "allowed",
+        "preferred"
+      ],
+      "properties": {
+        "allowed": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "preferred": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "uniqueItems": true
+        }
+      }
+    },
+    "directive": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "directive_id",
+        "source_rule_id",
+        "target",
+        "operation",
+        "declared_value",
+        "effective_value",
+        "selector",
+        "effective_strength",
+        "priority",
+        "confidence",
+        "state",
+        "reason"
+      ],
+      "properties": {
+        "directive_id": {
+          "type": "string",
+          "pattern": "^DIR_[A-Z0-9_]+$"
+        },
+        "source_rule_id": {
+          "type": "string",
+          "pattern": "^[A-Z0-9_]+$"
+        },
+        "target": {
+          "type": "string",
+          "minLength": 3
+        },
+        "operation": {
+          "enum": [
+            "require",
+            "forbid",
+            "weight_multiplier",
+            "range_shift",
+            "set_default",
+            "clamp_range",
+            "add_tag",
+            "remove_tag",
+            "set_cost_multiplier",
+            "emit_warning"
+          ]
+        },
+        "declared_value": {},
+        "effective_value": {},
+        "selector": {
+          "type": "object"
+        },
+        "effective_strength": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "priority": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 100
+        },
+        "confidence": {
+          "enum": [
+            "hypothesis",
+            "researched",
+            "validated",
+            "deprecated"
+          ]
+        },
+        "state": {
+          "enum": [
+            "applied",
+            "carried_forward",
+            "skipped",
+            "blocked"
+          ]
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 5
+        }
+      }
+    },
+    "diagnostic": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "code",
+        "severity",
+        "message",
+        "sources"
+      ],
+      "properties": {
+        "code": {
+          "type": "string",
+          "pattern": "^[A-Z][A-Z0-9_]+$"
+        },
+        "severity": {
+          "enum": [
+            "info",
+            "warning",
+            "error"
+          ]
+        },
+        "message": {
+          "type": "string",
+          "minLength": 5
+        },
+        "sources": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 2
+          },
+          "uniqueItems": true
+        }
+      }
+    }
+  }
+}

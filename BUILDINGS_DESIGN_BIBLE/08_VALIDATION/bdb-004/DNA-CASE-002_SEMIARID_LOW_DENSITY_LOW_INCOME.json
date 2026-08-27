@@ -1,0 +1,312 @@
+{
+  "schema_version": "0.1",
+  "dna_id": "DNA_TEST_SEMIARID_LOW_DENSITY_LOW_INCOME_001",
+  "status": "partial",
+  "provenance": {
+    "archetype_id": "BLD_RES_HOUSE_DETACHED",
+    "context_ids": ["CTX_TEST_SEMIARID_LOW_DENSITY_LOW_INCOME_001"],
+    "modifier_profile_ids": ["MOD_CLIMATE_SEMI_ARID_001"],
+    "input_seed": 21002,
+    "resolver_version": "spec-fixture-0.1",
+    "canonicalization": "RFC8785"
+  },
+  "identity_lock": {
+    "archetype_id": "BLD_RES_HOUSE_DETACHED",
+    "invariant_ids": [
+      "INV_RES_DETACHED_NO_PARTY_WALL",
+      "INV_RES_DETACHED_SINGLE_UNIT",
+      "INV_RES_DETACHED_OWN_ACCESS"
+    ],
+    "locked_paths": [
+      "identity.party_walls",
+      "identity.unit_count",
+      "identity.independent_street_access",
+      "usage.primary"
+    ]
+  },
+  "context_summary": {
+    "scope": "lot",
+    "climate": "semi_arid",
+    "climate_intensity": 0.88,
+    "density": "urban_low",
+    "development": "emerging",
+    "infrastructure": "basic",
+    "wealth_level": 1,
+    "construction_period": "contemporary",
+    "tech_level": "mass_produced"
+  },
+  "constraint_envelope": {
+    "compatibility_check": "passed",
+    "morphology": {
+      "floor_count": {"min": 1, "max": 4, "preferred": [1, 2]},
+      "height_classes": {
+        "allowed": ["SINGLE_STOREY", "LOW_RISE"],
+        "preferred": ["SINGLE_STOREY", "LOW_RISE"]
+      },
+      "plan_shapes": {
+        "allowed": [
+          "rectangle",
+          "square",
+          "narrow_rectangle",
+          "wide_rectangle",
+          "L_shape",
+          "U_shape",
+          "T_shape",
+          "courtyard",
+          "irregular"
+        ],
+        "preferred": ["rectangle", "L_shape", "square"]
+      },
+      "volume_complexity": {
+        "allowed": ["simple", "composite", "segmented", "stepped"],
+        "preferred": ["simple", "composite"]
+      },
+      "symmetry": {
+        "allowed": [
+          "symmetrical",
+          "approximately_symmetrical",
+          "asymmetrical",
+          "modular_repetition"
+        ],
+        "preferred": ["approximately_symmetrical", "asymmetrical"]
+      },
+      "footprint_units": {
+        "width": {"min": 3, "max": 14, "preferred": [5, 9]},
+        "depth": {"min": 4, "max": 18, "preferred": [7, 12]}
+      }
+    },
+    "slot_policy": {
+      "required": ["FND", "STR", "WAL", "FAC", "ROF", "DOR", "WIN"],
+      "optional": ["BAL", "VCR", "HCR", "CLM", "BND", "PRK", "SGN", "ORN", "TEC"],
+      "forbidden": []
+    },
+    "lot": {
+      "lot_types": {
+        "allowed": [
+          "urban_regular",
+          "urban_narrow",
+          "urban_deep",
+          "urban_corner",
+          "urban_irregular",
+          "suburban",
+          "rural",
+          "waterfront",
+          "hillside",
+          "isolated",
+          "compound",
+          "informal"
+        ],
+        "preferred": ["suburban", "urban_regular", "rural"]
+      },
+      "lot_positions": {
+        "allowed": [
+          "front_aligned",
+          "front_setback",
+          "centered",
+          "rear_aligned",
+          "side_aligned",
+          "corner_aligned",
+          "terrain_following"
+        ],
+        "preferred": ["front_setback", "centered"]
+      },
+      "street_relations": {
+        "allowed": [
+          "direct_access",
+          "front_yard",
+          "front_wall",
+          "front_fence",
+          "parking_front",
+          "raised_access",
+          "internal_access"
+        ],
+        "preferred": ["front_yard", "front_fence"]
+      },
+      "setbacks": {
+        "front": {
+          "allowed": ["none", "minimal", "small", "medium", "large"],
+          "preferred": ["small", "medium"]
+        },
+        "side": {
+          "allowed": ["none", "minimal", "small", "medium", "large"],
+          "preferred": ["minimal", "small"]
+        },
+        "rear": {
+          "allowed": ["none", "minimal", "small", "medium", "large"],
+          "preferred": ["medium", "large"]
+        }
+      },
+      "lot_coverage": {"min": 0.05, "max": 0.75, "preferred": [0.2, 0.5]}
+    }
+  },
+  "directives": [
+    {
+      "directive_id": "DIR_SEMI_ARID_OPENING_SHADE_001",
+      "source_rule_id": "CLM_SEMI_ARID_OPENING_SHADE_001",
+      "target": "components.windows.sun_protection",
+      "operation": "require",
+      "declared_value": {"tag": "sun_protection_capable"},
+      "effective_value": {"tag": "sun_protection_capable"},
+      "selector": {"candidate_tags_any": ["exposed_opening"]},
+      "effective_strength": 0.66,
+      "priority": 66,
+      "confidence": "hypothesis",
+      "state": "carried_forward",
+      "reason": "O catalogo de janelas e protecoes sera definido no BDB-005."
+    },
+    {
+      "directive_id": "DIR_SEMI_ARID_SHADE_001",
+      "source_rule_id": "CLM_SEMI_ARID_SHADE_001",
+      "target": "components.climate_control",
+      "operation": "weight_multiplier",
+      "declared_value": 1.5,
+      "effective_value": 1.352,
+      "selector": {
+        "candidate_tags_any": ["awning", "screen", "brise_soleil", "veranda", "arcade", "pergola"]
+      },
+      "effective_strength": 0.704,
+      "priority": 64,
+      "confidence": "hypothesis",
+      "state": "carried_forward",
+      "reason": "O multiplicador aguarda candidatos de protecao climatica."
+    },
+    {
+      "directive_id": "DIR_SEMI_ARID_THERMAL_MASS_001",
+      "source_rule_id": "CLM_SEMI_ARID_THERMAL_MASS_001",
+      "target": "components.walls",
+      "operation": "weight_multiplier",
+      "declared_value": 1.35,
+      "effective_value": 1.2002,
+      "selector": {"candidate_tags_any": ["thermal_mass"]},
+      "effective_strength": 0.572,
+      "priority": 61,
+      "confidence": "hypothesis",
+      "state": "carried_forward",
+      "reason": "O multiplicador aguarda candidatos de parede do BDB-005."
+    },
+    {
+      "directive_id": "DIR_SEMI_ARID_COMPACT_001",
+      "source_rule_id": "CLM_SEMI_ARID_COMPACT_001",
+      "target": "archetype.volume_complexity",
+      "operation": "weight_multiplier",
+      "declared_value": 1.3,
+      "effective_value": 1.1452,
+      "selector": {"candidate_tags_any": ["compact", "low_surface_area"]},
+      "effective_strength": 0.484,
+      "priority": 57,
+      "confidence": "hypothesis",
+      "state": "carried_forward",
+      "reason": "As alternativas morfologicas ainda nao possuem tags de candidato."
+    },
+    {
+      "directive_id": "DIR_SEMI_ARID_COURTYARD_001",
+      "source_rule_id": "CLM_SEMI_ARID_COURTYARD_001",
+      "target": "archetype.plan_shape",
+      "operation": "weight_multiplier",
+      "declared_value": 1.35,
+      "effective_value": 1.1694,
+      "selector": {"candidate_tags_any": ["courtyard", "protected_outdoor_space"]},
+      "effective_strength": 0.484,
+      "priority": 55,
+      "confidence": "hypothesis",
+      "state": "carried_forward",
+      "reason": "A forma courtyard continua opcional e aguarda pesos-base de candidato."
+    },
+    {
+      "directive_id": "DIR_SEMI_ARID_WATER_STORAGE_001",
+      "source_rule_id": "CLM_SEMI_ARID_WATER_STORAGE_001",
+      "target": "components.technical_equipment",
+      "operation": "weight_multiplier",
+      "declared_value": 1.45,
+      "effective_value": 1.2772,
+      "selector": {"candidate_tags_any": ["water_tank", "rainwater_storage", "private_water_storage"]},
+      "effective_strength": 0.616,
+      "priority": 46,
+      "confidence": "hypothesis",
+      "state": "carried_forward",
+      "reason": "O multiplicador aguarda candidatos de equipamento tecnico."
+    },
+    {
+      "directive_id": "DIR_SEMI_ARID_XERISCAPE_001",
+      "source_rule_id": "CLM_SEMI_ARID_XERISCAPE_001",
+      "target": "lot.landscaping",
+      "operation": "add_tag",
+      "declared_value": "low_water_landscaping_preferred",
+      "effective_value": "low_water_landscaping_preferred",
+      "selector": {"candidate_tags_any": ["landscaping"]},
+      "effective_strength": 0.572,
+      "priority": 44,
+      "confidence": "hypothesis",
+      "state": "applied",
+      "reason": "A tag de lote pode ser registrada antes da selecao de vegetacao."
+    },
+    {
+      "directive_id": "DIR_SEMI_ARID_LIGHT_SURFACE_001",
+      "source_rule_id": "CLM_SEMI_ARID_LIGHT_SURFACE_001",
+      "target": "materials.surface_tags",
+      "operation": "weight_multiplier",
+      "declared_value": 1.25,
+      "effective_value": 1.11,
+      "selector": {"candidate_tags_any": ["high_solar_reflectance", "light_surface"]},
+      "effective_strength": 0.44,
+      "priority": 22,
+      "confidence": "hypothesis",
+      "state": "carried_forward",
+      "reason": "O multiplicador aguarda superficies do BDB-005 e permanece subordinado a cultura."
+    }
+  ],
+  "tags": ["low_water_landscaping_preferred"],
+  "conflicts": [],
+  "warnings": [
+    {
+      "code": "INCOMPLETE_DOMAIN_COVERAGE",
+      "severity": "warning",
+      "message": "Somente o dominio climate possui perfil carregado; os demais eixos permanecem sem regras nesta versao.",
+      "sources": [
+        "topography",
+        "hydrography",
+        "environmental_risk",
+        "density",
+        "wealth",
+        "infrastructure",
+        "development",
+        "construction_period",
+        "tech_level",
+        "cultural_matrix",
+        "maintenance"
+      ]
+    },
+    {
+      "code": "TARGET_CATALOG_UNAVAILABLE",
+      "severity": "warning",
+      "message": "Sete diretivas aguardam tags morfologicas ou catalogos do BDB-005.",
+      "sources": ["BDB-005"]
+    }
+  ],
+  "decision_trace": {
+    "rule_order": [
+      "CLM_SEMI_ARID_OPENING_SHADE_001",
+      "CLM_SEMI_ARID_SHADE_001",
+      "CLM_SEMI_ARID_THERMAL_MASS_001",
+      "CLM_SEMI_ARID_COMPACT_001",
+      "CLM_SEMI_ARID_COURTYARD_001",
+      "CLM_SEMI_ARID_WATER_STORAGE_001",
+      "CLM_SEMI_ARID_XERISCAPE_001",
+      "CLM_SEMI_ARID_LIGHT_SURFACE_001"
+    ],
+    "blocked_attempts": [],
+    "pending_targets": [
+      "components.windows.sun_protection",
+      "components.climate_control",
+      "components.walls",
+      "archetype.volume_complexity",
+      "archetype.plan_shape",
+      "components.technical_equipment",
+      "materials.surface_tags"
+    ],
+    "deterministic_keys": [
+      "DNA_TEST_SEMIARID_LOW_DENSITY_LOW_INCOME_001|constraints",
+      "DNA_TEST_SEMIARID_LOW_DENSITY_LOW_INCOME_001|directives"
+    ]
+  }
+}

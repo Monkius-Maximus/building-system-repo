@@ -28,7 +28,7 @@ hidrografia
 riscos
 ```
 
-## Caso 001 — Tropical úmido, urbano alto, renda média
+## Caso 001 — Tropical úmido, urbano médio, renda média
 
 Resultados probabilísticos esperados:
 
