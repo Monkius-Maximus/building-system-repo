@@ -1,0 +1,36 @@
+{
+  "schema_version": "0.1",
+  "module_id": "WAL_MASONRY_GENERIC_001",
+  "display_name": "Wall Assembly — Generic Prototype",
+  "description": "Parede generica com alternativas de nucleo e acabamento para testar pesos de desempenho.",
+  "status": "hypothesis",
+  "slot_code": "WAL",
+  "module_type": "wall_assembly",
+  "lod_support": [1, 2, 3],
+  "base_weight": 1.0,
+  "tags": ["wall", "habitable", "exterior", "generic_prototype"],
+  "capabilities": ["weather_enclosure_capable", "material_substitution_capable"],
+  "geometry": {
+    "width_units": {"min": 1, "max": 14},
+    "height_units": {"min": 1, "max": 4},
+    "depth_units": {"min": 0.1, "max": 1},
+    "repeatable_axes": ["x", "y"],
+    "mirror_allowed": true,
+    "rotation_steps": [0, 90, 180, 270]
+  },
+  "sockets": [
+    {"socket_id": "structure_inner", "interface": "structure_to_wall", "role": "consumer", "normal": "inward", "required": true, "capacity": 1}
+  ],
+  "material_refs": [
+    {"role": "core", "allowed_material_ids": ["MAT_MASONRY_DENSE_GENERIC_001", "MAT_PANEL_LIGHT_GENERIC_001"], "required": true},
+    {"role": "surface", "allowed_material_ids": ["MAT_SURFACE_REFLECTIVE_GENERIC_001", "MAT_SURFACE_NEUTRAL_GENERIC_001"], "required": true}
+  ],
+  "compatibility": {
+    "archetype_ids": ["BLD_RES_HOUSE_DETACHED"],
+    "usage": ["residential"],
+    "height_classes": ["SINGLE_STOREY", "LOW_RISE"],
+    "tech_levels": ["vernacular", "craft", "early_industrial", "industrial", "mass_produced", "prefabricated", "digital_fabrication", "advanced"],
+    "max_floor_count": 4
+  },
+  "parameters": {"layer_count": {"min": 1, "max": 4}}
+}

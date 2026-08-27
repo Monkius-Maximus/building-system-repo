@@ -1,0 +1,35 @@
+{
+  "schema_version": "0.1",
+  "module_id": "FND_SLAB_GENERIC_001",
+  "display_name": "Slab Foundation — Generic Prototype",
+  "description": "Fundacao modular generica para o ensaio de montagem de edificios baixos.",
+  "status": "hypothesis",
+  "slot_code": "FND",
+  "module_type": "slab_foundation",
+  "lod_support": [1, 2, 3],
+  "base_weight": 1.0,
+  "tags": ["foundation", "lowrise", "generic_prototype"],
+  "capabilities": ["ground_bearing_capable", "lowrise_support_capable"],
+  "geometry": {
+    "width_units": {"min": 3, "max": 14},
+    "height_units": {"min": 0.2, "max": 1},
+    "depth_units": {"min": 4, "max": 18},
+    "repeatable_axes": ["x", "z"],
+    "mirror_allowed": true,
+    "rotation_steps": [0, 90, 180, 270]
+  },
+  "sockets": [
+    {"socket_id": "structure_top", "interface": "foundation_to_structure", "role": "provider", "normal": "up", "required": true, "capacity": 1}
+  ],
+  "material_refs": [
+    {"role": "primary", "allowed_material_ids": ["MAT_MASONRY_DENSE_GENERIC_001"], "required": true}
+  ],
+  "compatibility": {
+    "archetype_ids": ["BLD_RES_HOUSE_DETACHED"],
+    "usage": ["residential"],
+    "height_classes": ["SINGLE_STOREY", "LOW_RISE"],
+    "tech_levels": ["craft", "early_industrial", "industrial", "mass_produced", "prefabricated", "digital_fabrication", "advanced"],
+    "max_floor_count": 4
+  },
+  "parameters": {"foundation_contact": "continuous"}
+}

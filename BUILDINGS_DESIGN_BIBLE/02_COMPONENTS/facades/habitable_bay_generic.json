@@ -1,0 +1,38 @@
+{
+  "schema_version": "0.1",
+  "module_id": "FAC_HABITABLE_BAY_GENERIC_001",
+  "display_name": "Habitable Facade Bay — Generic Prototype",
+  "description": "Bay de fachada generico com sockets de abertura e protecao climatica.",
+  "status": "hypothesis",
+  "slot_code": "FAC",
+  "module_type": "habitable_facade_bay",
+  "lod_support": [1, 2, 3],
+  "base_weight": 1.0,
+  "tags": ["facade", "habitable", "exterior", "generic_prototype"],
+  "capabilities": ["window_opening_capable", "door_opening_capable", "climate_control_anchor_capable"],
+  "geometry": {
+    "width_units": {"min": 1, "max": 4},
+    "height_units": {"min": 1, "max": 1},
+    "depth_units": {"min": 0.1, "max": 0.5},
+    "repeatable_axes": ["x", "y"],
+    "mirror_allowed": true,
+    "rotation_steps": [0, 90, 180, 270]
+  },
+  "sockets": [
+    {"socket_id": "structure_inner", "interface": "structure_to_facade", "role": "consumer", "normal": "inward", "required": true, "capacity": 1},
+    {"socket_id": "window_opening", "interface": "opening_window", "role": "provider", "normal": "outward", "required": true, "capacity": 4},
+    {"socket_id": "door_opening", "interface": "opening_door", "role": "provider", "normal": "outward", "required": true, "capacity": 2},
+    {"socket_id": "shade_anchor", "interface": "climate_control_anchor", "role": "provider", "normal": "outward", "required": false, "capacity": 4}
+  ],
+  "material_refs": [
+    {"role": "surface", "allowed_material_ids": ["MAT_SURFACE_REFLECTIVE_GENERIC_001", "MAT_SURFACE_NEUTRAL_GENERIC_001"], "required": true}
+  ],
+  "compatibility": {
+    "archetype_ids": ["BLD_RES_HOUSE_DETACHED"],
+    "usage": ["residential"],
+    "height_classes": ["SINGLE_STOREY", "LOW_RISE"],
+    "tech_levels": ["vernacular", "craft", "early_industrial", "industrial", "mass_produced", "prefabricated", "digital_fabrication", "advanced"],
+    "max_floor_count": 4
+  },
+  "parameters": {"opening_ratio": {"min": 0.15, "max": 0.35}}
+}

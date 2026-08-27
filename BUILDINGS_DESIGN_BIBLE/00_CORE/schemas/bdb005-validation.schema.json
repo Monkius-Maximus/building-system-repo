@@ -1,0 +1,112 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://buildings-design-bible.local/schemas/bdb005-validation.schema.json",
+  "title": "BDB-005 Candidate and Assembly Validation",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "case_id", "dna_id", "catalog_version", "status",
+    "candidate_evaluations", "assembly_probe", "unresolved_directive_ids", "warnings"
+  ],
+  "properties": {
+    "schema_version": {"type": "string", "const": "0.1"},
+    "case_id": {"type": "string", "pattern": "^BDB005_CASE_[A-Z0-9_]+$"},
+    "dna_id": {"type": "string", "pattern": "^DNA_[A-Z0-9_]+$"},
+    "catalog_version": {"type": "string", "const": "0.1"},
+    "status": {"enum": ["partial", "resolved", "rejected"]},
+    "candidate_evaluations": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/target_evaluation"},
+      "minItems": 1
+    },
+    "assembly_probe": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["module_ids", "connections"],
+      "properties": {
+        "module_ids": {
+          "type": "array",
+          "items": {"type": "string", "pattern": "^(FND|STR|WAL|FAC|ROF|DOR|WIN|BAL|VCR|HCR|CLM|BND|PRK|SGN|ORN|TEC)_[A-Z0-9_]+$"},
+          "uniqueItems": true
+        },
+        "connections": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/connection"}
+        }
+      }
+    },
+    "unresolved_directive_ids": {
+      "type": "array",
+      "items": {"type": "string", "pattern": "^DIR_[A-Z0-9_]+$"},
+      "uniqueItems": true
+    },
+    "warnings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["code", "message"],
+        "properties": {
+          "code": {"type": "string", "pattern": "^[A-Z][A-Z0-9_]+$"},
+          "message": {"type": "string", "minLength": 5}
+        }
+      }
+    }
+  },
+  "$defs": {
+    "target_evaluation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["target", "directive_ids", "candidates"],
+      "properties": {
+        "target": {"type": "string", "minLength": 3},
+        "directive_ids": {
+          "type": "array",
+          "items": {"type": "string", "pattern": "^DIR_[A-Z0-9_]+$"},
+          "uniqueItems": true
+        },
+        "candidates": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/candidate"},
+          "minItems": 1
+        }
+      }
+    },
+    "candidate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["candidate_id", "candidate_kind", "eligible", "base_weight", "final_weight", "applied_directive_ids", "missing_capabilities", "reason"],
+      "properties": {
+        "candidate_id": {"type": "string", "pattern": "^(MAT|FND|STR|WAL|FAC|ROF|DOR|WIN|BAL|VCR|HCR|CLM|BND|PRK|SGN|ORN|TEC)_[A-Z0-9_]+$"},
+        "candidate_kind": {"enum": ["module", "material"]},
+        "eligible": {"type": "boolean"},
+        "base_weight": {"type": "number", "exclusiveMinimum": 0},
+        "final_weight": {"type": "number", "minimum": 0},
+        "applied_directive_ids": {
+          "type": "array",
+          "items": {"type": "string", "pattern": "^DIR_[A-Z0-9_]+$"},
+          "uniqueItems": true
+        },
+        "missing_capabilities": {
+          "type": "array",
+          "items": {"type": "string", "pattern": "^[a-z][a-z0-9_]+$"},
+          "uniqueItems": true
+        },
+        "effective_parameters": {"type": "object"},
+        "reason": {"type": "string", "minLength": 5}
+      }
+    },
+    "connection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["from_module_id", "from_socket_id", "to_module_id", "to_socket_id", "interface"],
+      "properties": {
+        "from_module_id": {"type": "string"},
+        "from_socket_id": {"type": "string"},
+        "to_module_id": {"type": "string"},
+        "to_socket_id": {"type": "string"},
+        "interface": {"type": "string"}
+      }
+    }
+  }
+}

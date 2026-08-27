@@ -12,7 +12,7 @@ Biblioteca de regras, componentes, arquétipos e perfis contextuais para geraç�
 | BDB-002 | Sistema de Modificadores Ambientais e Urbanos | 🟡 Especificado; requer implementação |
 | BDB-003 | Arquétipos Universais de Edifícios | 🟡 Especificado; requer implementação |
 | BDB-004 | Sistema de DNA Arquitetônico | 🟡 Especificado; requer implementação |
-| BDB-005 | Biblioteca Modular e Regras de Encaixe | ⚪ Não iniciado |
+| BDB-005 | Biblioteca Modular e Regras de Encaixe | 🟡 Vertical slice; requer expansão |
 | BDB-006 | Famílias Arquitetônicas Globais | ⚪ Não iniciado |
 | BDB-007 | Receitas Regionais | ⚪ Não iniciado |
 | BDB-008 | Geração de Lotes e Bairros | ⚪ Não iniciado |
@@ -47,7 +47,7 @@ BUILDINGS_DESIGN_BIBLE/
 ## Documento atual
 
 ```text
-BUILDINGS_DESIGN_BIBLE/00_CORE/BDB-004_SISTEMA_DNA_ARQUITETONICO.md
+BUILDINGS_DESIGN_BIBLE/02_COMPONENTS/BDB-005_BIBLIOTECA_MODULAR_ENCAIXES.md
 ```
 
 ## Cadeia de geração
@@ -61,17 +61,19 @@ DNA                BDB-004    "Que características recebeu?"
      ↓
 MÓDULOS            BDB-005    "Com quais peças será construído?"
      ↓
-RECEITA            BDB-006+   "Como montar?"
+FAMÍLIA            BDB-006    "Qual linguagem compositiva compartilha?"
+     ↓
+RECEITA            BDB-007    "Como montar nesta região?"
      ↓
 EDIFÍCIO GERADO
 ```
 
 ## Próxima etapa
 
-Produzir o `BDB-005 — Biblioteca Modular e Regras de Encaixe`, que consumirá as diretivas do DNA:
+Produzir o `BDB-006 — Famílias Arquitetônicas Globais`, agrupando módulos sem duplicá-los:
 
 ```text
-DNA (BDB-004)  +  catálogo de módulos (BDB-005)  =  receita compatível
+módulos (BDB-005)  +  linguagem compositiva pesquisada  =  família (BDB-006)
 ```
 
 ## Validação
@@ -81,7 +83,7 @@ npm ci
 npm run validate
 ```
 
-O validador confere schemas JSON 2020-12, relações semânticas entre arquétipos, contextos, perfis e DNAs, além dos cálculos de força efetiva e da ordenação determinística. O mesmo comando é executado em pull requests pelo GitHub Actions.
+O validador confere schemas JSON 2020-12, relações entre arquétipos, contextos, perfis, DNAs, módulos e materiais, além de pesos, filtros de capability e conexões por sockets. O mesmo comando é executado em pull requests pelo GitHub Actions.
 
 ## Princípio do projeto
 

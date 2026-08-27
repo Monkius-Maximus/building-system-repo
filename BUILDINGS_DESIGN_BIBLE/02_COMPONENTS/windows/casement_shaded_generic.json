@@ -1,0 +1,33 @@
+{
+  "schema_version": "0.1",
+  "module_id": "WIN_CASEMENT_SHADED_GENERIC_001",
+  "display_name": "Shaded Casement Window — Generic Prototype",
+  "description": "Janela de abrir generica com capacidade declarada para protecao solar em abertura exposta.",
+  "status": "hypothesis",
+  "slot_code": "WIN",
+  "module_type": "casement_window",
+  "lod_support": [2, 3],
+  "base_weight": 1.0,
+  "tags": ["window", "exposed_opening", "operable", "generic_prototype"],
+  "capabilities": ["sun_protection_capable", "natural_ventilation_capable"],
+  "geometry": {
+    "width_units": {"min": 0.5, "max": 2},
+    "height_units": {"min": 0.5, "max": 1.5},
+    "depth_units": {"min": 0.05, "max": 0.3},
+    "repeatable_axes": ["x"],
+    "mirror_allowed": true,
+    "rotation_steps": [0, 90, 180, 270]
+  },
+  "sockets": [
+    {"socket_id": "facade_opening", "interface": "opening_window", "role": "consumer", "normal": "inward", "required": true, "capacity": 1}
+  ],
+  "material_refs": [],
+  "compatibility": {
+    "archetype_ids": ["BLD_RES_HOUSE_DETACHED"],
+    "usage": ["residential"],
+    "height_classes": ["SINGLE_STOREY", "LOW_RISE"],
+    "tech_levels": ["craft", "early_industrial", "industrial", "mass_produced", "prefabricated", "digital_fabrication", "advanced"],
+    "max_floor_count": 4
+  },
+  "parameters": {"sun_protection": true, "operable_area_ratio": {"min": 0.4, "max": 0.9}}
+}

@@ -1,0 +1,19 @@
+{
+  "schema_version": "0.1",
+  "material_id": "MAT_PANEL_LIGHT_GENERIC_001",
+  "display_name": "Light Panel — Generic Prototype",
+  "description": "Painel leve generico usado como alternativa de baixa massa para validar selecao e compatibilidade modular.",
+  "status": "hypothesis",
+  "family": "composite",
+  "base_weight": 1.0,
+  "tags": ["lightweight", "dry_assembly", "generic_prototype"],
+  "capabilities": ["lightweight_assembly_capable"],
+  "compatible_slots": ["WAL", "FAC", "ROF"],
+  "performance": {
+    "thermal_mass": 0.15,
+    "moisture_resistance": 0.45,
+    "structural_capacity": 0.35,
+    "weathering_resistance": 0.5
+  },
+  "notes": "Controle negativo de massa termica; composicao fisica final ainda nao definida."
+}

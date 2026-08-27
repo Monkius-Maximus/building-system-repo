@@ -1,0 +1,18 @@
+{
+  "schema_version": "0.1",
+  "material_id": "MAT_SURFACE_REFLECTIVE_GENERIC_001",
+  "display_name": "Reflective Surface — Generic Prototype",
+  "description": "Acabamento superficial claro e refletivo para testar preferencia solar sem impor paleta cultural.",
+  "status": "hypothesis",
+  "family": "cementitious",
+  "base_weight": 1.0,
+  "tags": ["high_solar_reflectance", "light_surface", "generic_prototype"],
+  "capabilities": ["high_solar_reflectance"],
+  "compatible_slots": ["WAL", "FAC", "ROF", "BND"],
+  "performance": {
+    "moisture_resistance": 0.6,
+    "solar_reflectance": 0.8,
+    "weathering_resistance": 0.6
+  },
+  "notes": "A cor final pertence a familia ou receita futura."
+}
