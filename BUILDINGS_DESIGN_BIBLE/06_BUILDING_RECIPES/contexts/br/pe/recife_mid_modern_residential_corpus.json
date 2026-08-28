@@ -1,0 +1,156 @@
+{
+  "schema_version": "0.1",
+  "context_id": "CTX_BR_PE_RECIFE_MID_MODERN_RES_CORPUS_001",
+  "display_name": "Recife Mid-Modern Residential Documented Corpus",
+  "description": "Fixture de pesquisa limitado ao corpus residencial moderno documentado no Recife. Campos normalizados nao medidos permanecem hipoteses e nao descrevem o municipio inteiro.",
+  "seed": 2611606,
+  "scope": "city",
+  "parent_context_id": null,
+  "geography": {
+    "country_code": "BR",
+    "subdivision_code": "BR-PE",
+    "locality_code_system": "IBGE_MUNICIPALITY",
+    "locality_code": "2611606",
+    "locality_name": "Recife"
+  },
+  "data_provenance": {
+    "status": "mixed",
+    "sources": [
+      {
+        "source_id": "SRC_IBGE_RECIFE_2611606",
+        "title": "Recife — Cidades e Estados",
+        "publisher": "Instituto Brasileiro de Geografia e Estatistica",
+        "year": 2026,
+        "url": "https://www.ibge.gov.br/cidades-e-estados/pe/recife.html",
+        "accessed_on": "2026-08-28"
+      },
+      {
+        "source_id": "SRC_AMORIM_2001_MODERNISMO_RECIFENSE",
+        "title": "Modernismo recifense: uma escola de arquitetura, tres paradigmas e alguns paradoxos",
+        "publisher": "Vitruvius — Arquitextos",
+        "year": 2001,
+        "url": "https://vitruvius.com.br/revistas/read/arquitextos/01.012/889",
+        "accessed_on": "2026-08-28"
+      },
+      {
+        "source_id": "SRC_COSTA_2008_PRODUCAO_MODERNA_RECIFE",
+        "title": "A producao arquitetonica moderna dos primeiros discipulos de uma Escola",
+        "publisher": "Vitruvius — Arquitextos",
+        "year": 2008,
+        "url": "https://vitruvius.com.br/revistas/read/arquitextos/09.098/128",
+        "accessed_on": "2026-08-28"
+      }
+    ],
+    "field_groups": [
+      {
+        "group_id": "CTXDATA_RECIFE_GEOGRAPHY_001",
+        "basis": "evidence",
+        "paths": ["$.geography.*"],
+        "source_ids": ["SRC_IBGE_RECIFE_2611606"],
+        "limitations": "O codigo identifica o municipio; nao define bairros nem a extensao do corpus arquitetonico."
+      },
+      {
+        "group_id": "CTXDATA_RECIFE_CORPUS_001",
+        "basis": "evidence",
+        "paths": ["$.climate.primary", "$.temporal.construction_period", "$.temporal.tech_level"],
+        "source_ids": ["SRC_AMORIM_2001_MODERNISMO_RECIFENSE", "SRC_COSTA_2008_PRODUCAO_MODERNA_RECIFE"],
+        "limitations": "As fontes sustentam clima quente e umido e producao moderna no periodo estudado; nao medem os demais eixos do perfil."
+      },
+      {
+        "group_id": "CTXDATA_RECIFE_NORMALIZED_001",
+        "basis": "normalized_hypothesis",
+        "paths": ["$.seed", "$.climate.intensity", "$.climate.parameters.*", "$.topography.*", "$.hydrography.*", "$.environmental_risks", "$.urban.*", "$.society.*", "$.cultural_matrix.*"],
+        "source_ids": [],
+        "limitations": "Valores servem somente ao fixture e nao podem ser citados como medicao, estatistica municipal ou prevalencia regional."
+      }
+    ],
+    "limitations": [
+      "O contexto representa um corpus de pesquisa, nao uma amostra estatistica de todas as casas do Recife.",
+      "Somente geografia, classificacao climatica ampla e recorte temporal possuem base documental nesta versao.",
+      "Os campos normalizados nao podem alimentar calibracao regional sem uma futura fonte especifica."
+    ]
+  },
+  "tags": [
+    "bdb-007",
+    "research_fixture",
+    "documented_corpus",
+    "not_citywide_prevalence"
+  ],
+  "climate": {
+    "primary": "tropical_humid",
+    "secondary": null,
+    "intensity": 0.85,
+    "parameters": {
+      "heat": 0.78,
+      "cold": 0.05,
+      "humidity": 0.88,
+      "rainfall": 0.82,
+      "rainfall_seasonality": 0.45,
+      "snow_load": 0.0,
+      "wind_exposure": 0.52,
+      "solar_exposure": 0.72,
+      "salt_air_exposure": 0.55,
+      "freeze_thaw": 0.0
+    }
+  },
+  "topography": {
+    "type": "flat",
+    "intensity": 0.9,
+    "slope": 0.05,
+    "terrain_stability": 0.78,
+    "soil_drainage": 0.55
+  },
+  "hydrography": {
+    "type": "coast",
+    "intensity": 0.55,
+    "water_distance": 850.0,
+    "flood_frequency": 0.28,
+    "flood_depth": 0.18,
+    "groundwater_level": 0.45,
+    "salt_air_exposure": 0.55
+  },
+  "environmental_risks": [
+    {
+      "type": "flood",
+      "intensity": 0.25,
+      "frequency": 0.25,
+      "confidence": "hypothesis"
+    },
+    {
+      "type": "storm",
+      "intensity": 0.45,
+      "frequency": 0.42,
+      "confidence": "hypothesis"
+    }
+  ],
+  "urban": {
+    "density": "urban_low",
+    "development": "established",
+    "infrastructure": "standard",
+    "street_wall_continuity": 0.45,
+    "mixed_use_pressure": 0.35,
+    "parking_pressure": 0.4
+  },
+  "society": {
+    "wealth_level": 3,
+    "maintenance_capacity": 0.65,
+    "income_stability": 0.6,
+    "construction_budget": 0.55,
+    "land_value": 0.6,
+    "informality_pressure": 0.2
+  },
+  "temporal": {
+    "construction_period": "mid_modern",
+    "tech_level": "industrial",
+    "renovation_period": null
+  },
+  "cultural_matrix": {
+    "cultural_family": "latin_american",
+    "regional_variant": "br_pe_recife_modernist_residential_corpus",
+    "local_tradition": [],
+    "colonial_influence": [],
+    "religious_influence": [],
+    "migration_influence": [],
+    "globalized_influence": 0.0
+  }
+}

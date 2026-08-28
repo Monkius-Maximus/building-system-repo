@@ -1,0 +1,28 @@
+{
+  "schema_version": "0.1",
+  "case_id": "BDB007_CASE_NEUTRAL_TROPICAL_REJECTED_001",
+  "recipe_id": "RCP_BR_PE_RECIFE_MID_MODERN_RES_CORPUS_001",
+  "context_id": "CTX_TEST_TROPICAL_URBAN_MIDDLE_001",
+  "archetype_id": "BLD_RES_HOUSE_DETACHED",
+  "expected_match": false,
+  "resolution_status": "rejected",
+  "mismatch_codes": [
+    "CONTEXT_ANCESTRY_NOT_ALLOWED",
+    "COUNTRY_CODE_MISSING",
+    "SUBDIVISION_CODE_MISSING",
+    "LOCALITY_CODE_SYSTEM_MISSING",
+    "LOCALITY_CODE_MISSING",
+    "CONSTRUCTION_PERIOD_NOT_ALLOWED",
+    "CULTURAL_VARIANT_NOT_ALLOWED"
+  ],
+  "family_candidate_ids": [],
+  "deferred_feature_ids": [],
+  "selection_state": "blocked_context_mismatch",
+  "blocking_codes": ["CONTEXT_SCOPE_MISMATCH"],
+  "warnings": [
+    {
+      "code": "CONTEXT_SCOPE_MISMATCH",
+      "message": "Compatibilidade tropical nao substitui correspondencia geografica, temporal e cultural da receita."
+    }
+  ]
+}

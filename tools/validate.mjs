@@ -23,7 +23,9 @@ const schemas = {
   material: readJson("00_CORE/schemas/material.schema.json"),
   bdb005: readJson("00_CORE/schemas/bdb005-validation.schema.json"),
   family: readJson("00_CORE/schemas/architectural-family.schema.json"),
-  bdb006: readJson("00_CORE/schemas/bdb006-validation.schema.json")
+  bdb006: readJson("00_CORE/schemas/bdb006-validation.schema.json"),
+  recipe: readJson("00_CORE/schemas/regional-recipe.schema.json"),
+  bdb007: readJson("00_CORE/schemas/bdb007-validation.schema.json")
 };
 
 for (const [name, schema] of Object.entries(schemas)) {
@@ -46,7 +48,10 @@ function validateAll(name, paths) {
 }
 
 const archetypePaths = jsonFiles("01_ARCHETYPES");
-const contextPaths = jsonFiles("08_VALIDATION/bdb-002");
+const contextPaths = [
+  ...jsonFiles("08_VALIDATION/bdb-002"),
+  ...jsonFiles("06_BUILDING_RECIPES/contexts")
+];
 const modifierPaths = jsonFiles("04_CONTEXT_MODIFIERS");
 const dnaPaths = jsonFiles("08_VALIDATION/bdb-004");
 const modulePaths = jsonFiles("02_COMPONENTS");
@@ -54,6 +59,8 @@ const materialPaths = jsonFiles("03_MATERIALS");
 const bdb005Paths = jsonFiles("08_VALIDATION/bdb-005");
 const familyPaths = jsonFiles("05_ARCHITECTURAL_FAMILIES");
 const bdb006Paths = jsonFiles("08_VALIDATION/bdb-006");
+const recipePaths = jsonFiles("06_BUILDING_RECIPES/recipes");
+const bdb007Paths = jsonFiles("08_VALIDATION/bdb-007");
 
 validateAll("archetype", archetypePaths);
 validateAll("context", contextPaths);
@@ -64,6 +71,8 @@ validateAll("material", materialPaths);
 validateAll("bdb005", bdb005Paths);
 validateAll("family", familyPaths);
 validateAll("bdb006", bdb006Paths);
+validateAll("recipe", recipePaths);
+validateAll("bdb007", bdb007Paths);
 
 const archetypes = archetypePaths.map(readJson);
 const contexts = contextPaths.map(readJson);
@@ -74,6 +83,8 @@ const materials = materialPaths.map(readJson);
 const bdb005Cases = bdb005Paths.map(readJson);
 const families = familyPaths.map(readJson);
 const bdb006Cases = bdb006Paths.map(readJson);
+const recipes = recipePaths.map(readJson);
+const bdb007Cases = bdb007Paths.map(readJson);
 
 function uniqueIndex(values, key, label) {
   const index = new Map();
@@ -94,6 +105,8 @@ const materialById = uniqueIndex(materials, "material_id", "material_id");
 const bdb005CaseById = uniqueIndex(bdb005Cases, "case_id", "case_id");
 const familyById = uniqueIndex(families, "family_id", "family_id");
 uniqueIndex(bdb006Cases, "case_id", "case_id");
+const recipeById = uniqueIndex(recipes, "recipe_id", "recipe_id");
+uniqueIndex(bdb007Cases, "case_id", "case_id");
 
 const slotCodes = new Set([
   "FND", "STR", "WAL", "FAC", "ROF", "DOR", "WIN", "BAL",
@@ -160,6 +173,104 @@ for (const archetype of archetypes) {
     archetype.usage.primary === "mixed_use",
     `${archetype.archetype_id}: vertical_use_stack mismatch`
   );
+}
+
+for (const context of contexts) {
+  if (!context.geography) {
+    assert.equal(
+      context.data_provenance === undefined,
+      true,
+      `${context.context_id}: provenance without explicit geography is outside the localized-context contract`
+    );
+    continue;
+  }
+
+  assert.ok(context.data_provenance, `${context.context_id}: localized context requires data provenance`);
+  const sourceById = uniqueIndex(
+    context.data_provenance.sources,
+    "source_id",
+    `${context.context_id} provenance source_id`
+  );
+  const groupById = uniqueIndex(
+    context.data_provenance.field_groups,
+    "group_id",
+    `${context.context_id} field group_id`
+  );
+  const referencedSources = new Set();
+  const registeredPaths = new Set();
+
+  for (const group of groupById.values()) {
+    assert.equal(
+      group.source_ids.length > 0,
+      group.basis === "evidence",
+      `${context.context_id}: evidence groups require sources and normalized hypotheses forbid them`
+    );
+    for (const sourceId of group.source_ids) {
+      assert.ok(sourceById.has(sourceId), `${context.context_id}: unknown provenance source ${sourceId}`);
+      referencedSources.add(sourceId);
+    }
+    for (const path of group.paths) {
+      assert.equal(registeredPaths.has(path), false, `${context.context_id}: provenance path belongs to multiple groups: ${path}`);
+      registeredPaths.add(path);
+    }
+  }
+
+  assert.deepEqual(
+    referencedSources,
+    new Set(context.data_provenance.sources.map((source) => source.source_id)),
+    `${context.context_id}: every provenance source must support a field group`
+  );
+}
+
+function provenancePatternCovers(pattern, path) {
+  if (pattern.endsWith(".*")) return path.startsWith(pattern.slice(0, -1));
+  return pattern === path;
+}
+
+function contextAncestryIds(context) {
+  const ids = [];
+  const visited = new Set();
+  let current = context;
+  while (current) {
+    assert.equal(visited.has(current.context_id), false, `${context.context_id}: context ancestry cycle at ${current.context_id}`);
+    visited.add(current.context_id);
+    ids.push(current.context_id);
+    if (current.parent_context_id === null || current.parent_context_id === undefined) break;
+    current = contextById.get(current.parent_context_id);
+    assert.ok(current, `${context.context_id}: unknown parent context`);
+  }
+  return ids;
+}
+
+const contextScopeDepth = {
+  global: 0,
+  region: 1,
+  city: 2,
+  district: 3,
+  block: 4,
+  lot: 5,
+  building_exception: 6
+};
+
+for (const context of contexts) {
+  const ancestryIds = contextAncestryIds(context);
+  if (ancestryIds.length < 2) continue;
+  const parent = contextById.get(ancestryIds[1]);
+  assert.equal(
+    contextScopeDepth[context.scope] > contextScopeDepth[parent.scope],
+    true,
+    `${context.context_id}: child context scope must be more local than parent scope`
+  );
+}
+
+function nearestContextWithField(context, field) {
+  return contextAncestryIds(context)
+    .map((contextId) => contextById.get(contextId))
+    .find((candidate) => candidate[field] !== undefined);
+}
+
+function inheritedContextField(context, field) {
+  return nearestContextWithField(context, field)?.[field];
 }
 
 const confidenceRank = { deprecated: 0, hypothesis: 1, researched: 2, validated: 3 };
@@ -592,6 +703,32 @@ function familyMissingConstraints(family, dna) {
   return missing;
 }
 
+function familyMissingConstraintsForContext(family, archetype, context) {
+  const missing = [];
+  if (!family.compatibility.archetype_ids.includes(archetype.archetype_id)) {
+    missing.push(`archetype_id:${archetype.archetype_id}`);
+  }
+  if (!family.compatibility.usage.includes(archetype.usage.primary)) {
+    missing.push(`usage:${archetype.usage.primary}`);
+  }
+  if (!family.compatibility.height_classes.some((value) => archetype.morphology.height_classes.allowed.includes(value))) {
+    missing.push("height_classes");
+  }
+  if (!family.compatibility.tech_levels.includes(context.temporal.tech_level)) {
+    missing.push(`tech_level:${context.temporal.tech_level}`);
+  }
+  if (family.compatibility.climate_primary.length > 0 && !family.compatibility.climate_primary.includes(context.climate.primary)) {
+    missing.push(`climate_primary:${context.climate.primary}`);
+  }
+  if (
+    family.compatibility.construction_periods.length > 0 &&
+    !family.compatibility.construction_periods.includes(context.temporal.construction_period)
+  ) {
+    missing.push(`construction_period:${context.temporal.construction_period}`);
+  }
+  return missing;
+}
+
 for (const validationCase of bdb006Cases) {
   const dna = dnaById.get(validationCase.dna_id);
   assert.ok(dna, `${validationCase.case_id}: unknown DNA ${validationCase.dna_id}`);
@@ -694,9 +831,316 @@ for (const validationCase of bdb006Cases) {
   );
 }
 
+for (const recipe of recipes) {
+  const sourceById = uniqueIndex(recipe.knowledge.sources, "source_id", `${recipe.recipe_id} source_id`);
+  const statementById = uniqueIndex(recipe.knowledge.statements, "statement_id", `${recipe.recipe_id} statement_id`);
+  const referencedStatements = new Set();
+  const referencedSources = new Set();
+  const registerBasisRefs = (basisRefs, label) => {
+    for (const statementId of basisRefs) {
+      assert.ok(statementById.has(statementId), `${recipe.recipe_id}: ${label} references unknown statement ${statementId}`);
+      referencedStatements.add(statementId);
+    }
+  };
+
+  for (const statement of recipe.knowledge.statements) {
+    assert.equal(
+      statement.source_ids.length > 0,
+      statement.kind === "evidence",
+      `${recipe.recipe_id}: evidence must cite sources and design hypotheses must not`
+    );
+    for (const sourceId of statement.source_ids) {
+      assert.ok(sourceById.has(sourceId), `${recipe.recipe_id}: unknown source ${sourceId}`);
+      referencedSources.add(sourceId);
+    }
+  }
+
+  registerBasisRefs(recipe.scope.basis_refs, "scope");
+  registerBasisRefs(recipe.prevalence.basis_refs, "prevalence");
+  registerBasisRefs(recipe.family_diversity.basis_refs, "family diversity");
+  for (const share of recipe.prevalence.quantitative_shares) {
+    registerBasisRefs(share.basis_refs, `prevalence share ${share.family_id}`);
+  }
+
+  const recipeContexts = recipe.scope.context_anchor_ids.map((contextId) => {
+    const context = contextById.get(contextId);
+    assert.ok(context, `${recipe.recipe_id}: unknown context ${contextId}`);
+    assert.ok(context.geography, `${recipe.recipe_id}: localized recipe context lacks geography`);
+    assert.ok(context.data_provenance, `${recipe.recipe_id}: localized recipe context lacks provenance`);
+    assert.equal(context.geography.country_code, recipe.scope.geography.country_code, `${recipe.recipe_id}: country scope drift`);
+    assert.equal(context.geography.subdivision_code, recipe.scope.geography.subdivision_code, `${recipe.recipe_id}: subdivision scope drift`);
+    assert.equal(context.geography.locality_code_system, recipe.scope.geography.locality_code_system, `${recipe.recipe_id}: locality code system drift`);
+    assert.equal(context.geography.locality_code, recipe.scope.geography.locality_code, `${recipe.recipe_id}: locality scope drift`);
+    assert.equal(
+      recipe.scope.construction_periods.includes(context.temporal.construction_period),
+      true,
+      `${recipe.recipe_id}: construction period scope drift`
+    );
+    assert.equal(
+      recipe.scope.cultural_variants.includes(context.cultural_matrix.regional_variant),
+      true,
+      `${recipe.recipe_id}: cultural variant scope drift`
+    );
+    const evidencePaths = context.data_provenance.field_groups
+      .filter((group) => group.basis === "evidence")
+      .flatMap((group) => group.paths);
+    for (const requiredPath of [
+      "$.geography.country_code",
+      "$.geography.subdivision_code",
+      "$.geography.locality_code_system",
+      "$.geography.locality_code",
+      "$.climate.primary",
+      "$.temporal.construction_period",
+      "$.temporal.tech_level"
+    ]) {
+      assert.equal(
+        evidencePaths.some((pattern) => provenancePatternCovers(pattern, requiredPath)),
+        true,
+        `${recipe.recipe_id}: localized scope consumes field without evidence provenance: ${requiredPath}`
+      );
+    }
+    return context;
+  });
+
+  const recipeArchetypes = recipe.scope.archetype_ids.map((archetypeId) => {
+    const archetype = archetypeById.get(archetypeId);
+    assert.ok(archetype, `${recipe.recipe_id}: unknown archetype ${archetypeId}`);
+    return archetype;
+  });
+
+  const familyRuleById = uniqueIndex(recipe.family_rules, "family_id", `${recipe.recipe_id} family rule`);
+  const eligibleFamilyIds = [];
+  for (const rule of familyRuleById.values()) {
+    registerBasisRefs(rule.basis_refs, `family rule ${rule.family_id}`);
+    assert.equal(
+      rule.relationship === "supported_candidate",
+      rule.disposition === "eligible",
+      `${recipe.recipe_id}: supported candidates must be eligible and counterexamples must be excluded`
+    );
+    const family = familyById.get(rule.family_id);
+    assert.ok(family, `${recipe.recipe_id}: unknown family ${rule.family_id}`);
+    if (rule.disposition !== "eligible") continue;
+    eligibleFamilyIds.push(rule.family_id);
+    for (const archetype of recipeArchetypes) {
+      for (const context of recipeContexts) {
+        assert.deepEqual(
+          familyMissingConstraintsForContext(family, archetype, context),
+          [],
+          `${recipe.recipe_id}: eligible family ${rule.family_id} is incompatible with localized scope`
+        );
+      }
+    }
+  }
+
+  if (recipe.recipe_kind === "documented_corpus") {
+    assert.equal(recipe.activation.regional_sampling_allowed, false, `${recipe.recipe_id}: corpus cannot enable regional sampling`);
+    assert.equal(recipe.activation.requires_explicit_corpus_opt_in, true, `${recipe.recipe_id}: corpus requires explicit opt-in`);
+    assert.equal(
+      ["corpus_limited", "blocked"].includes(recipe.activation.state),
+      true,
+      `${recipe.recipe_id}: documented corpus has invalid activation state`
+    );
+  }
+  assert.equal(
+    eligibleFamilyIds.length >= recipe.family_diversity.minimum_candidate_count,
+    true,
+    `${recipe.recipe_id}: eligible family count is below declared diversity floor`
+  );
+  if (recipe.family_diversity.status === "multiple_supported_candidates") {
+    assert.equal(
+      recipe.family_diversity.minimum_candidate_count >= 2,
+      true,
+      `${recipe.recipe_id}: multiple supported candidates require a floor of at least two`
+    );
+  }
+  if (recipe.family_diversity.status === "single_supported_candidate") {
+    assert.equal(
+      recipe.family_diversity.minimum_candidate_count,
+      1,
+      `${recipe.recipe_id}: single supported candidate must declare a floor of one`
+    );
+  }
+
+  const prevalence = recipe.prevalence;
+  if (prevalence.claim_level === "quantified_regional") {
+    assert.equal(prevalence.denominator_status, "defined", `${recipe.recipe_id}: quantified prevalence requires denominator`);
+    assert.notEqual(prevalence.unit, null, `${recipe.recipe_id}: quantified prevalence requires counting unit`);
+    assert.notEqual(prevalence.sample_size, null, `${recipe.recipe_id}: quantified prevalence requires sample size`);
+    assert.equal(prevalence.quantitative_shares.length >= 2, true, `${recipe.recipe_id}: distribution requires at least two shares`);
+    assert.ok(
+      approximatelyEqual(prevalence.quantitative_shares.reduce((sum, item) => sum + item.share, 0), 1),
+      `${recipe.recipe_id}: quantitative shares must sum to one`
+    );
+    for (const share of prevalence.quantitative_shares) {
+      assert.equal(eligibleFamilyIds.includes(share.family_id), true, `${recipe.recipe_id}: share references non-eligible family`);
+    }
+  } else {
+    assert.equal(prevalence.denominator_status, "unavailable", `${recipe.recipe_id}: non-quantified prevalence cannot claim denominator`);
+    assert.equal(prevalence.unit, null, `${recipe.recipe_id}: non-quantified prevalence cannot claim counting unit`);
+    assert.equal(prevalence.sample_size, null, `${recipe.recipe_id}: non-quantified prevalence cannot claim sample size`);
+    assert.deepEqual(prevalence.quantitative_shares, [], `${recipe.recipe_id}: non-quantified prevalence cannot contain shares`);
+    assert.equal(recipe.activation.regional_sampling_allowed, false, `${recipe.recipe_id}: non-quantified recipe cannot sample regionally`);
+  }
+
+  if (recipe.activation.regional_sampling_allowed) {
+    assert.equal(recipe.recipe_kind, "regional_distribution", `${recipe.recipe_id}: only regional distributions may sample regionally`);
+    assert.equal(recipe.activation.state, "active", `${recipe.recipe_id}: regional sampling requires active state`);
+    assert.equal(prevalence.claim_level, "quantified_regional", `${recipe.recipe_id}: regional sampling requires quantified prevalence`);
+    assert.deepEqual(recipe.activation.blocking_codes, [], `${recipe.recipe_id}: active recipe cannot retain blockers`);
+  }
+  if (recipe.status === "partial") {
+    assert.equal(recipe.activation.blocking_codes.length > 0, true, `${recipe.recipe_id}: partial recipe must expose blockers`);
+  }
+
+  const deferredFeatureById = uniqueIndex(recipe.deferred_features, "feature_id", `${recipe.recipe_id} deferred feature`);
+  const deferredGapCodes = new Set();
+  for (const feature of deferredFeatureById.values()) {
+    registerBasisRefs(feature.basis_refs, `deferred feature ${feature.feature_id}`);
+    assert.equal(deferredGapCodes.has(feature.gap_code), false, `${recipe.recipe_id}: duplicate deferred gap code ${feature.gap_code}`);
+    deferredGapCodes.add(feature.gap_code);
+
+    for (const archetype of recipeArchetypes) {
+      const availableSlots = new Set([...archetype.slots.required, ...archetype.slots.optional]);
+      for (const slotCode of feature.slot_codes) {
+        assert.equal(availableSlots.has(slotCode), true, `${recipe.recipe_id}: deferred feature targets forbidden slot ${slotCode}`);
+      }
+    }
+
+    const sources = feature.target_kind === "module" ? modules : materials;
+    const matches = sources.filter((source) => {
+      const sourceSlots = feature.target_kind === "module" ? [source.slot_code] : source.compatible_slots;
+      if (!feature.slot_codes.some((slotCode) => sourceSlots.includes(slotCode))) return false;
+      if (!feature.candidate_tags_any.some((tag) => source.tags.includes(tag))) return false;
+      return feature.candidate_capabilities_all.every((capability) => source.capabilities.includes(capability));
+    });
+    assert.deepEqual(
+      matches,
+      [],
+      `${recipe.recipe_id}: deferred feature ${feature.feature_id} already has a semantic catalog candidate`
+    );
+  }
+
+  assert.deepEqual(
+    referencedStatements,
+    new Set(recipe.knowledge.statements.map((statement) => statement.statement_id)),
+    `${recipe.recipe_id}: knowledge statements must be used by the recipe`
+  );
+  assert.deepEqual(
+    referencedSources,
+    new Set(recipe.knowledge.sources.map((source) => source.source_id)),
+    `${recipe.recipe_id}: knowledge sources must support a used statement`
+  );
+}
+
+function recipeScopeMismatchCodes(recipe, context, archetypeId) {
+  const codes = [];
+  if (!recipe.scope.context_anchor_ids.some((contextId) => contextAncestryIds(context).includes(contextId))) {
+    codes.push("CONTEXT_ANCESTRY_NOT_ALLOWED");
+  }
+
+  const geographyChecks = [
+    ["country_code", "COUNTRY_CODE"],
+    ["subdivision_code", "SUBDIVISION_CODE"],
+    ["locality_code_system", "LOCALITY_CODE_SYSTEM"],
+    ["locality_code", "LOCALITY_CODE"]
+  ];
+  const geography = inheritedContextField(context, "geography");
+  for (const [field, codePrefix] of geographyChecks) {
+    const actual = geography?.[field];
+    if (actual === undefined) codes.push(`${codePrefix}_MISSING`);
+    else if (actual !== recipe.scope.geography[field]) codes.push(`${codePrefix}_MISMATCH`);
+  }
+
+  if (!recipe.scope.construction_periods.includes(context.temporal.construction_period)) {
+    codes.push("CONSTRUCTION_PERIOD_NOT_ALLOWED");
+  }
+  if (!recipe.scope.cultural_variants.includes(context.cultural_matrix.regional_variant)) {
+    codes.push("CULTURAL_VARIANT_NOT_ALLOWED");
+  }
+  if (!recipe.scope.archetype_ids.includes(archetypeId)) codes.push("ARCHETYPE_NOT_ALLOWED");
+  return codes;
+}
+
+for (const validationCase of bdb007Cases) {
+  const recipe = recipeById.get(validationCase.recipe_id);
+  assert.ok(recipe, `${validationCase.case_id}: unknown recipe ${validationCase.recipe_id}`);
+  const context = contextById.get(validationCase.context_id);
+  assert.ok(context, `${validationCase.case_id}: unknown context ${validationCase.context_id}`);
+  assert.ok(archetypeById.has(validationCase.archetype_id), `${validationCase.case_id}: unknown archetype`);
+
+  const mismatchCodes = recipeScopeMismatchCodes(recipe, context, validationCase.archetype_id);
+  const matched = mismatchCodes.length === 0;
+  assert.equal(validationCase.expected_match, matched, `${validationCase.case_id}: expected_match drift`);
+  assert.deepEqual(new Set(validationCase.mismatch_codes), new Set(mismatchCodes), `${validationCase.case_id}: mismatch diagnostics drift`);
+
+  const expectedResolution = !matched
+    ? "rejected"
+    : recipe.activation.state === "active"
+      ? "matched_active"
+      : "matched_corpus_limited";
+  assert.equal(validationCase.resolution_status, expectedResolution, `${validationCase.case_id}: resolution status drift`);
+
+  const expectedFamilyIds = matched
+    ? recipe.family_rules.filter((rule) => rule.disposition === "eligible").map((rule) => rule.family_id)
+    : [];
+  const expectedDeferredFeatureIds = matched
+    ? recipe.deferred_features.map((feature) => feature.feature_id)
+    : [];
+  assert.deepEqual(
+    new Set(validationCase.family_candidate_ids),
+    new Set(expectedFamilyIds),
+    `${validationCase.case_id}: family candidate set drift`
+  );
+  assert.deepEqual(
+    new Set(validationCase.deferred_feature_ids),
+    new Set(expectedDeferredFeatureIds),
+    `${validationCase.case_id}: deferred feature set drift`
+  );
+
+  const expectedSelectionState = !matched
+    ? "blocked_context_mismatch"
+    : recipe.activation.regional_sampling_allowed
+      ? "ready_for_regional_sampling"
+      : "deferred_missing_regional_prevalence";
+  assert.equal(validationCase.selection_state, expectedSelectionState, `${validationCase.case_id}: selection state drift`);
+
+  const expectedBlockingCodes = matched
+    ? recipe.activation.blocking_codes
+    : ["CONTEXT_SCOPE_MISMATCH"];
+  assert.deepEqual(
+    new Set(validationCase.blocking_codes),
+    new Set(expectedBlockingCodes),
+    `${validationCase.case_id}: blocking code drift`
+  );
+  const warningCodes = new Set(validationCase.warnings.map((warning) => warning.code));
+  for (const blockingCode of expectedBlockingCodes) {
+    assert.equal(warningCodes.has(blockingCode), true, `${validationCase.case_id}: blocker lacks warning ${blockingCode}`);
+  }
+  const provenanceOwner = nearestContextWithField(context, "data_provenance");
+  const inheritedProvenance = provenanceOwner?.data_provenance;
+  if (matched && provenanceOwner && provenanceOwner.context_id !== context.context_id) {
+    for (const [actual, inherited, label] of [
+      [context.climate.primary, provenanceOwner.climate.primary, "climate.primary"],
+      [context.temporal.construction_period, provenanceOwner.temporal.construction_period, "temporal.construction_period"],
+      [context.temporal.tech_level, provenanceOwner.temporal.tech_level, "temporal.tech_level"],
+      [context.cultural_matrix.regional_variant, provenanceOwner.cultural_matrix.regional_variant, "cultural_matrix.regional_variant"]
+    ]) {
+      assert.equal(actual, inherited, `${validationCase.case_id}: descendant overrides evidence-bound ${label} without local provenance`);
+    }
+  }
+  if (matched && ["hypothesis", "mixed"].includes(inheritedProvenance?.status)) {
+    assert.equal(
+      warningCodes.has("NORMALIZED_CONTEXT_PARAMETERS"),
+      true,
+      `${validationCase.case_id}: mixed context must expose normalized parameters`
+    );
+  }
+}
+
 console.log(
   `ok -- ${archetypes.length} archetypes, ${contexts.length} contexts, ` +
   `${modifiers.length} modifier profiles, ${dnas.length} DNA fixtures, ` +
   `${modules.length} modules, ${materials.length} materials, ${bdb005Cases.length} BDB-005 cases, ` +
-  `${families.length} families and ${bdb006Cases.length} BDB-006 cases validated`
+  `${families.length} families, ${bdb006Cases.length} BDB-006 cases, ` +
+  `recipes=${recipes.length}, BDB-007 cases=${bdb007Cases.length}; validated`
 );

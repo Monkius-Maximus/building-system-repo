@@ -14,7 +14,7 @@ Biblioteca de regras, componentes, arquétipos e perfis contextuais para geraç�
 | BDB-004 | Sistema de DNA Arquitetônico | 🟡 Especificado; requer implementação |
 | BDB-005 | Biblioteca Modular e Regras de Encaixe | 🟡 Vertical slice; requer expansão |
 | BDB-006 | Famílias Arquitetônicas Globais | 🟡 Vertical slice; requer expansão pesquisada |
-| BDB-007 | Receitas Regionais | ⚪ Não iniciado |
+| BDB-007 | Receitas Regionais | 🟡 Vertical slice; corpus inicial sem prevalência municipal |
 | BDB-008 | Geração de Lotes e Bairros | ⚪ Não iniciado |
 | BDB-009 | Persistência e Formato dos Arquivos | ⚪ Não iniciado |
 | BDB-010 | Protótipo Procedural | ⚪ Não iniciado |
@@ -47,7 +47,7 @@ BUILDINGS_DESIGN_BIBLE/
 ## Documento atual
 
 ```text
-BUILDINGS_DESIGN_BIBLE/05_ARCHITECTURAL_FAMILIES/BDB-006_FAMILIAS_ARQUITETONICAS_GLOBAIS.md
+BUILDINGS_DESIGN_BIBLE/06_BUILDING_RECIPES/BDB-007_RECEITAS_REGIONAIS.md
 ```
 
 ## Cadeia de geração
@@ -70,10 +70,10 @@ EDIFÍCIO GERADO
 
 ## Próxima etapa
 
-Produzir o `BDB-007 — Receitas Regionais`, selecionando famílias com pesquisa localizada:
+Produzir o `BDB-008 — Geração de Lotes e Bairros`, preservando as travas de escopo e prevalência do BDB-007:
 
 ```text
-famílias (BDB-006)  +  fontes e prevalência locais  =  receita regional (BDB-007)
+receita apta (BDB-007)  +  regras de tecido e lote  =  distribuição urbana (BDB-008)
 ```
 
 ## Validação
@@ -83,7 +83,7 @@ npm ci
 npm run validate
 ```
 
-O validador confere schemas JSON 2020-12, relações entre arquétipos, contextos, perfis, DNAs, módulos, materiais e famílias, além de proveniência, pesos por camada, filtros de compatibilidade e conexões por sockets. O mesmo comando é executado em pull requests pelo GitHub Actions.
+O validador confere schemas JSON 2020-12, relações entre arquétipos, contextos, perfis, DNAs, módulos, materiais, famílias e receitas. Também verifica proveniência, pesos por camada, escopo geográfico e temporal, travas de prevalência, lacunas semânticas de catálogo e conexões por sockets. O mesmo comando é executado em pull requests pelo GitHub Actions.
 
 ## Princípio do projeto
 
