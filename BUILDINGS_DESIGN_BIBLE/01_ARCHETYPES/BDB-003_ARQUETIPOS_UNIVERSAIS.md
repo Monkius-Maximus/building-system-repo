@@ -102,7 +102,9 @@ DNA                BDB-004    "Que características recebeu?"
      ↓
 MÓDULOS            BDB-005    "Com quais peças será construído?"
      ↓
-RECEITA            BDB-006+   "Como montar?"
+FAMÍLIA            BDB-006    "Qual linguagem compositiva compartilha?"
+     ↓
+RECEITA            BDB-007    "Como montar nesta região?"
      ↓
 EDIFÍCIO GERADO
 ```
@@ -630,4 +632,4 @@ arquétipo (BDB-003)  +  contexto (BDB-002)  =  DNA (BDB-004)
 
 Essa será a primeira etapa em que a biblioteca produzirá, conceitualmente, edifícios concretos.
 
-A pesquisa arquitetônica regional aprofundada — Recife, Tóquio, Marrakech, Estocolmo, Chicago — permanece adiada para o BDB-006 e o BDB-007. Preencher a biblioteca com arquitetura mundial antes de fechar a cadeia geradora produziria dados sem motor que os consuma.
+A pesquisa de famílias documentadas começa no BDB-006; prevalência e composição específicas de Recife, Tóquio, Marrakech, Estocolmo ou Chicago permanecem no BDB-007. Preencher a biblioteca com arquitetura mundial antes de fechar a cadeia geradora produziria dados sem motor que os consuma.

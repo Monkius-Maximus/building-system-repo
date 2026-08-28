@@ -1,0 +1,106 @@
+{
+  "schema_version": "0.1",
+  "family_id": "FAM_SHADED_VENTILATED_EDGE_LOWRISE_001",
+  "display_name": "Shaded Ventilated Edge Low-Rise — Procedural Prototype",
+  "description": "Gramatica de bordas sombreadas e aberturas ventilaveis derivada como prototipo mecanico, sem reivindicar a identidade de uma linhagem historica.",
+  "status": "hypothesis",
+  "family_kind": "compositional",
+  "scope": "transregional_prototype",
+  "base_weight": 1.0,
+  "identity": {
+    "tags": ["shaded_edge", "natural_ventilation", "open_facade", "lowrise"],
+    "does_not_claim": ["regional_prevalence", "cultural_ownership", "historical_lineage", "engineering_performance"]
+  },
+  "compatibility": {
+    "archetype_ids": ["BLD_RES_HOUSE_DETACHED"],
+    "usage": ["residential"],
+    "height_classes": ["SINGLE_STOREY", "LOW_RISE"],
+    "tech_levels": ["craft", "early_industrial", "industrial", "mass_produced", "prefabricated", "digital_fabrication", "advanced"],
+    "climate_primary": ["tropical_humid"],
+    "construction_periods": [],
+    "basis_refs": ["KB_SHADED_EVIDENCE_001", "KB_SHADED_TRANSLATION_001"]
+  },
+  "composition": {
+    "tags": ["shaded_edge", "natural_ventilation", "open_facade", "solar_control"],
+    "plan_shapes": {
+      "allowed": ["rectangle", "L_shape", "U_shape"],
+      "preferred": ["rectangle", "L_shape"],
+      "basis_refs": ["KB_SHADED_TRANSLATION_001"]
+    },
+    "volume_complexity": {
+      "allowed": ["simple", "composite", "segmented"],
+      "preferred": ["simple", "composite"],
+      "basis_refs": ["KB_SHADED_TRANSLATION_001"]
+    },
+    "symmetry": {
+      "allowed": ["approximately_symmetrical", "asymmetrical", "modular_repetition"],
+      "preferred": ["asymmetrical", "modular_repetition"],
+      "basis_refs": ["KB_SHADED_TRANSLATION_001"]
+    },
+    "parameters": {}
+  },
+  "module_selectors": [
+    {
+      "selector_id": "FAMSEL_SHADED_WINDOW_VENTILATION_001",
+      "target_kind": "module",
+      "slot_codes": ["WIN"],
+      "operation": "require",
+      "candidate_tags_any": [],
+      "candidate_capabilities_all": ["natural_ventilation_capable"],
+      "basis_refs": ["KB_SHADED_TRANSLATION_001"]
+    },
+    {
+      "selector_id": "FAMSEL_SHADED_CLIMATE_CONTROL_001",
+      "target_kind": "module",
+      "slot_codes": ["CLM"],
+      "operation": "prefer",
+      "candidate_tags_any": ["brise_soleil", "awning", "shade"],
+      "candidate_capabilities_all": ["sun_protection_capable"],
+      "weight_multiplier": 1.1,
+      "basis_refs": ["KB_SHADED_EVIDENCE_001", "KB_SHADED_TRANSLATION_001"]
+    },
+    {
+      "selector_id": "FAMSEL_SHADED_FACADE_ANCHOR_001",
+      "target_kind": "module",
+      "slot_codes": ["FAC"],
+      "operation": "require",
+      "candidate_tags_any": [],
+      "candidate_capabilities_all": ["climate_control_anchor_capable"],
+      "basis_refs": ["KB_SHADED_TRANSLATION_001"]
+    }
+  ],
+  "knowledge": {
+    "sources": [
+      {
+        "source_id": "SRC_VA_2024_TROPICAL_MODERNISM",
+        "source_type": "museum_research",
+        "title": "What is Tropical Modernism?",
+        "authors": ["Victoria and Albert Museum"],
+        "publisher": "Victoria and Albert Museum",
+        "year": 2024,
+        "url": "https://www.vam.ac.uk/articles/what-is-tropical-modernism",
+        "accessed_on": "2026-08-28"
+      }
+    ],
+    "statements": [
+      {
+        "statement_id": "KB_SHADED_EVIDENCE_001",
+        "kind": "evidence",
+        "text": "A pesquisa historica do V&A registra orientacao solar, sombreamento, brise-soleil e ventilacao como recursos usados para adaptar o Modernismo a condicoes quentes e umidas.",
+        "source_ids": ["SRC_VA_2024_TROPICAL_MODERNISM"],
+        "limitations": "A fonte trata especialmente de India e Africa Ocidental e explicita origens coloniais; nao sustenta uma regra cultural global."
+      },
+      {
+        "statement_id": "KB_SHADED_TRANSLATION_001",
+        "kind": "design_hypothesis",
+        "text": "O prototipo traduz somente os recursos funcionais de sombra e ventilacao para seletores de modulos genericos.",
+        "source_ids": [],
+        "limitations": "O multiplicador 1.1 e normalizado para teste e a familia nao deve ser chamada de Tropical Modernism."
+      }
+    ]
+  },
+  "limitations": [
+    "A compatibilidade residencial e uma hipotese de implementacao, nao evidencia de prevalencia em casas isoladas.",
+    "A familia deliberadamente nao representa Tropical Modernism nem substitui pesquisa historica regional."
+  ]
+}

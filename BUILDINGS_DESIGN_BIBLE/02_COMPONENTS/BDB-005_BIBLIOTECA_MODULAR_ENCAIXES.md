@@ -365,7 +365,7 @@ Ainda não existem:
 - sockets com coordenadas físicas finais;
 - módulos de todos os 16 slots;
 - candidatos para todos os 14 arquétipos;
-- famílias arquitetônicas globais;
+- catálogo ampliado de famílias arquitetônicas pesquisadas;
 - prevalência ou composição regional;
 - persistência de edifício gerado.
 

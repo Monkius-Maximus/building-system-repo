@@ -1,0 +1,61 @@
+{
+  "schema_version": "0.1",
+  "case_id": "BDB006_CASE_TROPICAL_FAMILIES_001",
+  "dna_id": "DNA_TEST_TROPICAL_URBAN_MIDDLE_001",
+  "upstream_bdb005_case_id": "BDB005_CASE_TROPICAL_CANDIDATES_001",
+  "catalog_version": "0.1",
+  "status": "layer_accounted",
+  "selection_state": "deferred_to_recipe",
+  "family_candidates": [
+    {
+      "family_id": "FAM_COMPACT_BLOCK_LOWRISE_001",
+      "eligible": true,
+      "base_weight": 1.0,
+      "final_weight": 1.0,
+      "applied_directive_ids": [],
+      "matched_tags": [],
+      "missing_constraints": [],
+      "reason": "Compativel com o envelope do DNA; nenhuma diretiva morfologica tropical altera seu peso."
+    },
+    {
+      "family_id": "FAM_PROTECTED_COURTYARD_LOWRISE_001",
+      "eligible": true,
+      "base_weight": 1.0,
+      "final_weight": 1.0,
+      "applied_directive_ids": [],
+      "matched_tags": [],
+      "missing_constraints": [],
+      "reason": "Compativel com o envelope do DNA; courtyard permanece opcao e nao e inferido pelo clima."
+    },
+    {
+      "family_id": "FAM_SHADED_VENTILATED_EDGE_LOWRISE_001",
+      "eligible": true,
+      "base_weight": 1.0,
+      "final_weight": 1.0,
+      "applied_directive_ids": [],
+      "matched_tags": [],
+      "missing_constraints": [],
+      "reason": "Compativel com clima tropical_humid e com o envelope; pesos de componentes nao sao reaplicados na familia."
+    }
+  ],
+  "upstream_consumed_directive_ids": [
+    "DIR_TROP_HUM_ROOF_DRAINAGE_001",
+    "DIR_TROP_HUM_ROOF_OVERHANG_001",
+    "DIR_TROP_HUM_ROOF_FORM_001",
+    "DIR_TROP_HUM_MOISTURE_MATERIAL_001",
+    "DIR_TROP_HUM_OPENING_RATIO_001",
+    "DIR_TROP_HUM_SHADE_001"
+  ],
+  "family_consumed_directive_ids": [],
+  "unresolved_directive_ids": [],
+  "warnings": [
+    {
+      "code": "NO_REGIONAL_PREVALENCE_DATA",
+      "message": "A camada apenas avalia compatibilidade; escolha e prevalencia aguardam receitas pesquisadas no BDB-007."
+    },
+    {
+      "code": "DNA_INPUT_PARTIAL",
+      "message": "O DNA possui dominios contextuais ainda sem perfis, embora a camada de familias tenha contabilizado todos os seus alvos."
+    }
+  ]
+}

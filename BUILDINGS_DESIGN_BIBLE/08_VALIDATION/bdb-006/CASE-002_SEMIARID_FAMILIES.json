@@ -1,0 +1,63 @@
+{
+  "schema_version": "0.1",
+  "case_id": "BDB006_CASE_SEMIARID_FAMILIES_001",
+  "dna_id": "DNA_TEST_SEMIARID_LOW_DENSITY_LOW_INCOME_001",
+  "upstream_bdb005_case_id": "BDB005_CASE_SEMIARID_CANDIDATES_001",
+  "catalog_version": "0.1",
+  "status": "layer_accounted",
+  "selection_state": "deferred_to_recipe",
+  "family_candidates": [
+    {
+      "family_id": "FAM_COMPACT_BLOCK_LOWRISE_001",
+      "eligible": true,
+      "base_weight": 1.0,
+      "final_weight": 1.1452,
+      "applied_directive_ids": ["DIR_SEMI_ARID_COMPACT_001"],
+      "matched_tags": ["compact", "low_surface_area"],
+      "missing_constraints": [],
+      "reason": "As tags compact e low_surface_area recebem a preferencia morfologica sem tornar a familia obrigatoria."
+    },
+    {
+      "family_id": "FAM_PROTECTED_COURTYARD_LOWRISE_001",
+      "eligible": true,
+      "base_weight": 1.0,
+      "final_weight": 1.1694,
+      "applied_directive_ids": ["DIR_SEMI_ARID_COURTYARD_001"],
+      "matched_tags": ["courtyard", "protected_outdoor_space"],
+      "missing_constraints": [],
+      "reason": "As tags courtyard e protected_outdoor_space recebem a preferencia sem afirmar prevalencia regional."
+    },
+    {
+      "family_id": "FAM_SHADED_VENTILATED_EDGE_LOWRISE_001",
+      "eligible": false,
+      "base_weight": 1.0,
+      "final_weight": 0,
+      "applied_directive_ids": [],
+      "matched_tags": [],
+      "missing_constraints": ["climate_primary:semi_arid"],
+      "reason": "Reprovada porque a evidencia atualmente registrada limita este prototipo a tropical_humid."
+    }
+  ],
+  "upstream_consumed_directive_ids": [
+    "DIR_SEMI_ARID_OPENING_SHADE_001",
+    "DIR_SEMI_ARID_SHADE_001",
+    "DIR_SEMI_ARID_THERMAL_MASS_001",
+    "DIR_SEMI_ARID_WATER_STORAGE_001",
+    "DIR_SEMI_ARID_LIGHT_SURFACE_001"
+  ],
+  "family_consumed_directive_ids": [
+    "DIR_SEMI_ARID_COMPACT_001",
+    "DIR_SEMI_ARID_COURTYARD_001"
+  ],
+  "unresolved_directive_ids": [],
+  "warnings": [
+    {
+      "code": "NO_REGIONAL_PREVALENCE_DATA",
+      "message": "Pesos tornam as gramaticas comparaveis, mas a selecao definitiva aguarda uma receita regional pesquisada."
+    },
+    {
+      "code": "DNA_INPUT_PARTIAL",
+      "message": "O DNA possui dominios contextuais ainda sem perfis, embora a camada de familias tenha contabilizado todos os seus alvos."
+    }
+  ]
+}

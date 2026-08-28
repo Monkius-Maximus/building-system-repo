@@ -1,0 +1,252 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://buildings-design-bible.local/schemas/architectural-family.schema.json",
+  "title": "Buildings Design Bible Architectural Family",
+  "description": "Gramatica compositiva do BDB-006. Nao declara prevalencia regional nem duplica modulos do BDB-005.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "family_id",
+    "display_name",
+    "description",
+    "status",
+    "family_kind",
+    "scope",
+    "base_weight",
+    "identity",
+    "compatibility",
+    "composition",
+    "module_selectors",
+    "knowledge",
+    "limitations"
+  ],
+  "properties": {
+    "schema_version": {"type": "string", "const": "0.1"},
+    "family_id": {"type": "string", "pattern": "^FAM_[A-Z0-9_]+$"},
+    "display_name": {"type": "string", "minLength": 3},
+    "description": {"type": "string", "minLength": 20},
+    "status": {"enum": ["hypothesis", "researched", "validated", "deprecated"]},
+    "family_kind": {"enum": ["compositional", "historical_lineage"]},
+    "scope": {"enum": ["transregional_prototype", "documented_lineage"]},
+    "base_weight": {"type": "number", "exclusiveMinimum": 0},
+    "identity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["tags", "does_not_claim"],
+      "properties": {
+        "tags": {"$ref": "#/$defs/tags"},
+        "does_not_claim": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "regional_prevalence",
+              "cultural_ownership",
+              "historical_lineage",
+              "engineering_performance"
+            ]
+          },
+          "uniqueItems": true
+        }
+      }
+    },
+    "compatibility": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "archetype_ids",
+        "usage",
+        "height_classes",
+        "tech_levels",
+        "climate_primary",
+        "construction_periods",
+        "basis_refs"
+      ],
+      "properties": {
+        "archetype_ids": {
+          "type": "array",
+          "items": {"type": "string", "pattern": "^BLD_[A-Z]{3}_[A-Z0-9_]+$"},
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "usage": {"$ref": "#/$defs/nonempty_strings"},
+        "height_classes": {
+          "type": "array",
+          "items": {"type": "string", "pattern": "^[A-Z][A-Z0-9_]+$"},
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "tech_levels": {"$ref": "#/$defs/nonempty_strings"},
+        "climate_primary": {
+          "description": "Lista vazia significa que o catalogo ainda nao impoe filtro climatico duro.",
+          "type": "array",
+          "items": {"type": "string", "pattern": "^[a-z][a-z0-9_]+$"},
+          "uniqueItems": true
+        },
+        "construction_periods": {
+          "description": "Lista vazia significa que o catalogo ainda nao impoe filtro temporal duro.",
+          "type": "array",
+          "items": {"type": "string", "pattern": "^[a-z][a-z0-9_]+$"},
+          "uniqueItems": true
+        },
+        "basis_refs": {"$ref": "#/$defs/basis_refs"}
+      }
+    },
+    "composition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["tags", "plan_shapes", "volume_complexity", "symmetry", "parameters"],
+      "properties": {
+        "tags": {"$ref": "#/$defs/tags"},
+        "plan_shapes": {"$ref": "#/$defs/choice_set"},
+        "volume_complexity": {"$ref": "#/$defs/choice_set"},
+        "symmetry": {"$ref": "#/$defs/choice_set"},
+        "parameters": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["min", "max", "basis_refs"],
+            "properties": {
+              "min": {"type": "number"},
+              "max": {"type": "number"},
+              "basis_refs": {"$ref": "#/$defs/basis_refs"}
+            }
+          }
+        }
+      }
+    },
+    "module_selectors": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/module_selector"},
+      "uniqueItems": true
+    },
+    "knowledge": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["sources", "statements"],
+      "properties": {
+        "sources": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/source"},
+          "uniqueItems": true
+        },
+        "statements": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/statement"},
+          "minItems": 1,
+          "uniqueItems": true
+        }
+      }
+    },
+    "limitations": {
+      "type": "array",
+      "items": {"type": "string", "minLength": 10},
+      "minItems": 1,
+      "uniqueItems": true
+    }
+  },
+  "$defs": {
+    "tags": {
+      "type": "array",
+      "items": {"type": "string", "pattern": "^[a-z][a-z0-9_]+$"},
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "nonempty_strings": {
+      "type": "array",
+      "items": {"type": "string", "minLength": 1},
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "basis_refs": {
+      "type": "array",
+      "items": {"type": "string", "pattern": "^KB_[A-Z0-9_]+$"},
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "choice_set": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["allowed", "preferred", "basis_refs"],
+      "properties": {
+        "allowed": {"$ref": "#/$defs/nonempty_strings"},
+        "preferred": {"$ref": "#/$defs/nonempty_strings"},
+        "basis_refs": {"$ref": "#/$defs/basis_refs"}
+      }
+    },
+    "module_selector": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "selector_id",
+        "target_kind",
+        "slot_codes",
+        "operation",
+        "candidate_tags_any",
+        "candidate_capabilities_all",
+        "basis_refs"
+      ],
+      "properties": {
+        "selector_id": {"type": "string", "pattern": "^FAMSEL_[A-Z0-9_]+$"},
+        "target_kind": {"enum": ["module", "material"]},
+        "slot_codes": {
+          "type": "array",
+          "items": {"enum": ["FND", "STR", "WAL", "FAC", "ROF", "DOR", "WIN", "BAL", "VCR", "HCR", "CLM", "BND", "PRK", "SGN", "ORN", "TEC"]},
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "operation": {"enum": ["require", "prefer", "forbid"]},
+        "candidate_tags_any": {
+          "type": "array",
+          "items": {"type": "string", "pattern": "^[a-z][a-z0-9_]+$"},
+          "uniqueItems": true
+        },
+        "candidate_capabilities_all": {
+          "type": "array",
+          "items": {"type": "string", "pattern": "^[a-z][a-z0-9_]+$"},
+          "uniqueItems": true
+        },
+        "weight_multiplier": {"type": "number", "exclusiveMinimum": 0},
+        "basis_refs": {"$ref": "#/$defs/basis_refs"}
+      }
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source_id", "source_type", "title", "authors", "publisher", "year", "url", "accessed_on"],
+      "properties": {
+        "source_id": {"type": "string", "pattern": "^SRC_[A-Z0-9_]+$"},
+        "source_type": {"enum": ["peer_reviewed_article", "book", "museum_research", "heritage_register", "primary_document"]},
+        "title": {"type": "string", "minLength": 5},
+        "authors": {
+          "type": "array",
+          "items": {"type": "string", "minLength": 2},
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "publisher": {"type": "string", "minLength": 2},
+        "year": {"type": "integer", "minimum": 1400, "maximum": 2100},
+        "url": {"type": "string", "pattern": "^https://"},
+        "doi": {"type": "string", "minLength": 5},
+        "accessed_on": {"type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"}
+      }
+    },
+    "statement": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["statement_id", "kind", "text", "source_ids", "limitations"],
+      "properties": {
+        "statement_id": {"type": "string", "pattern": "^KB_[A-Z0-9_]+$"},
+        "kind": {"enum": ["evidence", "design_hypothesis"]},
+        "text": {"type": "string", "minLength": 20},
+        "source_ids": {
+          "type": "array",
+          "items": {"type": "string", "pattern": "^SRC_[A-Z0-9_]+$"},
+          "uniqueItems": true
+        },
+        "limitations": {"type": "string", "minLength": 10}
+      }
+    }
+  }
+}
