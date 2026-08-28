@@ -21,7 +21,9 @@ const schemas = {
   dna: readJson("00_CORE/schemas/architectural-dna.schema.json"),
   module: readJson("00_CORE/schemas/component-module.schema.json"),
   material: readJson("00_CORE/schemas/material.schema.json"),
-  bdb005: readJson("00_CORE/schemas/bdb005-validation.schema.json")
+  bdb005: readJson("00_CORE/schemas/bdb005-validation.schema.json"),
+  family: readJson("00_CORE/schemas/architectural-family.schema.json"),
+  bdb006: readJson("00_CORE/schemas/bdb006-validation.schema.json")
 };
 
 for (const [name, schema] of Object.entries(schemas)) {
@@ -50,6 +52,8 @@ const dnaPaths = jsonFiles("08_VALIDATION/bdb-004");
 const modulePaths = jsonFiles("02_COMPONENTS");
 const materialPaths = jsonFiles("03_MATERIALS");
 const bdb005Paths = jsonFiles("08_VALIDATION/bdb-005");
+const familyPaths = jsonFiles("05_ARCHITECTURAL_FAMILIES");
+const bdb006Paths = jsonFiles("08_VALIDATION/bdb-006");
 
 validateAll("archetype", archetypePaths);
 validateAll("context", contextPaths);
@@ -58,6 +62,8 @@ validateAll("dna", dnaPaths);
 validateAll("module", modulePaths);
 validateAll("material", materialPaths);
 validateAll("bdb005", bdb005Paths);
+validateAll("family", familyPaths);
+validateAll("bdb006", bdb006Paths);
 
 const archetypes = archetypePaths.map(readJson);
 const contexts = contextPaths.map(readJson);
@@ -66,6 +72,8 @@ const dnas = dnaPaths.map(readJson);
 const modules = modulePaths.map(readJson);
 const materials = materialPaths.map(readJson);
 const bdb005Cases = bdb005Paths.map(readJson);
+const families = familyPaths.map(readJson);
+const bdb006Cases = bdb006Paths.map(readJson);
 
 function uniqueIndex(values, key, label) {
   const index = new Map();
@@ -83,7 +91,9 @@ const modifierById = uniqueIndex(modifiers, "profile_id", "profile_id");
 const dnaById = uniqueIndex(dnas, "dna_id", "dna_id");
 const moduleById = uniqueIndex(modules, "module_id", "module_id");
 const materialById = uniqueIndex(materials, "material_id", "material_id");
-uniqueIndex(bdb005Cases, "case_id", "case_id");
+const bdb005CaseById = uniqueIndex(bdb005Cases, "case_id", "case_id");
+const familyById = uniqueIndex(families, "family_id", "family_id");
+uniqueIndex(bdb006Cases, "case_id", "case_id");
 
 const slotCodes = new Set([
   "FND", "STR", "WAL", "FAC", "ROF", "DOR", "WIN", "BAL",
@@ -452,8 +462,241 @@ for (const validationCase of bdb005Cases) {
   }
 }
 
+for (const family of families) {
+  inspectChoicesAndRanges(family, family.family_id);
+
+  if (family.family_kind === "compositional" && family.scope === "transregional_prototype") {
+    for (const excludedClaim of ["regional_prevalence", "cultural_ownership", "historical_lineage"]) {
+      assert.equal(
+        family.identity.does_not_claim.includes(excludedClaim),
+        true,
+        `${family.family_id}: transregional prototype must disclaim ${excludedClaim}`
+      );
+    }
+  }
+
+  const sourceById = uniqueIndex(family.knowledge.sources, "source_id", `${family.family_id} source_id`);
+  const statementById = uniqueIndex(family.knowledge.statements, "statement_id", `${family.family_id} statement_id`);
+  const referencedStatements = new Set();
+  const referencedSources = new Set();
+  const registerBasisRefs = (basisRefs, label) => {
+    for (const statementId of basisRefs) {
+      assert.ok(statementById.has(statementId), `${family.family_id}: ${label} references unknown statement ${statementId}`);
+      referencedStatements.add(statementId);
+    }
+  };
+
+  for (const statement of family.knowledge.statements) {
+    assert.equal(
+      statement.source_ids.length > 0,
+      statement.kind === "evidence",
+      `${family.family_id}: evidence must cite sources and design hypotheses must not`
+    );
+    for (const sourceId of statement.source_ids) {
+      assert.ok(sourceById.has(sourceId), `${family.family_id}: unknown source ${sourceId}`);
+      referencedSources.add(sourceId);
+    }
+  }
+  registerBasisRefs(family.compatibility.basis_refs, "compatibility");
+  for (const key of ["plan_shapes", "volume_complexity", "symmetry"]) {
+    registerBasisRefs(family.composition[key].basis_refs, `composition.${key}`);
+  }
+  for (const [parameterName, parameter] of Object.entries(family.composition.parameters)) {
+    registerBasisRefs(parameter.basis_refs, `composition.parameters.${parameterName}`);
+  }
+
+  const selectorIds = new Set();
+  for (const selector of family.module_selectors) {
+    assert.equal(selectorIds.has(selector.selector_id), false, `${family.family_id}: duplicate selector ${selector.selector_id}`);
+    selectorIds.add(selector.selector_id);
+    registerBasisRefs(selector.basis_refs, selector.selector_id);
+    assert.equal(
+      Object.hasOwn(selector, "weight_multiplier"),
+      selector.operation === "prefer",
+      `${family.family_id}: weight_multiplier must exist only on prefer selectors`
+    );
+
+    const sources = selector.target_kind === "module" ? modules : materials;
+    const matches = sources.filter((source) => {
+      const sourceSlots = selector.target_kind === "module" ? [source.slot_code] : source.compatible_slots;
+      if (!selector.slot_codes.some((slotCode) => sourceSlots.includes(slotCode))) return false;
+      if (selector.candidate_tags_any.length > 0 && !selector.candidate_tags_any.some((tag) => source.tags.includes(tag))) return false;
+      return selector.candidate_capabilities_all.every((capability) => source.capabilities.includes(capability));
+    });
+    if (selector.operation !== "forbid") {
+      assert.equal(matches.length > 0, true, `${family.family_id}: selector ${selector.selector_id} matches no catalog candidate`);
+    }
+  }
+
+  assert.deepEqual(
+    referencedStatements,
+    new Set(family.knowledge.statements.map((statement) => statement.statement_id)),
+    `${family.family_id}: knowledge statements must be used by the grammar`
+  );
+  assert.deepEqual(
+    referencedSources,
+    new Set(family.knowledge.sources.map((source) => source.source_id)),
+    `${family.family_id}: knowledge sources must support a used statement`
+  );
+
+  for (const archetypeId of family.compatibility.archetype_ids) {
+    const archetype = archetypeById.get(archetypeId);
+    assert.ok(archetype, `${family.family_id}: unknown archetype ${archetypeId}`);
+    assert.equal(family.compatibility.usage.includes(archetype.usage.primary), true, `${family.family_id}: usage mismatch for ${archetypeId}`);
+    for (const heightClass of family.compatibility.height_classes) {
+      assert.equal(archetype.morphology.height_classes.allowed.includes(heightClass), true, `${family.family_id}: height class outside ${archetypeId}`);
+    }
+    for (const techLevel of family.compatibility.tech_levels) {
+      assert.equal(archetype.context_compatibility.tech_levels.allowed.includes(techLevel), true, `${family.family_id}: technology outside ${archetypeId}`);
+    }
+    for (const [key, archetypeKey] of [["plan_shapes", "plan_shapes"], ["volume_complexity", "volume_complexity"], ["symmetry", "symmetry"]]) {
+      for (const choice of family.composition[key].allowed) {
+        assert.equal(
+          archetype.morphology[archetypeKey].allowed.includes(choice),
+          true,
+          `${family.family_id}: ${key} choice ${choice} violates ${archetypeId}`
+        );
+      }
+    }
+    const availableSlots = new Set([...archetype.slots.required, ...archetype.slots.optional]);
+    for (const selector of family.module_selectors) {
+      for (const slotCode of selector.slot_codes) {
+        assert.equal(availableSlots.has(slotCode), true, `${family.family_id}: selector targets forbidden slot ${slotCode}`);
+      }
+    }
+  }
+}
+
+function familyMissingConstraints(family, dna) {
+  const missing = [];
+  const archetype = archetypeById.get(dna.identity_lock.archetype_id);
+  const context = contextById.get(dna.provenance.context_ids.at(-1));
+
+  if (!family.compatibility.archetype_ids.includes(archetype.archetype_id)) missing.push(`archetype_id:${archetype.archetype_id}`);
+  if (!family.compatibility.usage.includes(archetype.usage.primary)) missing.push(`usage:${archetype.usage.primary}`);
+  if (!family.compatibility.height_classes.some((value) => dna.constraint_envelope.morphology.height_classes.allowed.includes(value))) {
+    missing.push("height_classes");
+  }
+  if (!family.compatibility.tech_levels.includes(context.temporal.tech_level)) missing.push(`tech_level:${context.temporal.tech_level}`);
+  if (family.compatibility.climate_primary.length > 0 && !family.compatibility.climate_primary.includes(context.climate.primary)) {
+    missing.push(`climate_primary:${context.climate.primary}`);
+  }
+  if (family.compatibility.construction_periods.length > 0 && !family.compatibility.construction_periods.includes(context.temporal.construction_period)) {
+    missing.push(`construction_period:${context.temporal.construction_period}`);
+  }
+  for (const [key, label] of [["plan_shapes", "plan_shapes"], ["volume_complexity", "volume_complexity"], ["symmetry", "symmetry"]]) {
+    if (!family.composition[key].allowed.some((value) => dna.constraint_envelope.morphology[key].allowed.includes(value))) {
+      missing.push(label);
+    }
+  }
+  return missing;
+}
+
+for (const validationCase of bdb006Cases) {
+  const dna = dnaById.get(validationCase.dna_id);
+  assert.ok(dna, `${validationCase.case_id}: unknown DNA ${validationCase.dna_id}`);
+  const upstream = bdb005CaseById.get(validationCase.upstream_bdb005_case_id);
+  assert.ok(upstream, `${validationCase.case_id}: unknown upstream BDB-005 case`);
+  assert.equal(upstream.dna_id, dna.dna_id, `${validationCase.case_id}: upstream DNA mismatch`);
+
+  const directiveById = new Map(dna.directives.map((directive) => [directive.directive_id, directive]));
+  const candidateIds = new Set();
+  const appliedFamilyDirectiveIds = new Set();
+
+  for (const candidate of validationCase.family_candidates) {
+    assert.equal(candidateIds.has(candidate.family_id), false, `${validationCase.case_id}: duplicate family candidate ${candidate.family_id}`);
+    candidateIds.add(candidate.family_id);
+    const family = familyById.get(candidate.family_id);
+    assert.ok(family, `${validationCase.case_id}: unknown family ${candidate.family_id}`);
+    assert.ok(approximatelyEqual(candidate.base_weight, family.base_weight), `${candidate.family_id}: base weight drift`);
+
+    const missingConstraints = familyMissingConstraints(family, dna);
+    assert.deepEqual(candidate.missing_constraints, missingConstraints, `${candidate.family_id}: compatibility diagnostics drift`);
+    assert.equal(candidate.eligible, missingConstraints.length === 0, `${candidate.family_id}: eligibility mismatch`);
+
+    const familyTerms = new Set([...family.identity.tags, ...family.composition.tags]);
+    const expectedAppliedDirectiveIds = candidate.eligible
+      ? upstream.unresolved_directive_ids.filter((directiveId) => {
+          const directive = directiveById.get(directiveId);
+          const selectorTags = directive?.selector.candidate_tags_any ?? [];
+          return directive?.target.startsWith("archetype.") && selectorTags.some((tag) => familyTerms.has(tag));
+        })
+      : [];
+    assert.deepEqual(
+      new Set(candidate.applied_directive_ids),
+      new Set(expectedAppliedDirectiveIds),
+      `${candidate.family_id}: applicable family directives were omitted or added`
+    );
+    const matchedTags = new Set();
+    for (const directiveId of candidate.applied_directive_ids) {
+      assert.equal(candidate.eligible, true, `${candidate.family_id}: ineligible family cannot consume directives`);
+      assert.equal(upstream.unresolved_directive_ids.includes(directiveId), true, `${candidate.family_id}: directive was not pending after BDB-005`);
+      const directive = directiveById.get(directiveId);
+      assert.ok(directive, `${validationCase.case_id}: unknown directive ${directiveId}`);
+      assert.equal(directive.operation, "weight_multiplier", `${candidate.family_id}: unsupported family directive operation`);
+      assert.equal(directive.target.startsWith("archetype."), true, `${candidate.family_id}: family consumed non-morphological target`);
+      const selectorTags = directive.selector.candidate_tags_any ?? [];
+      const matches = selectorTags.filter((tag) => familyTerms.has(tag));
+      assert.equal(matches.length > 0, true, `${candidate.family_id}: directive selector does not match ${directiveId}`);
+      matches.forEach((tag) => matchedTags.add(tag));
+      appliedFamilyDirectiveIds.add(directiveId);
+    }
+    assert.deepEqual(new Set(candidate.matched_tags), matchedTags, `${candidate.family_id}: matched tags drift`);
+
+    if (!candidate.eligible) {
+      assert.equal(candidate.final_weight, 0, `${candidate.family_id}: ineligible family must have zero weight`);
+      continue;
+    }
+    const multiplier = candidate.applied_directive_ids
+      .map((directiveId) => directiveById.get(directiveId).effective_value)
+      .reduce((product, value) => product * value, 1);
+    const expectedWeight = Math.min(8, Math.max(0.05, family.base_weight * multiplier));
+    assert.ok(approximatelyEqual(candidate.final_weight, expectedWeight), `${candidate.family_id}: final weight mismatch`);
+  }
+
+  assert.deepEqual(candidateIds, new Set(families.map((family) => family.family_id)), `${validationCase.case_id}: incomplete family coverage`);
+
+  const carriedForwardIds = dna.directives
+    .filter((directive) => directive.state === "carried_forward")
+    .map((directive) => directive.directive_id);
+  const expectedUpstreamConsumed = carriedForwardIds.filter((directiveId) => !upstream.unresolved_directive_ids.includes(directiveId));
+  assert.deepEqual(
+    new Set(validationCase.upstream_consumed_directive_ids),
+    new Set(expectedUpstreamConsumed),
+    `${validationCase.case_id}: upstream directive accounting drift`
+  );
+  assert.deepEqual(
+    new Set(validationCase.family_consumed_directive_ids),
+    appliedFamilyDirectiveIds,
+    `${validationCase.case_id}: family directive accounting drift`
+  );
+  assert.deepEqual(
+    new Set([...validationCase.family_consumed_directive_ids, ...validationCase.unresolved_directive_ids]),
+    new Set(upstream.unresolved_directive_ids),
+    `${validationCase.case_id}: pending directives not fully accounted for`
+  );
+
+  const allLayerIds = [
+    ...validationCase.upstream_consumed_directive_ids,
+    ...validationCase.family_consumed_directive_ids,
+    ...validationCase.unresolved_directive_ids
+  ];
+  assert.equal(new Set(allLayerIds).size, allLayerIds.length, `${validationCase.case_id}: directive consumed by multiple layers`);
+  assert.equal(
+    validationCase.status,
+    validationCase.unresolved_directive_ids.length === 0 ? "layer_accounted" : "partial",
+    `${validationCase.case_id}: status does not match unresolved directives`
+  );
+  assert.equal(
+    validationCase.warnings.some((warning) => warning.code === "NO_REGIONAL_PREVALENCE_DATA"),
+    true,
+    `${validationCase.case_id}: family layer must defer regional prevalence`
+  );
+}
+
 console.log(
   `ok -- ${archetypes.length} archetypes, ${contexts.length} contexts, ` +
   `${modifiers.length} modifier profiles, ${dnas.length} DNA fixtures, ` +
-  `${modules.length} modules, ${materials.length} materials and ${bdb005Cases.length} BDB-005 cases validated`
+  `${modules.length} modules, ${materials.length} materials, ${bdb005Cases.length} BDB-005 cases, ` +
+  `${families.length} families and ${bdb006Cases.length} BDB-006 cases validated`
 );

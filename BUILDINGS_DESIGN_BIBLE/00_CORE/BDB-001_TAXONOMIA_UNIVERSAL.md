@@ -1592,7 +1592,7 @@ BUILDINGS_DESIGN_BIBLE/
 │   ├── infrastructure/
 │   └── periods/
 │
-├── 05_REGIONAL_FAMILIES/
+├── 05_ARCHITECTURAL_FAMILIES/
 │
 ├── 06_BUILDING_RECIPES/
 │

@@ -1,0 +1,59 @@
+{
+  "schema_version": "0.1",
+  "family_id": "FAM_COMPACT_BLOCK_LOWRISE_001",
+  "display_name": "Compact Block Low-Rise — Procedural Prototype",
+  "description": "Gramatica retangular compacta para testar preferencias morfologicas sem associacao regional, cultural ou historica.",
+  "status": "hypothesis",
+  "family_kind": "compositional",
+  "scope": "transregional_prototype",
+  "base_weight": 1.0,
+  "identity": {
+    "tags": ["compact", "low_surface_area", "rectilinear", "lowrise"],
+    "does_not_claim": ["regional_prevalence", "cultural_ownership", "historical_lineage", "engineering_performance"]
+  },
+  "compatibility": {
+    "archetype_ids": ["BLD_RES_HOUSE_DETACHED"],
+    "usage": ["residential"],
+    "height_classes": ["SINGLE_STOREY", "LOW_RISE"],
+    "tech_levels": ["vernacular", "craft", "early_industrial", "industrial", "mass_produced", "prefabricated", "digital_fabrication", "advanced"],
+    "climate_primary": [],
+    "construction_periods": [],
+    "basis_refs": ["KB_COMPACT_TRANSLATION_001"]
+  },
+  "composition": {
+    "tags": ["compact", "low_surface_area", "rectilinear", "simple_volume"],
+    "plan_shapes": {
+      "allowed": ["rectangle", "square"],
+      "preferred": ["square", "rectangle"],
+      "basis_refs": ["KB_COMPACT_TRANSLATION_001"]
+    },
+    "volume_complexity": {
+      "allowed": ["simple", "composite"],
+      "preferred": ["simple"],
+      "basis_refs": ["KB_COMPACT_TRANSLATION_001"]
+    },
+    "symmetry": {
+      "allowed": ["symmetrical", "approximately_symmetrical", "modular_repetition"],
+      "preferred": ["approximately_symmetrical"],
+      "basis_refs": ["KB_COMPACT_TRANSLATION_001"]
+    },
+    "parameters": {}
+  },
+  "module_selectors": [],
+  "knowledge": {
+    "sources": [],
+    "statements": [
+      {
+        "statement_id": "KB_COMPACT_TRANSLATION_001",
+        "kind": "design_hypothesis",
+        "text": "Para o prototipo do resolver, plantas quadradas ou retangulares simples expoem as tags compact e low_surface_area.",
+        "source_ids": [],
+        "limitations": "A traducao e computacional; nao afirma desempenho termico, prevalencia ou pertencimento cultural."
+      }
+    ]
+  },
+  "limitations": [
+    "Os termos compact e low_surface_area ainda nao possuem metrica geometrica calculada.",
+    "A familia existe para validar o contrato e nao representa uma linhagem arquitetonica real."
+  ]
+}

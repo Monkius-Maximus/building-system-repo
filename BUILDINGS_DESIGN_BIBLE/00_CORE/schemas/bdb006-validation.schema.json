@@ -1,0 +1,89 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://buildings-design-bible.local/schemas/bdb006-validation.schema.json",
+  "title": "BDB-006 Family Layer Validation",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "case_id",
+    "dna_id",
+    "upstream_bdb005_case_id",
+    "catalog_version",
+    "status",
+    "selection_state",
+    "family_candidates",
+    "upstream_consumed_directive_ids",
+    "family_consumed_directive_ids",
+    "unresolved_directive_ids",
+    "warnings"
+  ],
+  "properties": {
+    "schema_version": {"type": "string", "const": "0.1"},
+    "case_id": {"type": "string", "pattern": "^BDB006_CASE_[A-Z0-9_]+$"},
+    "dna_id": {"type": "string", "pattern": "^DNA_[A-Z0-9_]+$"},
+    "upstream_bdb005_case_id": {"type": "string", "pattern": "^BDB005_CASE_[A-Z0-9_]+$"},
+    "catalog_version": {"type": "string", "const": "0.1"},
+    "status": {"enum": ["layer_accounted", "partial", "rejected"]},
+    "selection_state": {"const": "deferred_to_recipe"},
+    "family_candidates": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/family_candidate"},
+      "minItems": 1
+    },
+    "upstream_consumed_directive_ids": {"$ref": "#/$defs/directive_ids"},
+    "family_consumed_directive_ids": {"$ref": "#/$defs/directive_ids"},
+    "unresolved_directive_ids": {"$ref": "#/$defs/directive_ids"},
+    "warnings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["code", "message"],
+        "properties": {
+          "code": {"type": "string", "pattern": "^[A-Z][A-Z0-9_]+$"},
+          "message": {"type": "string", "minLength": 5}
+        }
+      }
+    }
+  },
+  "$defs": {
+    "directive_ids": {
+      "type": "array",
+      "items": {"type": "string", "pattern": "^DIR_[A-Z0-9_]+$"},
+      "uniqueItems": true
+    },
+    "family_candidate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "family_id",
+        "eligible",
+        "base_weight",
+        "final_weight",
+        "applied_directive_ids",
+        "matched_tags",
+        "missing_constraints",
+        "reason"
+      ],
+      "properties": {
+        "family_id": {"type": "string", "pattern": "^FAM_[A-Z0-9_]+$"},
+        "eligible": {"type": "boolean"},
+        "base_weight": {"type": "number", "exclusiveMinimum": 0},
+        "final_weight": {"type": "number", "minimum": 0},
+        "applied_directive_ids": {"$ref": "#/$defs/directive_ids"},
+        "matched_tags": {
+          "type": "array",
+          "items": {"type": "string", "pattern": "^[a-z][a-z0-9_]+$"},
+          "uniqueItems": true
+        },
+        "missing_constraints": {
+          "type": "array",
+          "items": {"type": "string", "minLength": 3},
+          "uniqueItems": true
+        },
+        "reason": {"type": "string", "minLength": 5}
+      }
+    }
+  }
+}

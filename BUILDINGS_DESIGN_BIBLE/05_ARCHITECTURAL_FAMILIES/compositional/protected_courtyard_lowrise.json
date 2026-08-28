@@ -1,0 +1,84 @@
+{
+  "schema_version": "0.1",
+  "family_id": "FAM_PROTECTED_COURTYARD_LOWRISE_001",
+  "display_name": "Protected Courtyard Low-Rise — Procedural Prototype",
+  "description": "Gramatica de baixa altura organizada em torno de espaco aberto protegido, sem atribuir origem unica ou prevalencia regional.",
+  "status": "hypothesis",
+  "family_kind": "compositional",
+  "scope": "transregional_prototype",
+  "base_weight": 1.0,
+  "identity": {
+    "tags": ["courtyard", "protected_outdoor_space", "inward_facing", "lowrise"],
+    "does_not_claim": ["regional_prevalence", "cultural_ownership", "historical_lineage", "engineering_performance"]
+  },
+  "compatibility": {
+    "archetype_ids": ["BLD_RES_HOUSE_DETACHED"],
+    "usage": ["residential"],
+    "height_classes": ["SINGLE_STOREY", "LOW_RISE"],
+    "tech_levels": ["vernacular", "craft", "early_industrial", "industrial", "mass_produced", "prefabricated", "digital_fabrication", "advanced"],
+    "climate_primary": [],
+    "construction_periods": [],
+    "basis_refs": ["KB_COURTYARD_EVIDENCE_001", "KB_COURTYARD_TRANSLATION_001"]
+  },
+  "composition": {
+    "tags": ["courtyard", "protected_outdoor_space", "inward_facing", "composite_volume"],
+    "plan_shapes": {
+      "allowed": ["courtyard", "U_shape"],
+      "preferred": ["courtyard"],
+      "basis_refs": ["KB_COURTYARD_EVIDENCE_001", "KB_COURTYARD_TRANSLATION_001"]
+    },
+    "volume_complexity": {
+      "allowed": ["composite", "segmented"],
+      "preferred": ["composite"],
+      "basis_refs": ["KB_COURTYARD_TRANSLATION_001"]
+    },
+    "symmetry": {
+      "allowed": ["symmetrical", "approximately_symmetrical", "asymmetrical", "modular_repetition"],
+      "preferred": ["approximately_symmetrical", "asymmetrical"],
+      "basis_refs": ["KB_COURTYARD_TRANSLATION_001"]
+    },
+    "parameters": {
+      "courtyard_void_ratio": {
+        "min": 0.12,
+        "max": 0.35,
+        "basis_refs": ["KB_COURTYARD_TRANSLATION_001"]
+      }
+    }
+  },
+  "module_selectors": [],
+  "knowledge": {
+    "sources": [
+      {
+        "source_id": "SRC_HAO_2019_COURTYARD",
+        "source_type": "peer_reviewed_article",
+        "title": "The Effects of Courtyards on the Thermal Performance of a Vernacular House in a Hot-Summer and Cold-Winter Climate",
+        "authors": ["Shimeng Hao", "Changming Yu", "Yuejia Xu", "Yehao Song"],
+        "publisher": "Energies",
+        "year": 2019,
+        "url": "https://www.mdpi.com/1996-1073/12/6/1042",
+        "doi": "10.3390/en12061042",
+        "accessed_on": "2026-08-28"
+      }
+    ],
+    "statements": [
+      {
+        "statement_id": "KB_COURTYARD_EVIDENCE_001",
+        "kind": "evidence",
+        "text": "O desempenho ambiental de patios depende de clima, proporcao, sombreamento e configuracao das aberturas; o patio nao e uma solucao universal automatica.",
+        "source_ids": ["SRC_HAO_2019_COURTYARD"],
+        "limitations": "O estudo simula uma casa vernacular em um clima especifico e nao demonstra prevalencia mundial."
+      },
+      {
+        "statement_id": "KB_COURTYARD_TRANSLATION_001",
+        "kind": "design_hypothesis",
+        "text": "O prototipo agrupa courtyard e U_shape como candidatos de uma mesma gramatica de espaco aberto protegido.",
+        "source_ids": [],
+        "limitations": "A faixa courtyard_void_ratio e normalizada para testes e ainda nao e uma recomendacao dimensional."
+      }
+    ]
+  },
+  "limitations": [
+    "A familia nao une tradicoes historicas distintas em uma origem cultural comum.",
+    "Desempenho climatico exige simulacao posterior e nao pode ser inferido somente pela forma courtyard."
+  ]
+}
