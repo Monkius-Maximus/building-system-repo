@@ -1,0 +1,39 @@
+{
+  "schema_version": "0.1",
+  "case_id": "BDB007_CASE_RECIFE_DOCUMENTED_CORPUS_001",
+  "recipe_id": "RCP_BR_PE_RECIFE_MID_MODERN_RES_CORPUS_001",
+  "context_id": "CTX_TEST_RECIFE_CORPUS_LOT_DESCENDANT_001",
+  "archetype_id": "BLD_RES_HOUSE_DETACHED",
+  "expected_match": true,
+  "resolution_status": "matched_corpus_limited",
+  "mismatch_codes": [],
+  "family_candidate_ids": [
+    "FAM_SHADED_VENTILATED_EDGE_LOWRISE_001",
+    "FAM_PROTECTED_COURTYARD_LOWRISE_001"
+  ],
+  "deferred_feature_ids": [
+    "RCPDEFER_RECIFE_TILE_OVER_SLAB_ROOF_001",
+    "RCPDEFER_RECIFE_VENTILATED_PARAPET_001",
+    "RCPDEFER_RECIFE_CERAMIC_FACADE_001",
+    "RCPDEFER_RECIFE_PERFORATED_SCREEN_001"
+  ],
+  "selection_state": "deferred_missing_regional_prevalence",
+  "blocking_codes": [
+    "REGIONAL_PREVALENCE_UNESTABLISHED",
+    "LOCAL_COMPONENT_CATALOG_GAPS"
+  ],
+  "warnings": [
+    {
+      "code": "REGIONAL_PREVALENCE_UNESTABLISHED",
+      "message": "O corpus permite filtrar familias documentadas, mas nao sustenta percentuais para amostragem municipal."
+    },
+    {
+      "code": "LOCAL_COMPONENT_CATALOG_GAPS",
+      "message": "Quatro recursos locais documentados aguardam modulos ou materiais semanticamente adequados."
+    },
+    {
+      "code": "NORMALIZED_CONTEXT_PARAMETERS",
+      "message": "Campos contextuais nao consumidos pela receita permanecem hipoteses normalizadas do fixture."
+    }
+  ]
+}

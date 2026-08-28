@@ -1,0 +1,91 @@
+{
+  "schema_version": "0.1",
+  "context_id": "CTX_TEST_RECIFE_CORPUS_LOT_DESCENDANT_001",
+  "display_name": "Recife Corpus Lot Descendant — Validation Probe",
+  "description": "Fixture descendente que valida heranca da ancora localizada; nao representa um lote real nem adiciona evidencia ao corpus.",
+  "seed": 2611607,
+  "scope": "lot",
+  "parent_context_id": "CTX_BR_PE_RECIFE_MID_MODERN_RES_CORPUS_001",
+  "tags": [
+    "bdb-007",
+    "validation",
+    "context_ancestry_probe"
+  ],
+  "climate": {
+    "primary": "tropical_humid",
+    "secondary": null,
+    "intensity": 0.85,
+    "parameters": {
+      "heat": 0.78,
+      "cold": 0.05,
+      "humidity": 0.88,
+      "rainfall": 0.82,
+      "rainfall_seasonality": 0.45,
+      "snow_load": 0.0,
+      "wind_exposure": 0.52,
+      "solar_exposure": 0.72,
+      "salt_air_exposure": 0.55,
+      "freeze_thaw": 0.0
+    }
+  },
+  "topography": {
+    "type": "flat",
+    "intensity": 0.9,
+    "slope": 0.05,
+    "terrain_stability": 0.78,
+    "soil_drainage": 0.55
+  },
+  "hydrography": {
+    "type": "coast",
+    "intensity": 0.55,
+    "water_distance": 850.0,
+    "flood_frequency": 0.28,
+    "flood_depth": 0.18,
+    "groundwater_level": 0.45,
+    "salt_air_exposure": 0.55
+  },
+  "environmental_risks": [
+    {
+      "type": "flood",
+      "intensity": 0.25,
+      "frequency": 0.25,
+      "confidence": "hypothesis"
+    },
+    {
+      "type": "storm",
+      "intensity": 0.45,
+      "frequency": 0.42,
+      "confidence": "hypothesis"
+    }
+  ],
+  "urban": {
+    "density": "urban_low",
+    "development": "established",
+    "infrastructure": "standard",
+    "street_wall_continuity": 0.45,
+    "mixed_use_pressure": 0.35,
+    "parking_pressure": 0.4
+  },
+  "society": {
+    "wealth_level": 3,
+    "maintenance_capacity": 0.65,
+    "income_stability": 0.6,
+    "construction_budget": 0.55,
+    "land_value": 0.6,
+    "informality_pressure": 0.2
+  },
+  "temporal": {
+    "construction_period": "mid_modern",
+    "tech_level": "industrial",
+    "renovation_period": null
+  },
+  "cultural_matrix": {
+    "cultural_family": "latin_american",
+    "regional_variant": "br_pe_recife_modernist_residential_corpus",
+    "local_tradition": [],
+    "colonial_influence": [],
+    "religious_influence": [],
+    "migration_influence": [],
+    "globalized_influence": 0.0
+  }
+}

@@ -1118,6 +1118,21 @@ Campos mínimos:
 }
 ```
 
+### 22.1 Extensão para contextos localizados
+
+O BDB-007 acrescenta dois campos opcionais ao mesmo contrato:
+
+```text
+geography
+data_provenance
+```
+
+Eles permanecem opcionais para fixtures neutros. Porém, qualquer âncora de contexto real referenciada por uma receita regional deve declarar ambos. Contextos descendentes podem herdá-los pela cadeia validada de `parent_context_id`.
+
+`geography` usa códigos estáveis de país, subdivisão e localidade. A chave local declara também `locality_code_system`, evitando colisão entre cadastros nacionais diferentes. `data_provenance.field_groups` separa campos sustentados por `evidence` de valores `normalized_hypothesis` usados apenas para completar um fixture.
+
+Uma receita só pode consumir como base localizada os campos de geografia, clima amplo, período e tecnologia que possuam grupo de evidência. A presença de uma fonte não promove automaticamente os demais valores normalizados do perfil.
+
 ---
 
 ## 23. Perfil de modificador

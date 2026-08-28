@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://buildings-design-bible.local/schemas/bdb007-validation.schema.json",
+  "title": "BDB-007 Recipe Layer Validation",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "case_id",
+    "recipe_id",
+    "context_id",
+    "archetype_id",
+    "expected_match",
+    "resolution_status",
+    "mismatch_codes",
+    "family_candidate_ids",
+    "deferred_feature_ids",
+    "selection_state",
+    "blocking_codes",
+    "warnings"
+  ],
+  "properties": {
+    "schema_version": {"type": "string", "const": "0.1"},
+    "case_id": {"type": "string", "pattern": "^BDB007_CASE_[A-Z0-9_]+$"},
+    "recipe_id": {"type": "string", "pattern": "^RCP_[A-Z0-9_]+$"},
+    "context_id": {"type": "string", "pattern": "^CTX_[A-Z0-9_]+$"},
+    "archetype_id": {"type": "string", "pattern": "^BLD_[A-Z]{3}_[A-Z0-9_]+$"},
+    "expected_match": {"type": "boolean"},
+    "resolution_status": {"enum": ["matched_corpus_limited", "matched_active", "rejected"]},
+    "mismatch_codes": {"$ref": "#/$defs/diagnostic_codes"},
+    "family_candidate_ids": {
+      "type": "array",
+      "items": {"type": "string", "pattern": "^FAM_[A-Z0-9_]+$"},
+      "uniqueItems": true
+    },
+    "deferred_feature_ids": {
+      "type": "array",
+      "items": {"type": "string", "pattern": "^RCPDEFER_[A-Z0-9_]+$"},
+      "uniqueItems": true
+    },
+    "selection_state": {"enum": ["deferred_missing_regional_prevalence", "ready_for_regional_sampling", "blocked_context_mismatch"]},
+    "blocking_codes": {"$ref": "#/$defs/diagnostic_codes"},
+    "warnings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["code", "message"],
+        "properties": {
+          "code": {"type": "string", "pattern": "^[A-Z][A-Z0-9_]+$"},
+          "message": {"type": "string", "minLength": 5}
+        }
+      }
+    }
+  },
+  "$defs": {
+    "diagnostic_codes": {
+      "type": "array",
+      "items": {"type": "string", "pattern": "^[A-Z][A-Z0-9_]+$"},
+      "uniqueItems": true
+    }
+  }
+}
