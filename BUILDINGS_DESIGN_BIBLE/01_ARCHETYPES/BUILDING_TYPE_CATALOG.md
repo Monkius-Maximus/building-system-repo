@@ -250,7 +250,7 @@ small_school
 small_clinic
 ```
 
-Esses 14 itens permanecem como o **núcleo normativo atual**, conforme o BDB-003. citeturn4file0
+Esses 14 itens permanecem como o **núcleo normativo atual**, conforme o BDB-003.
 
 ### Catálogo expandido
 
