@@ -1,198 +1,181 @@
 # BDB-003-C — Matriz de Lacunas Morfológicas
 
 **Projeto:** Buildings Design Bible  
-**Versão:** 0.1  
+**Versão:** 0.2  
 **Status:** 🟡 Investigação morfológica  
 **Dependências:** `BDB-003_ARQUETIPOS_UNIVERSAIS.md`, `BUILDING_TYPE_CATALOG.md`, `BUILDING_TYPE_NORMALIZATION_MATRIX.md`, `00_CORE/schemas/archetype.schema.json`  
-**Princípio:** nenhum item desta matriz é um novo arquétipo implementado.
+
+> **Regra:** nenhuma linha desta matriz cria ou declara um novo arquétipo BDB-003 implementado.
 
 ---
 
 ## 1. Objetivo
 
-Esta matriz transforma os `NEW_ARCHETYPE_CANDIDATE` da normalização em problemas morfológicos verificáveis.
+Transformar os candidatos identificados na normalização em problemas morfológicos verificáveis.
 
-Ela existe para responder uma pergunta antes de criar qualquer nova ficha BDB-003:
+A pergunta de controle é:
 
-> **Qual característica estrutural, espacial ou de implantação o conjunto atual de arquétipos não consegue representar sem deformação, exceção silenciosa ou contrato inconsistente?**
+> **O conjunto atual de arquétipos consegue representar este caso sem deformação, exceção silenciosa ou contrato incoerente?**
 
-O processo é deliberadamente conservador:
+A cadeia de decisão é:
 
 ```text
-CATÁLOGO
-   ↓
-NORMALIZAÇÃO
-   ↓
-CANDIDATO
-   ↓
-LACUNA MORFOLÓGICA
-   ↓
-PROVA DE NECESSIDADE
-   ↓
-NOVO ARQUÉTIPO (somente se necessário)
+CATÁLOGO → NORMALIZAÇÃO → LACUNA → PROVA → FICHA BDB-003
 ```
 
-Uma diferença de uso, material, clima, cultura, riqueza ou aparência não é suficiente para criar um arquétipo.
+Função, escala, implantação e organização espacial são analisadas antes de considerar um novo arquétipo. Clima, cultura, riqueza, material, cor e aparência continuam fora do BDB-003.
 
 ---
 
-## 2. Critérios de aprovação
-
-Um candidato somente poderá virar arquétipo quando todos os pontos abaixo forem atendidos:
-
-1. **Identidade:** existe pelo menos um invariante que o separa dos arquétipos existentes.
-2. **Morfologia:** a diferença produz uma família volumétrica, implantação ou organização espacial relevante.
-3. **Contrato:** a diferença pode ser expressa pelo schema atual sem criar campos específicos arbitrários.
-4. **Slots:** há categorias BDB-005 que sustentam a identidade do candidato.
-5. **Lote:** existe relação própria ou significativamente diferente com o lote/rua.
-6. **Escalonamento:** é possível indicar de onde o edifício veio e para onde deve reclassificar quando seus limites forem ultrapassados.
-7. **Cobertura:** o arquétipo atende mais de um caso real do catálogo; não é criado para uma única palavra.
-
-Se algum ponto falhar, o candidato permanece como `REUSE_ARCHETYPE`, `COMPOSITION`, `CONTEXT_VARIATION` ou `UNRESOLVED`.
-
----
-
-## 3. Estados desta matriz
+## 2. Estados
 
 | Estado | Significado |
 |---|---|
-| `INVESTIGATE` | Há lacuna plausível, mas falta provar sua necessidade. |
-| `REUSE_UNTIL_PROVEN` | O arquétipo atual deve ser reutilizado até que um caso concreto demonstre insuficiência. |
-| `COMPOSITION_FIRST` | Deve ser modelado inicialmente como composição, antes de criar um arquétipo monolítico. |
-| `NEW_ARCHETYPE_JUSTIFIED` | A investigação encontrou uma distinção morfológica que justifica nova ficha. **Ainda requer implementação.** |
-| `DEFERRED` | A lacuna depende de outro sistema ou de uma decisão posterior do BDB. |
+| `INVESTIGATE` | Há uma lacuna plausível, mas ainda não existe prova suficiente para nova ficha. |
+| `REUSE_UNTIL_PROVEN` | O arquétipo existente continua sendo a solução padrão até que um caso demonstre insuficiência. |
+| `COMPOSITION_FIRST` | O caso deve ser modelado primeiro como composição de edifícios/elementos. |
+| `STRONG_CANDIDATE` | A distinção morfológica é forte o suficiente para entrar na próxima rodada de especificação BDB-003. Ainda não é implementação. |
+| `UNRESOLVED` | A categoria é ampla ou ambígua demais para uma decisão segura. |
+
+`STRONG_CANDIDATE` substitui a classificação anterior `NEW_ARCHETYPE_JUSTIFIED` para evitar que uma análise preliminar seja confundida com uma decisão normativa definitiva.
 
 ---
 
-## 4. Matriz principal
+## 3. Critérios para uma nova ficha
 
-| Candidato | Lacuna a provar | Arquétipo vizinho | Invariante provável | Slots críticos | Relação com lote | Estado |
-|---|---|---|---|---|---|---|
-| `TYPE_RESIDENTIAL_TOWER` | Torre residencial pode exigir organização vertical e implantação distinta de edifício residencial médio. | `BLD_RES_APARTMENT_MIDRISE` | `volume_types = tower/podium_tower`; faixa vertical superior ao midrise. | `STR`, `VCR`, `FAC`, `ROF`, `TEC` | lote independente; implantação vertical; possível recuo distinto. | `INVESTIGATE` |
-| `TYPE_RESIDENTIAL_DORMITORY` | Ocupação coletiva com quartos e espaços comuns não é necessariamente apartamento convencional. | `BLD_RES_APARTMENT_WALKUP` | ocupação coletiva + áreas comuns programáticas. | `HCR`, `VCR`, `WIN`, `TEC` | lote institucional/residencial; acessos coletivos. | `INVESTIGATE` |
-| `TYPE_COMMERCIAL_MARKET` | Mercado pode exigir grande espaço público interno, bancas e circulação coletiva. | `BLD_COM_STREET_SHOP` | grande salão/pavilhão ou composição de unidades. | `STR`, `HCR`, `FAC`, `ROF`, `SGN` | pode exigir lote maior e acesso múltiplo. | `INVESTIGATE` |
-| `TYPE_COMMERCIAL_SHOPPING_CENTER` | Múltiplas unidades, circulação interna e possível estacionamento estruturado. | `BLD_MIX_URBAN_BLOCK` | conjunto comercial com circulação coletiva interna. | `STR`, `HCR`, `VCR`, `PRK`, `SGN`, `TEC` | lote grande; acessos múltiplos. | `NEW_ARCHETYPE_JUSTIFIED` |
-| `TYPE_COMMERCIAL_GALLERY` | Galeria é uma sequência de lojas organizada por circulação interna comum. | `BLD_COM_STREET_SHOP` | circulação coletiva interna como parte da identidade. | `HCR`, `FAC`, `DOR`, `SGN` | pode ocupar lote profundo ou bloco. | `INVESTIGATE` |
-| `TYPE_MIXED_MARKET_HALL` | Grande salão comercial combinado com outros usos pode ser composição, não edifício simples. | `BLD_MIX_URBAN_BLOCK` | programa comercial central + usos complementares. | `STR`, `HCR`, `ROF`, `SGN`, `TEC` | lote amplo; acesso público múltiplo. | `COMPOSITION_FIRST` |
-| `TYPE_INSTITUTIONAL_HOSPITAL` | Escala, circulação segregada, infraestrutura técnica e organização de setores excedem clínica pequena. | `BLD_INST_CLINIC_SMALL` | circulação/programa hospitalar e infraestrutura técnica própria. | `STR`, `HCR`, `VCR`, `TEC`, `PRK` | lote amplo; acessos diferenciados. | `NEW_ARCHETYPE_JUSTIFIED` |
-| `TYPE_INSTITUTIONAL_MUSEUM` | Exposição, circulação pública e áreas técnicas formam programa diferente de escola pequena. | `BLD_INST_SCHOOL_SMALL` | espaço de exposição + circulação pública controlada. | `HCR`, `FAC`, `TEC`, `SGN` | lote público/institucional; praça pode ser complementar. | `INVESTIGATE` |
-| `TYPE_INSTITUTIONAL_CULTURAL_CENTER` | Programa composto pode conter salas, auditório, oficinas e áreas comuns. | `BLD_INST_SCHOOL_SMALL` | conjunto de espaços públicos programáticos. | `HCR`, `STR`, `TEC`, `SGN` | lote institucional; múltiplas relações externas. | `INVESTIGATE` |
-| `TYPE_INSTITUTIONAL_THEATER` | Palco, plateia, bastidores e grande vão são restrições morfológicas próprias. | `BLD_INST_CULTURAL_CENTER` | grande espaço de plateia + palco + bastidores. | `STR`, `HCR`, `TEC`, `FAC` | lote amplo; acesso público e técnico separados. | `NEW_ARCHETYPE_JUSTIFIED` |
-| `TYPE_INSTITUTIONAL_RELIGIOUS` | Categoria ampla demais: diferentes programas religiosos produzem formas incompatíveis. | nenhum único | ainda indefinido. | depende da subdivisão. | depende do subtipo. | `UNRESOLVED` |
-| `TYPE_INDUSTRIAL_FACTORY` | Processo produtivo pode exigir vãos, fluxos e equipamentos específicos. | `BLD_IND_WORKSHOP_SMALL` | envelope produtivo de escala superior. | `STR`, `TEC`, `HCR`, `ROF` | lote industrial; circulação de carga. | `INVESTIGATE` |
-| `TYPE_INDUSTRIAL_HEAVY_FACTORY` | Grande escala e processos pesados podem ultrapassar fábrica genérica. | `TYPE_INDUSTRIAL_FACTORY` | grande vão/altura + infraestrutura de processo. | `STR`, `TEC`, `PRK`, `ROF` | lote industrial amplo; acessos de carga. | `INVESTIGATE` |
-| `TYPE_INDUSTRIAL_PROCESSING_PLANT` | Fluxo contínuo de processamento e equipamentos integrados podem definir o envelope. | `TYPE_INDUSTRIAL_FACTORY` | organização espacial subordinada ao processo produtivo. | `STR`, `TEC`, `HCR`, `ROF` | lote amplo; fluxos de entrada/saída. | `INVESTIGATE` |
-| `TYPE_INDUSTRIAL_LOGISTICS_CENTER` | Docas, grande volume e circulação pesada diferenciam o edifício de pequeno armazém. | `BLD_IND_WAREHOUSE_SMALL` | grande nave logística + docas. | `STR`, `TEC`, `PRK`, `HCR` | lote grande; pátio de manobra obrigatório. | `NEW_ARCHETYPE_JUSTIFIED` |
-| `TYPE_AGRICULTURAL_BARN` | Galpão agrícola possui relação funcional com campo e armazenamento/produção rural. | `BLD_IND_WAREHOUSE_SMALL` | dependência de área rural/produção agrícola e envelope aberto/ventilado. | `STR`, `ROF`, `TEC`, `CLM` | lote rural; conexão com `agricultural_field`. | `INVESTIGATE` |
-| `TYPE_AGRICULTURAL_STABLE` | Abrigo de animais exige baias, ventilação e espaços externos próprios. | `BLD_AGR_BARN` futuro | programa animal como invariante. | `STR`, `CLM`, `TEC`, `BND` | lote rural; área externa obrigatória. | `NEW_ARCHETYPE_JUSTIFIED` |
-| `TYPE_AGRICULTURAL_SILO` | Estrutura vertical especializada, diferente de edifício ocupável convencional. | nenhum atual | geometria de armazenamento vertical. | `STR`, `TEC`, `FND` | lote rural/industrial; acesso técnico. | `NEW_ARCHETYPE_JUSTIFIED` |
-| `TYPE_AGRICULTURAL_GREENHOUSE` | Envoltória transparente e relação interior/exterior são fundamentais. | nenhum atual | espaço produtivo protegido por envoltória especializada. | `STR`, `FAC`, `CLM`, `TEC` | lote rural; relação direta com produção. | `NEW_ARCHETYPE_JUSTIFIED` |
+Um candidato só passa para especificação BDB-003 quando houver evidência dos seguintes pontos:
+
+1. **Identidade:** pelo menos um invariante o separa dos arquétipos existentes.
+2. **Morfologia:** essa identidade altera volumetria, organização espacial ou implantação.
+3. **Contrato:** o schema atual consegue expressar a identidade sem campos arbitrários.
+4. **Slots:** componentes BDB-005 podem materializar os requisitos fundamentais.
+5. **Lote:** existe uma relação própria ou significativamente diferente com lote/rua.
+6. **Escalonamento:** há uma regra plausível de reclassificação quando os limites forem ultrapassados.
+7. **Reuso:** composição, módulos, família ou receita não resolvem o caso adequadamente.
+
+Se um desses pontos ainda estiver em aberto, o estado permanece investigativo.
 
 ---
 
-## 5. Primeira conclusão arquitetural
+## 4. Lacunas residenciais
 
-A matriz revela três grupos diferentes.
+| Candidato | Lacuna principal | Vizinho atual | Estado |
+|---|---|---|---|
+| `TYPE_RESIDENTIAL_TOWER` | Organização vertical e implantação de torre podem ultrapassar o contrato do apartamento médio. | `BLD_RES_APARTMENT_MIDRISE` | `INVESTIGATE` |
+| `TYPE_RESIDENTIAL_DORMITORY` | Ocupação coletiva com quartos e espaços comuns pode não ser adequadamente descrita como apartamento. | `BLD_RES_APARTMENT_WALKUP` | `INVESTIGATE` |
+| `TYPE_RESIDENTIAL_VILLA` | Pode ser uma composição de unidades residenciais, e não um único edifício. | `BLD_RES_HOUSE_DETACHED` | `COMPOSITION_FIRST` |
 
-### Grupo A — Novos arquétipos com evidência forte
-
-```text
-shopping_center
-hospital
- theater
-logistics_center
-stable
-silo
-greenhouse
-```
-
-Esses casos apresentam uma combinação de programa, escala, circulação, estrutura ou relação com o lote que dificilmente deve ser reduzida a uma simples mudança de uso.
-
-**Importante:** `NEW_ARCHETYPE_JUSTIFIED` significa apenas que a lacuna foi considerada suficientemente forte para a próxima fase de especificação. Nenhuma ficha foi criada ainda.
-
-### Grupo B — Candidatos que ainda precisam de prova
-
-```text
-tower
-dormitory
-market
-gallery
-museum
-cultural_center
-factory
-heavy_factory
-processing_plant
-barn
-```
-
-A próxima etapa deve testar esses casos contra os arquétipos existentes e, principalmente, contra composição + módulos.
-
-### Grupo C — Não devem virar arquétipo automaticamente
-
-```text
-religious_building
-market_hall
-villa
-cemetery
-```
-
-Esses nomes ainda escondem problemas de modelagem. É mais seguro subdividir o programa ou tratá-lo como composição antes de criar uma identidade monolítica.
+**Decisão atual:** não criar torre, dormitório ou vila antes de testar casos concretos contra apartamento + composição.
 
 ---
 
-## 6. Regra especial para escala
+## 5. Lacunas comerciais e de uso misto
 
-Escala não deve produzir uma árvore infinita:
+| Candidato | Lacuna principal | Vizinho atual | Estado |
+|---|---|---|---|
+| `TYPE_COMMERCIAL_MARKET` | Salão amplo, bancas e circulação pública interna podem exigir organização diferente da loja de rua. | `BLD_COM_STREET_SHOP` | `INVESTIGATE` |
+| `TYPE_COMMERCIAL_SHOPPING_CENTER` | Múltiplas unidades, circulação coletiva e grandes áreas de acesso/estacionamento. | `BLD_MIX_URBAN_BLOCK` | `STRONG_CANDIDATE` |
+| `TYPE_COMMERCIAL_GALLERY` | Sequência de unidades dependentes de circulação interna comum. | `BLD_COM_STREET_SHOP` | `INVESTIGATE` |
+| `TYPE_MIXED_MARKET_HALL` | Programa amplo pode ser mais corretamente uma composição de salão + unidades + serviços. | `BLD_MIX_URBAN_BLOCK` | `COMPOSITION_FIRST` |
+
+**Decisão atual:** shopping center é candidato forte por organização espacial; market hall permanece composição até prova contrária.
+
+---
+
+## 6. Lacunas institucionais
+
+| Candidato | Lacuna principal | Vizinho atual | Estado |
+|---|---|---|---|
+| `TYPE_INSTITUTIONAL_HOSPITAL` | Setorização, circulação diferenciada e infraestrutura técnica excedem uma clínica pequena. | `BLD_INST_CLINIC_SMALL` | `STRONG_CANDIDATE` |
+| `TYPE_INSTITUTIONAL_MUSEUM` | Exposição, circulação pública e áreas técnicas podem exigir programa próprio. | `BLD_INST_SCHOOL_SMALL` | `INVESTIGATE` |
+| `TYPE_INSTITUTIONAL_CULTURAL_CENTER` | Programa composto de salas, reunião, apresentação e oficinas. | `BLD_INST_SCHOOL_SMALL` | `INVESTIGATE` |
+| `TYPE_INSTITUTIONAL_THEATER` | Palco, plateia, bastidores e grande vão constituem restrições específicas. | `BLD_INST_SCHOOL_SMALL` | `STRONG_CANDIDATE` |
+| `TYPE_INSTITUTIONAL_RELIGIOUS` | Categoria funcional ampla demais; diferentes programas podem produzir morfologias incompatíveis. | — | `UNRESOLVED` |
+| `TYPE_INSTITUTIONAL_CEMETERY` | É predominantemente um território composto por múltiplos elementos, não um único edifício. | — | `COMPOSITION_FIRST` |
+
+**Decisão atual:** hospital e teatro entram na próxima rodada de especificação. Museu e centro cultural continuam dependentes de prova de programa e composição.
+
+---
+
+## 7. Lacunas industriais
+
+| Candidato | Lacuna principal | Vizinho atual | Estado |
+|---|---|---|---|
+| `TYPE_INDUSTRIAL_FACTORY` | Processo produtivo pode exigir envelope e fluxos próprios. | `BLD_IND_WORKSHOP_SMALL` | `INVESTIGATE` |
+| `TYPE_INDUSTRIAL_HEAVY_FACTORY` | Escala, vãos, altura e infraestrutura podem exceder uma fábrica genérica. | `TYPE_INDUSTRIAL_FACTORY` | `INVESTIGATE` |
+| `TYPE_INDUSTRIAL_PROCESSING_PLANT` | A organização do edifício pode ser subordinada a um fluxo contínuo de produção. | `TYPE_INDUSTRIAL_FACTORY` | `INVESTIGATE` |
+| `TYPE_INDUSTRIAL_LOGISTICS_CENTER` | Grande nave, docas e pátio de manobra alteram substancialmente a implantação. | `BLD_IND_WAREHOUSE_SMALL` | `STRONG_CANDIDATE` |
+| `TYPE_INDUSTRIAL_COLD_STORAGE` | Refrigeração é inicialmente equipamento técnico, não identidade morfológica. | `BLD_IND_WAREHOUSE_SMALL` | `REUSE_UNTIL_PROVEN` |
+
+**Decisão atual:** logistics center é candidato forte; cold storage não ganha arquétipo apenas por possuir refrigeração.
+
+---
+
+## 8. Lacunas agrícolas/rurais
+
+| Candidato | Lacuna principal | Vizinho atual | Estado |
+|---|---|---|---|
+| `TYPE_AGRICULTURAL_BARN` | Relação com campo e programa rural podem exigir envelope diferente do armazém industrial. | `BLD_IND_WAREHOUSE_SMALL` | `INVESTIGATE` |
+| `TYPE_AGRICULTURAL_STABLE` | Baias, ventilação e áreas externas para animais são requisitos programáticos próprios. | — | `STRONG_CANDIDATE` |
+| `TYPE_AGRICULTURAL_SILO` | Estrutura vertical especializada, com geometria e ocupação diferentes de edifício convencional. | — | `STRONG_CANDIDATE` |
+| `TYPE_AGRICULTURAL_GREENHOUSE` | Envoltória produtiva protegida e relação interior/exterior são fundamentais. | — | `STRONG_CANDIDATE` |
+| `TYPE_AGRICULTURAL_MILL` | Pode ser edifício ou equipamento especializado; período e tecnologia influenciam sua definição. | — | `UNRESOLVED` |
+
+**Decisão atual:** estábulo, silo e estufa possuem lacunas morfológicas claras para investigação formal. Moinho permanece indefinido.
+
+---
+
+## 9. Teste de escala
+
+Escala não deve gerar uma árvore infinita de arquétipos:
 
 ```text
-small → medium → large → huge → mega → ...
+small → medium → large → huge → mega
 ```
 
-A pergunta correta é:
+A regra é:
 
-> A mudança de escala altera o modo como o edifício funciona ou apenas seus valores dimensionais?
+> **A escala só cria nova identidade quando altera o modo de funcionamento, organização ou implantação do edifício.**
 
 Exemplo:
 
 ```text
 small_warehouse
-      ↓ aumento de área
-warehouse
-      ↓ aumento de área
+      ↓ aumento dimensional
+warehouse maior
+      ↓ novas docas + pátio + circulação pesada
 logistics_center
 ```
 
-Só o último salto é candidato forte quando aparecem novas exigências de docas, circulação pesada, pátio de manobra e organização logística.
-
-Isso evita criar um arquétipo para cada faixa arbitrária de metragem.
+O segundo salto pode justificar um arquétipo; o primeiro normalmente é apenas uma restrição dimensional.
 
 ---
 
-## 7. Regra especial para equipamentos especializados
+## 10. Teste de equipamento
 
-Equipamento técnico não cria arquétipo automaticamente.
-
-```text
-warehouse + refrigeration
-       ↓
-mesmo arquétipo + TEC
-```
-
-Mas:
+Equipamento técnico não deve virar arquétipo automaticamente:
 
 ```text
-warehouse + docas + grande pátio + circulação pesada
-       ↓
-possível nova identidade logística
+warehouse + refrigeração
+        ↓
+warehouse + TEC
 ```
 
-Portanto, a distinção é entre **equipamento que modifica o edifício** e **programa que reorganiza o edifício**.
+Quando o requisito reorganiza o edifício inteiro, a hipótese muda:
+
+```text
+warehouse + docas + pátio de manobra + circulação pesada
+        ↓
+possível identidade logística
+```
+
+A distinção é entre **equipamento que modifica um edifício** e **programa que reorganiza o edifício**.
 
 ---
 
-## 8. Regra especial para composição
+## 11. Teste de composição
 
-Alguns itens do catálogo devem ser construídos hierarquicamente:
+Alguns itens devem permanecer em uma camada superior ao arquétipo:
 
 ```text
 CEMITÉRIO
@@ -205,85 +188,83 @@ CEMITÉRIO
 
 ```text
 SHOPPING CENTER
-├── âncoras
 ├── lojas
+├── âncoras
 ├── circulação
 ├── estacionamento
 └── áreas técnicas
 ```
 
-A existência de vários elementos não implica que todos devam ser novos arquétipos. O BDB-003 descreve o edifício; a composição deve permanecer em uma camada superior quando apropriado.
+A existência de vários elementos não significa que cada elemento ou o conjunto inteiro precise de uma ficha BDB-003 monolítica. A composição deve ser formalizada antes de multiplicar arquétipos.
 
 ---
 
-## 9. Dependências para a próxima etapa
+## 12. Fila de especificação
 
-Antes de implementar qualquer novo arquétipo, cada candidato `NEW_ARCHETYPE_JUSTIFIED` deve passar por:
+Esta fila **não é ranking de importância**. Ela define os casos que devem testar novas abstrações do contrato.
+
+### C1 — primeira rodada
+
+```text
+BLD? / HOSPITAL
+BLD? / THEATER
+BLD? / LOGISTICS_CENTER
+BLD? / STABLE
+BLD? / SILO
+BLD? / GREENHOUSE
+```
+
+Os identificadores `BLD_*` acima são deliberadamente deixados em aberto. O ID definitivo só será atribuído quando a ficha BDB-003 for aprovada, evitando inventar identificadores antes da especificação.
+
+### C2 — segunda rodada
+
+```text
+SHOPPING_CENTER
+MUSEUM
+CULTURAL_CENTER
+FACTORY
+BARN
+TOWER
+DORMITORY
+MARKET
+GALLERY
+```
+
+---
+
+## 13. Fluxo obrigatório antes de criar cada arquétipo
 
 ```text
 BDB-003-C
    ↓
-Ficha morfológica
+ficha morfológica
    ↓
-Schema
+archetype.schema.json
    ↓
-Slots BDB-005
+slots BDB-005
    ↓
-Família BDB-006
+família BDB-006
    ↓
-Receita BDB-007
+receita BDB-007
    ↓
-Fixture mínimo
+fixture mínimo
    ↓
-Validação
+validação
 ```
 
-A criação de uma ficha BDB-003 sem esses elementos é considerada **incompleta**.
+Uma ficha BDB-003 sem suporte nos sistemas seguintes permanece incompleta e não deve ser tratada como arquétipo pronto para geração.
 
 ---
 
-## 10. Próxima fila de implementação
+## 14. Critério de encerramento
 
-A fila não representa ranking de importância. Ela representa **dependência arquitetural e capacidade de validar padrões reutilizáveis**.
+BDB-003-C estará concluído quando:
 
-### Lote C1 — Primeiros arquétipos especializados
-
-1. `hospital`
-2. `theater`
-3. `logistics_center`
-4. `silo`
-5. `greenhouse`
-6. `stable`
-
-Esses seis casos cobrem padrões distintos: equipamento institucional, grande vão/público, logística pesada e estruturas agrícolas especializadas.
-
-### Lote C2 — Após C1
-
-```text
-shopping_center
-museum
-cultural_center
-factory
-barn
-tower
-dormitory
-market
-gallery
-```
-
-A ordem de implementação dos lotes pode ser alterada somente após os resultados de C1, porque C1 deverá revelar quais abstrações do schema, slots e composição são realmente reutilizáveis.
-
----
-
-## 11. Critério de saída do BDB-003-C
-
-BDB-003-C será considerado concluído quando:
-
-- todos os `NEW_ARCHETYPE_CANDIDATE` relevantes da matriz BDB-003-B estiverem classificados;
-- cada candidato forte possuir justificativa morfológica explícita;
+- os candidatos relevantes da normalização estiverem classificados;
+- cada `STRONG_CANDIDATE` tiver uma justificativa morfológica verificável;
 - composição estiver separada de arquétipo;
-- nenhuma variação climática, cultural, econômica ou estética tiver sido promovida indevidamente;
-- a fila de novos arquétipos estiver definida sem declarar implementação inexistente;
-- o primeiro lote estiver pronto para especificação individual.
+- nenhum fator contextual tiver sido promovido indevidamente a identidade;
+- os IDs definitivos só forem criados junto com suas fichas;
+- a próxima rodada puder começar por fichas individuais, sem ampliar novamente o catálogo.
 
-**Decisão normativa:** não ampliar o catálogo funcional enquanto esta etapa não estiver concluída. O gargalo atual é a modelagem morfológica, não a quantidade de nomes disponíveis.
+**Decisão normativa:** congelar a expansão do catálogo funcional durante esta etapa. O próximo ganho de qualidade deve vir da definição morfológica e da integração com BDB-005/BDB-006/BDB-007, não de adicionar mais nomes ao catálogo.
