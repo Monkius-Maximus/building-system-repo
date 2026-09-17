@@ -1,0 +1,389 @@
+{
+  "schema_version": "0.1",
+  "archetype_id": "BLD_INS_HOSPITAL",
+  "display_name": "Hospital",
+  "description": "Equipamento de saúde de porte médio ou grande, com programa setorizado, circulação diferenciada, infraestrutura técnica contínua e possibilidade de atendimento e permanência de pacientes.",
+  "status": "hypothesis",
+  "references": {
+    "bdb001_archetype": "hospital",
+    "bdb001_section": "8.4 / 15",
+    "notes": "Primeira ficha específica derivada da lacuna morfológica identificada em BDB-003-C."
+  },
+  "usage": {
+    "primary": "institutional",
+    "secondary": [
+      "civic"
+    ],
+    "subtype": "healthcare_hospital",
+    "typical_occupancy": [
+      "public",
+      "restricted"
+    ]
+  },
+  "identity": {
+    "volume_types": [
+      "detached",
+      "attached",
+      "courtyard",
+      "slab",
+      "pavilion",
+      "linear",
+      "cluster",
+      "compound"
+    ],
+    "party_walls": "optional",
+    "independent_street_access": "required",
+    "unit_count": {
+      "min": 1,
+      "max": 1,
+      "preferred": [
+        1,
+        1
+      ]
+    },
+    "unit_stacking": "required",
+    "public_ground_floor": "required",
+    "barrier_free_entrance": "required"
+  },
+  "invariants": [
+    {
+      "invariant_id": "INV_INS_HOSPITAL_ACCESSIBLE_ENTRANCE",
+      "statement": "O acesso público principal deve ser livre de barreiras.",
+      "target": "identity.barrier_free_entrance",
+      "test": "identity.barrier_free_entrance == 'required'",
+      "violation_action": "reject"
+    },
+    {
+      "invariant_id": "INV_INS_HOSPITAL_SEPARATED_CIRCULATION",
+      "statement": "O programa exige circulação interna definida para separar fluxos de atendimento, pacientes e apoio.",
+      "target": "slots.required",
+      "test": "'HCR' in slots.required",
+      "violation_action": "reject"
+    },
+    {
+      "invariant_id": "INV_INS_HOSPITAL_TECHNICAL_INFRASTRUCTURE",
+      "statement": "O edifício depende de infraestrutura técnica própria e contínua.",
+      "target": "slots.required",
+      "test": "'TEC' in slots.required",
+      "violation_action": "reject_or_reclassify"
+    },
+    {
+      "invariant_id": "INV_INS_HOSPITAL_PROGRAMMATIC_SCALE",
+      "statement": "A organização deve comportar múltiplos setores funcionais em vez de um único ambiente de atendimento.",
+      "target": "morphology.volume_complexity",
+      "test": "'composite' in morphology.volume_complexity.allowed or 'segmented' in morphology.volume_complexity.allowed",
+      "violation_action": "reject"
+    }
+  ],
+  "morphology": {
+    "floor_count": {
+      "min": 1,
+      "max": 12,
+      "preferred": [
+        3,
+        6
+      ]
+    },
+    "height_classes": {
+      "allowed": [
+        "SINGLE_STOREY",
+        "LOW_RISE",
+        "MID_RISE",
+        "HIGH_RISE"
+      ],
+      "preferred": [
+        "LOW_RISE",
+        "MID_RISE"
+      ]
+    },
+    "plan_shapes": {
+      "allowed": [
+        "rectangle",
+        "wide_rectangle",
+        "L_shape",
+        "T_shape",
+        "U_shape",
+        "courtyard",
+        "irregular"
+      ],
+      "preferred": [
+        "L_shape",
+        "U_shape"
+      ]
+    },
+    "volume_complexity": {
+      "allowed": [
+        "simple",
+        "composite",
+        "segmented"
+      ],
+      "preferred": [
+        "composite",
+        "segmented"
+      ]
+    },
+    "symmetry": {
+      "allowed": [
+        "symmetrical",
+        "approximately_symmetrical",
+        "asymmetrical"
+      ],
+      "preferred": [
+        "asymmetrical",
+        "approximately_symmetrical"
+      ]
+    },
+    "footprint_units": {
+      "width": {
+        "min": 12,
+        "max": 80,
+        "preferred": [
+          24,
+          50
+        ]
+      },
+      "depth": {
+        "min": 10,
+        "max": 70,
+        "preferred": [
+          20,
+          45
+        ]
+      }
+    },
+    "structural_span": {
+      "min": 3,
+      "max": 12,
+      "preferred": [
+        5,
+        8
+      ]
+    }
+  },
+  "slots": {
+    "required": [
+      "FND",
+      "STR",
+      "WAL",
+      "FAC",
+      "ROF",
+      "DOR",
+      "WIN",
+      "HCR",
+      "SGN",
+      "TEC"
+    ],
+    "optional": [
+      "VCR",
+      "CLM",
+      "BND",
+      "PRK",
+      "ORN"
+    ],
+    "forbidden": []
+  },
+  "lot_relationship": {
+    "requires_independent_lot_access": true,
+    "street_frontages": {
+      "min": 1,
+      "max": 4,
+      "preferred": [
+        2,
+        3
+      ]
+    },
+    "lot_types": {
+      "allowed": [
+        "urban_regular",
+        "urban_narrow",
+        "urban_corner",
+        "urban_irregular",
+        "suburban",
+        "rural",
+        "informal"
+      ],
+      "preferred": [
+        "urban_regular",
+        "urban_corner",
+        "suburban"
+      ]
+    },
+    "lot_positions": {
+      "allowed": [
+        "front_aligned",
+        "front_setback",
+        "centered",
+        "corner_aligned",
+        "side_aligned"
+      ],
+      "preferred": [
+        "centered",
+        "front_setback"
+      ]
+    },
+    "street_relations": {
+      "allowed": [
+        "direct_access",
+        "front_yard",
+        "front_fence",
+        "front_wall",
+        "raised_access",
+        "parking_front",
+        "pedestrian_only"
+      ],
+      "preferred": [
+        "direct_access",
+        "front_yard",
+        "parking_front"
+      ]
+    },
+    "setbacks": {
+      "front": {
+        "allowed": [
+          "none",
+          "minimal",
+          "small",
+          "medium",
+          "large"
+        ],
+        "preferred": [
+          "medium",
+          "large"
+        ]
+      },
+      "side": {
+        "allowed": [
+          "none",
+          "minimal",
+          "small",
+          "medium",
+          "large"
+        ],
+        "preferred": [
+          "small",
+          "medium"
+        ]
+      },
+      "rear": {
+        "allowed": [
+          "none",
+          "minimal",
+          "small",
+          "medium",
+          "large"
+        ],
+        "preferred": [
+          "medium",
+          "large"
+        ]
+      }
+    },
+    "lot_coverage": {
+      "min": 0.2,
+      "max": 0.75,
+      "preferred": [
+        0.35,
+        0.6
+      ]
+    },
+    "external_spaces": {
+      "allowed": [
+        "front_yard",
+        "parking_lot",
+        "service_yard",
+        "courtyard",
+        "garden",
+        "patio",
+        "side_yard",
+        "plaza",
+        "loading_area"
+      ],
+      "preferred": [
+        "parking_lot",
+        "loading_area",
+        "service_yard",
+        "courtyard"
+      ]
+    },
+    "required_external_spaces": [
+      "parking_lot",
+      "service_yard"
+    ]
+  },
+  "context_compatibility": {
+    "densities": {
+      "allowed": [
+        "rural_sparse",
+        "rural_clustered",
+        "suburban_low",
+        "urban_low",
+        "urban_medium",
+        "urban_high",
+        "metropolitan",
+        "hyperdense"
+      ],
+      "preferred": [
+        "urban_medium",
+        "urban_high",
+        "metropolitan"
+      ]
+    },
+    "development_stages": {
+      "allowed": [
+        "vernacular",
+        "emerging",
+        "developing",
+        "developed",
+        "advanced"
+      ],
+      "preferred": [
+        "developed",
+        "advanced"
+      ]
+    },
+    "tech_levels": {
+      "allowed": [
+        "early_industrial",
+        "industrial",
+        "mass_produced",
+        "prefabricated",
+        "digital_fabrication",
+        "advanced"
+      ],
+      "preferred": [
+        "industrial",
+        "mass_produced",
+        "advanced"
+      ]
+    },
+    "notes": "O arquétipo descreve a organização hospitalar; clima, cultura, riqueza e linguagem arquitetônica permanecem fora desta ficha."
+  },
+  "transformations": {
+    "allowed": [
+      "vertical_extension",
+      "rear_extension",
+      "side_extension",
+      "facade_renovation",
+      "roof_replacement",
+      "window_replacement",
+      "merging",
+      "abandonment"
+    ],
+    "forbidden": [
+      "garage_conversion",
+      "subdivision"
+    ],
+    "limits": {
+      "max_floor_count_after_extension": 12,
+      "accessible_entrance_must_remain": true,
+      "technical_infrastructure_must_remain": true
+    }
+  },
+  "archetype_escalation": [
+    {
+      "condition": "programa deixa de exigir atendimento institucional de saúde",
+      "suggested_archetype": "BLD_INS_CLINIC_SMALL",
+      "note": "Reclassificar somente quando a organização real do programa voltar a caber na clínica pequena; a decisão não deve ser baseada apenas em área."
+    }
+  ]
+}
