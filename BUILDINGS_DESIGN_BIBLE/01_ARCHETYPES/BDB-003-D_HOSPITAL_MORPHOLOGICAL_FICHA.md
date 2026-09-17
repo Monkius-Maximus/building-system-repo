@@ -119,7 +119,7 @@ Uma receita regional posterior poderá introduzir contexto geográfico e histór
 
 ## 7. Escalonamento
 
-A clínica pequena já declara hospital como destino quando a morfologia ultrapassa seu envelope ou quando surge internação permanente. fileciteturn41file0
+A clínica pequena já declara hospital como destino quando a morfologia ultrapassa seu envelope ou quando surge internação permanente.
 
 A nova ficha mantém a clínica como referência de reclassificação apenas para casos em que o programa efetivo volte a caber no envelope da clínica. Isso evita usar área isoladamente como critério de classificação.
 
