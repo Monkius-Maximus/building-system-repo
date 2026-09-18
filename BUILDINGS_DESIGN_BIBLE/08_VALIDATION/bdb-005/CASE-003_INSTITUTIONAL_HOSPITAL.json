@@ -77,17 +77,189 @@
       }
     ]
   },
-  "checks": [
-    "Todos os 11 slots obrigatorios do hospital possuem candidato institucional.",
-    "STR_INSTITUTIONAL_GENERIC_001 declara capacidade estrutural ate 12 pavimentos.",
-    "VCR e HCR existem como modulos institucionais genericos.",
-    "TEC institucional fornece infraestrutura tecnica continua sem reutilizar artificialmente o reservatorio residencial.",
-    "Os modulos permanecem hypothesis e nao sao afirmacoes de engenharia."
+  "candidate_evaluations": [
+    {
+      "target": "components.FND",
+      "directive_ids": [],
+      "candidates": [
+        {
+          "candidate_id": "FND_INSTITUTIONAL_GENERIC_001",
+          "candidate_kind": "module",
+          "eligible": true,
+          "base_weight": 1,
+          "final_weight": 1,
+          "applied_directive_ids": [],
+          "missing_capabilities": [],
+          "reason": "Candidato institucional declarado compatível com o probe hospitalar."
+        }
+      ]
+    },
+    {
+      "target": "components.STR",
+      "directive_ids": [],
+      "candidates": [
+        {
+          "candidate_id": "STR_INSTITUTIONAL_GENERIC_001",
+          "candidate_kind": "module",
+          "eligible": true,
+          "base_weight": 1,
+          "final_weight": 1,
+          "applied_directive_ids": [],
+          "missing_capabilities": [],
+          "reason": "Candidato institucional declarado compatível com o probe hospitalar."
+        }
+      ]
+    },
+    {
+      "target": "components.WAL",
+      "directive_ids": [],
+      "candidates": [
+        {
+          "candidate_id": "WAL_INSTITUTIONAL_GENERIC_001",
+          "candidate_kind": "module",
+          "eligible": true,
+          "base_weight": 1,
+          "final_weight": 1,
+          "applied_directive_ids": [],
+          "missing_capabilities": [],
+          "reason": "Candidato institucional declarado compatível com o probe hospitalar."
+        }
+      ]
+    },
+    {
+      "target": "components.FAC",
+      "directive_ids": [],
+      "candidates": [
+        {
+          "candidate_id": "FAC_INSTITUTIONAL_GENERIC_001",
+          "candidate_kind": "module",
+          "eligible": true,
+          "base_weight": 1,
+          "final_weight": 1,
+          "applied_directive_ids": [],
+          "missing_capabilities": [],
+          "reason": "Candidato institucional declarado compatível com o probe hospitalar."
+        }
+      ]
+    },
+    {
+      "target": "components.ROF",
+      "directive_ids": [],
+      "candidates": [
+        {
+          "candidate_id": "ROF_INSTITUTIONAL_GENERIC_001",
+          "candidate_kind": "module",
+          "eligible": true,
+          "base_weight": 1,
+          "final_weight": 1,
+          "applied_directive_ids": [],
+          "missing_capabilities": [],
+          "reason": "Candidato institucional declarado compatível com o probe hospitalar."
+        }
+      ]
+    },
+    {
+      "target": "components.DOR",
+      "directive_ids": [],
+      "candidates": [
+        {
+          "candidate_id": "DOR_INSTITUTIONAL_GENERIC_001",
+          "candidate_kind": "module",
+          "eligible": true,
+          "base_weight": 1,
+          "final_weight": 1,
+          "applied_directive_ids": [],
+          "missing_capabilities": [],
+          "reason": "Candidato institucional declarado compatível com o probe hospitalar."
+        }
+      ]
+    },
+    {
+      "target": "components.WIN",
+      "directive_ids": [],
+      "candidates": [
+        {
+          "candidate_id": "WIN_INSTITUTIONAL_GENERIC_001",
+          "candidate_kind": "module",
+          "eligible": true,
+          "base_weight": 1,
+          "final_weight": 1,
+          "applied_directive_ids": [],
+          "missing_capabilities": [],
+          "reason": "Candidato institucional declarado compatível com o probe hospitalar."
+        }
+      ]
+    },
+    {
+      "target": "components.VCR",
+      "directive_ids": [],
+      "candidates": [
+        {
+          "candidate_id": "VCR_INSTITUTIONAL_GENERIC_001",
+          "candidate_kind": "module",
+          "eligible": true,
+          "base_weight": 1,
+          "final_weight": 1,
+          "applied_directive_ids": [],
+          "missing_capabilities": [],
+          "reason": "Candidato institucional declarado compatível com o probe hospitalar."
+        }
+      ]
+    },
+    {
+      "target": "components.HCR",
+      "directive_ids": [],
+      "candidates": [
+        {
+          "candidate_id": "HCR_INSTITUTIONAL_GENERIC_001",
+          "candidate_kind": "module",
+          "eligible": true,
+          "base_weight": 1,
+          "final_weight": 1,
+          "applied_directive_ids": [],
+          "missing_capabilities": [],
+          "reason": "Candidato institucional declarado compatível com o probe hospitalar."
+        }
+      ]
+    },
+    {
+      "target": "components.SGN",
+      "directive_ids": [],
+      "candidates": [
+        {
+          "candidate_id": "SGN_INSTITUTIONAL_GENERIC_001",
+          "candidate_kind": "module",
+          "eligible": true,
+          "base_weight": 1,
+          "final_weight": 1,
+          "applied_directive_ids": [],
+          "missing_capabilities": [],
+          "reason": "Candidato institucional declarado compatível com o probe hospitalar."
+        }
+      ]
+    },
+    {
+      "target": "components.TEC",
+      "directive_ids": [],
+      "candidates": [
+        {
+          "candidate_id": "TEC_INSTITUTIONAL_GENERIC_001",
+          "candidate_kind": "module",
+          "eligible": true,
+          "base_weight": 1,
+          "final_weight": 1,
+          "applied_directive_ids": [],
+          "missing_capabilities": [],
+          "reason": "Candidato institucional declarado compatível com o probe hospitalar."
+        }
+      ]
+    }
   ],
-  "unresolved": [
-    "Selecao procedural por DNA institucional",
-    "colisao espacial e tolerancia geometrica",
-    "valores de desempenho de engenharia",
-    "validação especializada de fluxo hospitalar"
+  "unresolved_directive_ids": [],
+  "warnings": [
+    {
+      "code": "INSTITUTIONAL_PROBE_PARTIAL",
+      "message": "Probe valida o contrato de módulos e encaixes; seleção procedural, geometria e requisitos específicos do hospital permanecem fora deste caso."
+    }
   ]
 }
