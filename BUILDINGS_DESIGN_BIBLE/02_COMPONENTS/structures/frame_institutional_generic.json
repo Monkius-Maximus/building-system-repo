@@ -94,8 +94,7 @@
     {
       "role": "primary",
       "allowed_material_ids": [
-        "MAT_MASONRY_DENSE_GENERIC_001",
-        "MAT_PANEL_LIGHT_GENERIC_001"
+        "MAT_MASONRY_DENSE_GENERIC_001"
       ],
       "required": true
     }
