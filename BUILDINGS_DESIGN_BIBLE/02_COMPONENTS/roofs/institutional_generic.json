@@ -1,0 +1,101 @@
+{
+  "schema_version": "0.1",
+  "module_id": "ROF_INSTITUTIONAL_GENERIC_001",
+  "display_name": "Institutional Roof — Generic Prototype",
+  "description": "Cobertura modular generica compativel com edificios institucionais de ate doze pavimentos.",
+  "status": "hypothesis",
+  "slot_code": "ROF",
+  "module_type": "institutional_roof",
+  "lod_support": [
+    1,
+    2,
+    3
+  ],
+  "base_weight": 1,
+  "tags": [
+    "institutional",
+    "generic_prototype"
+  ],
+  "capabilities": [
+    "weather_enclosure_capable",
+    "rain_drainage_capable"
+  ],
+  "geometry": {
+    "width_units": {
+      "min": 5,
+      "max": 40
+    },
+    "height_units": {
+      "min": 0.3,
+      "max": 4
+    },
+    "depth_units": {
+      "min": 5,
+      "max": 30
+    },
+    "repeatable_axes": [
+      "x",
+      "z"
+    ],
+    "mirror_allowed": true,
+    "rotation_steps": [
+      0,
+      90,
+      180,
+      270
+    ]
+  },
+  "sockets": [
+    {
+      "socket_id": "structure_bottom",
+      "interface": "structure_to_roof",
+      "role": "consumer",
+      "normal": "down",
+      "required": true,
+      "capacity": 1
+    }
+  ],
+  "material_refs": [
+    {
+      "role": "surface",
+      "allowed_material_ids": [
+        "MAT_MASONRY_DENSE_GENERIC_001",
+        "MAT_PANEL_LIGHT_GENERIC_001"
+      ],
+      "required": true
+    }
+  ],
+  "compatibility": {
+    "archetype_ids": [
+      "BLD_INS_HOSPITAL",
+      "BLD_INS_SCHOOL_SMALL",
+      "BLD_INS_CLINIC_SMALL"
+    ],
+    "usage": [
+      "institutional"
+    ],
+    "height_classes": [
+      "SINGLE_STOREY",
+      "LOW_RISE",
+      "MID_RISE"
+    ],
+    "tech_levels": [
+      "vernacular",
+      "craft",
+      "early_industrial",
+      "industrial",
+      "mass_produced",
+      "prefabricated",
+      "digital_fabrication",
+      "advanced"
+    ],
+    "max_floor_count": 12
+  },
+  "parameters": {
+    "roof_overhang": {
+      "min": 0.1,
+      "max": 0.8
+    },
+    "drainage_system": true
+  }
+}
