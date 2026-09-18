@@ -169,12 +169,13 @@
       "ROF",
       "DOR",
       "WIN",
+      "VCR",
       "HCR",
       "SGN",
       "TEC"
     ],
     "optional": [
-      "VCR",
+      "BAL",
       "CLM",
       "BND",
       "PRK",

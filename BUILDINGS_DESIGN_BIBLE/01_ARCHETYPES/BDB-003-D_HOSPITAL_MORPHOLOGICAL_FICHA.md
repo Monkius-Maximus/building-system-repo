@@ -81,11 +81,11 @@ A ficha usa somente categorias de slots já presentes no contrato atual.
 
 ### Obrigatórios
 
-`FND`, `STR`, `WAL`, `FAC`, `ROF`, `DOR`, `WIN`, `HCR`, `SGN`, `TEC`
+`FND`, `STR`, `WAL`, `FAC`, `ROF`, `DOR`, `WIN`, `VCR`, `HCR`, `SGN`, `TEC`
 
 ### Opcionais
 
-`VCR`, `CLM`, `BND`, `PRK`, `ORN`
+`BAL`, `CLM`, `BND`, `PRK`, `ORN`
 
 A ficha **não inventa módulos hospitalares específicos** nesta etapa. Isso é deliberado: primeiro validamos a abstração do arquétipo; depois verificamos se o catálogo BDB-005 possui candidatos suficientes para consumi-la.
 
