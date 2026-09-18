@@ -1,0 +1,134 @@
+{
+  "schema_version": "0.1",
+  "module_id": "STR_INSTITUTIONAL_GENERIC_001",
+  "display_name": "Institutional Frame — Generic Prototype",
+  "description": "Estrutura modular generica para edifícios institucionais de ate doze pavimentos.",
+  "status": "hypothesis",
+  "slot_code": "STR",
+  "module_type": "institutional_frame",
+  "lod_support": [
+    1,
+    2,
+    3
+  ],
+  "base_weight": 1,
+  "tags": [
+    "institutional",
+    "generic_prototype"
+  ],
+  "capabilities": [
+    "twelve_storey_support_capable",
+    "facade_anchor_capable",
+    "roof_support_capable",
+    "circulation_anchor_capable"
+  ],
+  "geometry": {
+    "width_units": {
+      "min": 5,
+      "max": 40
+    },
+    "height_units": {
+      "min": 1,
+      "max": 12
+    },
+    "depth_units": {
+      "min": 5,
+      "max": 30
+    },
+    "repeatable_axes": [
+      "x",
+      "y",
+      "z"
+    ],
+    "mirror_allowed": true,
+    "rotation_steps": [
+      0,
+      90,
+      180,
+      270
+    ]
+  },
+  "sockets": [
+    {
+      "socket_id": "foundation_bottom",
+      "interface": "foundation_to_structure",
+      "role": "consumer",
+      "normal": "down",
+      "required": true,
+      "capacity": 1
+    },
+    {
+      "socket_id": "wall_anchor",
+      "interface": "structure_to_wall",
+      "role": "provider",
+      "normal": "outward",
+      "required": true,
+      "capacity": 12
+    },
+    {
+      "socket_id": "facade_anchor",
+      "interface": "structure_to_facade",
+      "role": "provider",
+      "normal": "outward",
+      "required": true,
+      "capacity": 12
+    },
+    {
+      "socket_id": "roof_top",
+      "interface": "structure_to_roof",
+      "role": "provider",
+      "normal": "up",
+      "required": true,
+      "capacity": 1
+    },
+    {
+      "socket_id": "technical_anchor",
+      "interface": "technical_anchor",
+      "role": "provider",
+      "normal": "up",
+      "required": false,
+      "capacity": 4
+    }
+  ],
+  "material_refs": [
+    {
+      "role": "primary",
+      "allowed_material_ids": [
+        "MAT_MASONRY_DENSE_GENERIC_001"
+      ],
+      "required": true
+    }
+  ],
+  "compatibility": {
+    "archetype_ids": [
+      "BLD_INS_HOSPITAL",
+      "BLD_INS_SCHOOL_SMALL",
+      "BLD_INS_CLINIC_SMALL"
+    ],
+    "usage": [
+      "institutional"
+    ],
+    "height_classes": [
+      "SINGLE_STOREY",
+      "LOW_RISE",
+      "MID_RISE"
+    ],
+    "tech_levels": [
+      "vernacular",
+      "craft",
+      "early_industrial",
+      "industrial",
+      "mass_produced",
+      "prefabricated",
+      "digital_fabrication",
+      "advanced"
+    ],
+    "max_floor_count": 12
+  },
+  "parameters": {
+    "floor_capacity": {
+      "min": 1,
+      "max": 12
+    }
+  }
+}

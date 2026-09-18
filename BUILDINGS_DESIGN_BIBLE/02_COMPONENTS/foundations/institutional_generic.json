@@ -1,0 +1,100 @@
+{
+  "schema_version": "0.1",
+  "module_id": "FND_INSTITUTIONAL_GENERIC_001",
+  "display_name": "Institutional Foundation — Generic Prototype",
+  "description": "Fundacao modular generica para edifícios institucionais de baixa e media altura.",
+  "status": "hypothesis",
+  "slot_code": "FND",
+  "module_type": "institutional_foundation",
+  "lod_support": [
+    1,
+    2,
+    3
+  ],
+  "base_weight": 1,
+  "tags": [
+    "institutional",
+    "generic_prototype"
+  ],
+  "capabilities": [
+    "ground_bearing_capable",
+    "institutional_support_capable"
+  ],
+  "geometry": {
+    "width_units": {
+      "min": 5,
+      "max": 40
+    },
+    "height_units": {
+      "min": 0.3,
+      "max": 2
+    },
+    "depth_units": {
+      "min": 5,
+      "max": 30
+    },
+    "repeatable_axes": [
+      "x",
+      "z"
+    ],
+    "mirror_allowed": true,
+    "rotation_steps": [
+      0,
+      90,
+      180,
+      270
+    ]
+  },
+  "sockets": [
+    {
+      "socket_id": "structure_top",
+      "interface": "foundation_to_structure",
+      "role": "provider",
+      "normal": "up",
+      "required": true,
+      "capacity": 1
+    }
+  ],
+  "material_refs": [
+    {
+      "role": "primary",
+      "allowed_material_ids": [
+        "MAT_MASONRY_DENSE_GENERIC_001"
+      ],
+      "required": true
+    }
+  ],
+  "compatibility": {
+    "archetype_ids": [
+      "BLD_INS_HOSPITAL",
+      "BLD_INS_SCHOOL_SMALL",
+      "BLD_INS_CLINIC_SMALL"
+    ],
+    "usage": [
+      "institutional"
+    ],
+    "height_classes": [
+      "SINGLE_STOREY",
+      "LOW_RISE",
+      "MID_RISE"
+    ],
+    "tech_levels": [
+      "vernacular",
+      "craft",
+      "early_industrial",
+      "industrial",
+      "mass_produced",
+      "prefabricated",
+      "digital_fabrication",
+      "advanced"
+    ],
+    "max_floor_count": 12
+  },
+  "parameters": {
+    "foundation_contact": "continuous",
+    "floor_capacity": {
+      "min": 1,
+      "max": 12
+    }
+  }
+}

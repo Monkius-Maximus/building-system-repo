@@ -1,0 +1,96 @@
+{
+  "schema_version": "0.1",
+  "module_id": "TEC_INSTITUTIONAL_GENERIC_001",
+  "display_name": "Institutional Technical Core — Generic Prototype",
+  "description": "Nucleo tecnico modular generico para infraestrutura propria de edifícios institucionais.",
+  "status": "hypothesis",
+  "slot_code": "TEC",
+  "module_type": "institutional_technical_core",
+  "lod_support": [
+    1,
+    2,
+    3
+  ],
+  "base_weight": 1,
+  "tags": [
+    "institutional",
+    "generic_prototype"
+  ],
+  "capabilities": [
+    "continuous_technical_infrastructure_capable",
+    "institutional_service_capable"
+  ],
+  "geometry": {
+    "width_units": {
+      "min": 1,
+      "max": 8
+    },
+    "height_units": {
+      "min": 1,
+      "max": 12
+    },
+    "depth_units": {
+      "min": 1,
+      "max": 8
+    },
+    "repeatable_axes": [
+      "y"
+    ],
+    "mirror_allowed": true,
+    "rotation_steps": [
+      0,
+      90,
+      180,
+      270
+    ]
+  },
+  "sockets": [
+    {
+      "socket_id": "structure_anchor",
+      "interface": "technical_anchor",
+      "role": "consumer",
+      "normal": "up",
+      "required": true,
+      "capacity": 1
+    }
+  ],
+  "material_refs": [],
+  "compatibility": {
+    "archetype_ids": [
+      "BLD_INS_HOSPITAL",
+      "BLD_INS_SCHOOL_SMALL",
+      "BLD_INS_CLINIC_SMALL"
+    ],
+    "usage": [
+      "institutional"
+    ],
+    "height_classes": [
+      "SINGLE_STOREY",
+      "LOW_RISE",
+      "MID_RISE"
+    ],
+    "tech_levels": [
+      "vernacular",
+      "craft",
+      "early_industrial",
+      "industrial",
+      "mass_produced",
+      "prefabricated",
+      "digital_fabrication",
+      "advanced"
+    ],
+    "max_floor_count": 12
+  },
+  "parameters": {
+    "service_levels": {
+      "min": 1,
+      "max": 12
+    },
+    "systems": [
+      "water",
+      "power",
+      "drainage",
+      "communications"
+    ]
+  }
+}

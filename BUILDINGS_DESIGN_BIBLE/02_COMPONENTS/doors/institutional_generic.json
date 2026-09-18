@@ -1,0 +1,90 @@
+{
+  "schema_version": "0.1",
+  "module_id": "DOR_INSTITUTIONAL_GENERIC_001",
+  "display_name": "Institutional Door — Generic Prototype",
+  "description": "Porta modular generica para acessos institucionais controlados ou publicos.",
+  "status": "hypothesis",
+  "slot_code": "DOR",
+  "module_type": "institutional_door",
+  "lod_support": [
+    1,
+    2,
+    3
+  ],
+  "base_weight": 1,
+  "tags": [
+    "institutional",
+    "generic_prototype"
+  ],
+  "capabilities": [
+    "independent_access_capable",
+    "weather_seal_capable",
+    "institutional_access_capable"
+  ],
+  "geometry": {
+    "width_units": {
+      "min": 0.8,
+      "max": 2.4
+    },
+    "height_units": {
+      "min": 1.8,
+      "max": 3
+    },
+    "depth_units": {
+      "min": 0.05,
+      "max": 0.3
+    },
+    "repeatable_axes": [],
+    "mirror_allowed": true,
+    "rotation_steps": [
+      0,
+      90,
+      180,
+      270
+    ]
+  },
+  "sockets": [
+    {
+      "socket_id": "facade_opening",
+      "interface": "opening_door",
+      "role": "consumer",
+      "normal": "inward",
+      "required": true,
+      "capacity": 1
+    }
+  ],
+  "material_refs": [],
+  "compatibility": {
+    "archetype_ids": [
+      "BLD_INS_HOSPITAL",
+      "BLD_INS_SCHOOL_SMALL",
+      "BLD_INS_CLINIC_SMALL"
+    ],
+    "usage": [
+      "institutional"
+    ],
+    "height_classes": [
+      "SINGLE_STOREY",
+      "LOW_RISE",
+      "MID_RISE"
+    ],
+    "tech_levels": [
+      "vernacular",
+      "craft",
+      "early_industrial",
+      "industrial",
+      "mass_produced",
+      "prefabricated",
+      "digital_fabrication",
+      "advanced"
+    ],
+    "max_floor_count": 12
+  },
+  "parameters": {
+    "leaf_count": {
+      "min": 1,
+      "max": 2
+    },
+    "accessible_width_capable": true
+  }
+}
