@@ -1,0 +1,93 @@
+{
+  "schema_version": "0.1",
+  "case_id": "BDB005_CASE_INSTITUTIONAL_HOSPITAL_001",
+  "dna_id": "DNA_TEST_INSTITUTIONAL_HOSPITAL_001",
+  "catalog_version": "0.1",
+  "status": "partial",
+  "assembly_probe": {
+    "module_ids": [
+      "FND_INSTITUTIONAL_GENERIC_001",
+      "STR_INSTITUTIONAL_GENERIC_001",
+      "WAL_INSTITUTIONAL_GENERIC_001",
+      "FAC_INSTITUTIONAL_GENERIC_001",
+      "ROF_INSTITUTIONAL_GENERIC_001",
+      "DOR_INSTITUTIONAL_GENERIC_001",
+      "WIN_INSTITUTIONAL_GENERIC_001",
+      "VCR_INSTITUTIONAL_GENERIC_001",
+      "HCR_INSTITUTIONAL_GENERIC_001",
+      "SGN_INSTITUTIONAL_GENERIC_001",
+      "TEC_INSTITUTIONAL_GENERIC_001"
+    ],
+    "connections": [
+      {
+        "from_module_id": "FND_INSTITUTIONAL_GENERIC_001",
+        "from_socket_id": "structure_top",
+        "to_module_id": "STR_INSTITUTIONAL_GENERIC_001",
+        "to_socket_id": "foundation_bottom",
+        "interface": "foundation_to_structure"
+      },
+      {
+        "from_module_id": "STR_INSTITUTIONAL_GENERIC_001",
+        "from_socket_id": "wall_anchor",
+        "to_module_id": "WAL_INSTITUTIONAL_GENERIC_001",
+        "to_socket_id": "structure_inner",
+        "interface": "structure_to_wall"
+      },
+      {
+        "from_module_id": "STR_INSTITUTIONAL_GENERIC_001",
+        "from_socket_id": "facade_anchor",
+        "to_module_id": "FAC_INSTITUTIONAL_GENERIC_001",
+        "to_socket_id": "structure_inner",
+        "interface": "structure_to_facade"
+      },
+      {
+        "from_module_id": "STR_INSTITUTIONAL_GENERIC_001",
+        "from_socket_id": "roof_top",
+        "to_module_id": "ROF_INSTITUTIONAL_GENERIC_001",
+        "to_socket_id": "structure_bottom",
+        "interface": "structure_to_roof"
+      },
+      {
+        "from_module_id": "FAC_INSTITUTIONAL_GENERIC_001",
+        "from_socket_id": "window_opening",
+        "to_module_id": "WIN_INSTITUTIONAL_GENERIC_001",
+        "to_socket_id": "facade_opening",
+        "interface": "opening_window"
+      },
+      {
+        "from_module_id": "FAC_INSTITUTIONAL_GENERIC_001",
+        "from_socket_id": "door_opening",
+        "to_module_id": "DOR_INSTITUTIONAL_GENERIC_001",
+        "to_socket_id": "facade_opening",
+        "interface": "opening_door"
+      },
+      {
+        "from_module_id": "STR_INSTITUTIONAL_GENERIC_001",
+        "from_socket_id": "technical_anchor",
+        "to_module_id": "TEC_INSTITUTIONAL_GENERIC_001",
+        "to_socket_id": "structure_anchor",
+        "interface": "technical_anchor"
+      },
+      {
+        "from_module_id": "FAC_INSTITUTIONAL_GENERIC_001",
+        "from_socket_id": "signage_anchor",
+        "to_module_id": "SGN_INSTITUTIONAL_GENERIC_001",
+        "to_socket_id": "facade_anchor",
+        "interface": "signage_anchor"
+      }
+    ]
+  },
+  "checks": [
+    "Todos os 11 slots obrigatorios do hospital possuem candidato institucional.",
+    "STR_INSTITUTIONAL_GENERIC_001 declara capacidade estrutural ate 12 pavimentos.",
+    "VCR e HCR existem como modulos institucionais genericos.",
+    "TEC institucional fornece infraestrutura tecnica continua sem reutilizar artificialmente o reservatorio residencial.",
+    "Os modulos permanecem hypothesis e nao sao afirmacoes de engenharia."
+  ],
+  "unresolved": [
+    "Selecao procedural por DNA institucional",
+    "colisao espacial e tolerancia geometrica",
+    "valores de desempenho de engenharia",
+    "validação especializada de fluxo hospitalar"
+  ]
+}
