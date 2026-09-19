@@ -255,7 +255,14 @@
       ]
     }
   ],
-  "unresolved_directive_ids": [],
+  "unresolved_directive_ids": [
+    "DIR_TROP_HUM_ROOF_DRAINAGE_001",
+    "DIR_TROP_HUM_ROOF_OVERHANG_001",
+    "DIR_TROP_HUM_ROOF_FORM_001",
+    "DIR_TROP_HUM_MOISTURE_MATERIAL_001",
+    "DIR_TROP_HUM_OPENING_RATIO_001",
+    "DIR_TROP_HUM_SHADE_001"
+  ],
   "warnings": [
     {
       "code": "INSTITUTIONAL_PROBE_PARTIAL",
