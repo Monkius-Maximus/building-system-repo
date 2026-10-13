@@ -90,7 +90,7 @@
           "final_weight": 1,
           "applied_directive_ids": [],
           "missing_capabilities": [],
-          "reason": "Candidato institucional declarado compatível com o probe hospitalar."
+          "reason": "Unico candidato do catalogo compativel com BLD_INS_HOSPITAL neste slot; nenhuma diretiva do DNA incide sobre ele."
         }
       ]
     },
@@ -106,7 +106,7 @@
           "final_weight": 1,
           "applied_directive_ids": [],
           "missing_capabilities": [],
-          "reason": "Candidato institucional declarado compatível com o probe hospitalar."
+          "reason": "Unico candidato do catalogo compativel com BLD_INS_HOSPITAL neste slot; nenhuma diretiva do DNA incide sobre ele."
         }
       ]
     },
@@ -122,39 +122,62 @@
           "final_weight": 1,
           "applied_directive_ids": [],
           "missing_capabilities": [],
-          "reason": "Candidato institucional declarado compatível com o probe hospitalar."
+          "reason": "Unico candidato do catalogo compativel com BLD_INS_HOSPITAL neste slot; nenhuma diretiva do DNA incide sobre ele."
         }
       ]
     },
     {
-      "target": "components.FAC",
-      "directive_ids": [],
+      "target": "components.facade.opening_ratio",
+      "directive_ids": [
+        "DIR_TROP_HUM_OPENING_RATIO_001"
+      ],
       "candidates": [
         {
           "candidate_id": "FAC_INSTITUTIONAL_GENERIC_001",
           "candidate_kind": "module",
           "eligible": true,
-          "base_weight": 1,
-          "final_weight": 1,
-          "applied_directive_ids": [],
+          "base_weight": 1.0,
+          "final_weight": 1.0,
+          "applied_directive_ids": [
+            "DIR_TROP_HUM_OPENING_RATIO_001"
+          ],
           "missing_capabilities": [],
-          "reason": "Candidato institucional declarado compatível com o probe hospitalar."
+          "effective_parameters": {
+            "opening_ratio": {
+              "min": 0.1442,
+              "max": 0.69945
+            }
+          },
+          "reason": "A faixa de abertura da fachada institucional recebe o deslocamento climatico."
         }
       ]
     },
     {
-      "target": "components.ROF",
-      "directive_ids": [],
+      "target": "components.roof",
+      "directive_ids": [
+        "DIR_TROP_HUM_ROOF_DRAINAGE_001",
+        "DIR_TROP_HUM_ROOF_OVERHANG_001",
+        "DIR_TROP_HUM_ROOF_FORM_001"
+      ],
       "candidates": [
         {
           "candidate_id": "ROF_INSTITUTIONAL_GENERIC_001",
           "candidate_kind": "module",
           "eligible": true,
-          "base_weight": 1,
-          "final_weight": 1,
-          "applied_directive_ids": [],
+          "base_weight": 1.0,
+          "final_weight": 1.0,
+          "applied_directive_ids": [
+            "DIR_TROP_HUM_ROOF_DRAINAGE_001",
+            "DIR_TROP_HUM_ROOF_OVERHANG_001"
+          ],
           "missing_capabilities": [],
-          "reason": "Candidato institucional declarado compatível com o probe hospitalar."
+          "effective_parameters": {
+            "roof_overhang": {
+              "min": 0.202,
+              "max": 1.004
+            }
+          },
+          "reason": "Declara rain_drainage_capable e recebe o deslocamento de beiral; sem tags pitched ou rain_shedding, nao recebe a preferencia de forma."
         }
       ]
     },
@@ -170,7 +193,7 @@
           "final_weight": 1,
           "applied_directive_ids": [],
           "missing_capabilities": [],
-          "reason": "Candidato institucional declarado compatível com o probe hospitalar."
+          "reason": "Unico candidato do catalogo compativel com BLD_INS_HOSPITAL neste slot; nenhuma diretiva do DNA incide sobre ele."
         }
       ]
     },
@@ -186,7 +209,7 @@
           "final_weight": 1,
           "applied_directive_ids": [],
           "missing_capabilities": [],
-          "reason": "Candidato institucional declarado compatível com o probe hospitalar."
+          "reason": "Unico candidato do catalogo compativel com BLD_INS_HOSPITAL neste slot; nenhuma diretiva do DNA incide sobre ele."
         }
       ]
     },
@@ -202,7 +225,7 @@
           "final_weight": 1,
           "applied_directive_ids": [],
           "missing_capabilities": [],
-          "reason": "Candidato institucional declarado compatível com o probe hospitalar."
+          "reason": "Unico candidato do catalogo compativel com BLD_INS_HOSPITAL neste slot; nenhuma diretiva do DNA incide sobre ele."
         }
       ]
     },
@@ -218,7 +241,7 @@
           "final_weight": 1,
           "applied_directive_ids": [],
           "missing_capabilities": [],
-          "reason": "Candidato institucional declarado compatível com o probe hospitalar."
+          "reason": "Unico candidato do catalogo compativel com BLD_INS_HOSPITAL neste slot; nenhuma diretiva do DNA incide sobre ele."
         }
       ]
     },
@@ -234,7 +257,7 @@
           "final_weight": 1,
           "applied_directive_ids": [],
           "missing_capabilities": [],
-          "reason": "Candidato institucional declarado compatível com o probe hospitalar."
+          "reason": "Unico candidato do catalogo compativel com BLD_INS_HOSPITAL neste slot; nenhuma diretiva do DNA incide sobre ele."
         }
       ]
     },
@@ -250,23 +273,76 @@
           "final_weight": 1,
           "applied_directive_ids": [],
           "missing_capabilities": [],
-          "reason": "Candidato institucional declarado compatível com o probe hospitalar."
+          "reason": "Unico candidato do catalogo compativel com BLD_INS_HOSPITAL neste slot; nenhuma diretiva do DNA incide sobre ele."
+        }
+      ]
+    },
+    {
+      "target": "components.materials",
+      "directive_ids": [
+        "DIR_TROP_HUM_MOISTURE_MATERIAL_001"
+      ],
+      "candidates": [
+        {
+          "candidate_id": "MAT_MASONRY_DENSE_GENERIC_001",
+          "candidate_kind": "material",
+          "eligible": true,
+          "base_weight": 1.0,
+          "final_weight": 1.1785,
+          "applied_directive_ids": [
+            "DIR_TROP_HUM_MOISTURE_MATERIAL_001"
+          ],
+          "missing_capabilities": [],
+          "reason": "Material permitido em FND, STR, WAL e FAC institucionais; a tag moisture_resistant recebe preferencia climatica."
+        },
+        {
+          "candidate_id": "MAT_PANEL_LIGHT_GENERIC_001",
+          "candidate_kind": "material",
+          "eligible": true,
+          "base_weight": 1.0,
+          "final_weight": 1.0,
+          "applied_directive_ids": [],
+          "missing_capabilities": [],
+          "reason": "Material permitido em WAL e FAC institucionais; permanece elegivel sem a preferencia por resistencia a umidade."
+        },
+        {
+          "candidate_id": "MAT_SURFACE_NEUTRAL_GENERIC_001",
+          "candidate_kind": "material",
+          "eligible": true,
+          "base_weight": 1.0,
+          "final_weight": 1.0,
+          "applied_directive_ids": [],
+          "missing_capabilities": [],
+          "reason": "Material permitido em ROF institucional; permanece elegivel sem a preferencia por resistencia a umidade."
+        },
+        {
+          "candidate_id": "MAT_SURFACE_REFLECTIVE_GENERIC_001",
+          "candidate_kind": "material",
+          "eligible": true,
+          "base_weight": 1.0,
+          "final_weight": 1.0,
+          "applied_directive_ids": [],
+          "missing_capabilities": [],
+          "reason": "Material permitido em ROF institucional; permanece elegivel sem a preferencia por resistencia a umidade."
         }
       ]
     }
   ],
   "unresolved_directive_ids": [
-    "DIR_TROP_HUM_ROOF_DRAINAGE_001",
-    "DIR_TROP_HUM_ROOF_OVERHANG_001",
-    "DIR_TROP_HUM_ROOF_FORM_001",
-    "DIR_TROP_HUM_MOISTURE_MATERIAL_001",
-    "DIR_TROP_HUM_OPENING_RATIO_001",
     "DIR_TROP_HUM_SHADE_001"
   ],
   "warnings": [
     {
       "code": "INSTITUTIONAL_PROBE_PARTIAL",
-      "message": "Probe valida o contrato de módulos e encaixes; seleção procedural, geometria e requisitos específicos do hospital permanecem fora deste caso."
+      "message": "Probe resolve as diretivas climaticas de cobertura, fachada e materiais; geometria, setorizacao e requisitos especificos do hospital permanecem fora deste caso."
+    },
+    {
+      "code": "NO_COMPETING_CANDIDATES",
+      "message": "Cada slot possui um unico modulo compativel; a selecao e deterministica por ausencia de alternativas e nenhuma rejeicao por capability e exercitada."
+    },
+    {
+      "code": "CLIMATE_CONTROL_CANDIDATE_UNAVAILABLE",
+      "message": "DIR_TROP_HUM_SHADE_001 permanece pendente: o unico modulo CLM do catalogo e restrito a BLD_RES_HOUSE_DETACHED."
     }
   ]
 }
