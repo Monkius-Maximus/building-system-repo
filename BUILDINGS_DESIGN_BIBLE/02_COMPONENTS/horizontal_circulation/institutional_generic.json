@@ -1,0 +1,87 @@
+{
+  "schema_version": "0.1",
+  "module_id": "HCR_INSTITUTIONAL_GENERIC_001",
+  "display_name": "Institutional Horizontal Circulation — Generic Prototype",
+  "description": "Circulacao horizontal modular generica para organizar fluxos coletivos entre setores institucionais.",
+  "status": "hypothesis",
+  "slot_code": "HCR",
+  "module_type": "institutional_horizontal_circulation",
+  "lod_support": [
+    1,
+    2,
+    3
+  ],
+  "base_weight": 1,
+  "tags": [
+    "institutional",
+    "generic_prototype"
+  ],
+  "capabilities": [
+    "horizontal_circulation_capable",
+    "collective_flow_capable",
+    "sector_link_capable"
+  ],
+  "geometry": {
+    "width_units": {
+      "min": 2,
+      "max": 40
+    },
+    "height_units": {
+      "min": 1,
+      "max": 4
+    },
+    "depth_units": {
+      "min": 1,
+      "max": 8
+    },
+    "repeatable_axes": [
+      "x",
+      "y"
+    ],
+    "mirror_allowed": true,
+    "rotation_steps": [
+      0,
+      90,
+      180,
+      270
+    ]
+  },
+  "sockets": [],
+  "material_refs": [],
+  "compatibility": {
+    "archetype_ids": [
+      "BLD_INS_HOSPITAL",
+      "BLD_INS_SCHOOL_SMALL",
+      "BLD_INS_CLINIC_SMALL"
+    ],
+    "usage": [
+      "institutional"
+    ],
+    "height_classes": [
+      "SINGLE_STOREY",
+      "LOW_RISE",
+      "MID_RISE"
+    ],
+    "tech_levels": [
+      "vernacular",
+      "craft",
+      "early_industrial",
+      "industrial",
+      "mass_produced",
+      "prefabricated",
+      "digital_fabrication",
+      "advanced"
+    ],
+    "max_floor_count": 12
+  },
+  "parameters": {
+    "width": {
+      "min": 1.5,
+      "max": 5
+    },
+    "sector_links": {
+      "min": 2,
+      "max": 16
+    }
+  }
+}

@@ -1,0 +1,87 @@
+{
+  "schema_version": "0.1",
+  "module_id": "VCR_INSTITUTIONAL_GENERIC_001",
+  "display_name": "Institutional Vertical Circulation — Generic Prototype",
+  "description": "Nucleo modular generico de circulacao vertical para edifícios institucionais.",
+  "status": "hypothesis",
+  "slot_code": "VCR",
+  "module_type": "institutional_vertical_circulation",
+  "lod_support": [
+    1,
+    2,
+    3
+  ],
+  "base_weight": 1,
+  "tags": [
+    "institutional",
+    "generic_prototype"
+  ],
+  "capabilities": [
+    "vertical_access_capable",
+    "multi_floor_circulation_capable",
+    "accessible_vertical_circulation_capable"
+  ],
+  "geometry": {
+    "width_units": {
+      "min": 2,
+      "max": 8
+    },
+    "height_units": {
+      "min": 1,
+      "max": 12
+    },
+    "depth_units": {
+      "min": 2,
+      "max": 8
+    },
+    "repeatable_axes": [
+      "y"
+    ],
+    "mirror_allowed": true,
+    "rotation_steps": [
+      0,
+      90,
+      180,
+      270
+    ]
+  },
+  "sockets": [],
+  "material_refs": [],
+  "compatibility": {
+    "archetype_ids": [
+      "BLD_INS_HOSPITAL",
+      "BLD_INS_SCHOOL_SMALL",
+      "BLD_INS_CLINIC_SMALL"
+    ],
+    "usage": [
+      "institutional"
+    ],
+    "height_classes": [
+      "SINGLE_STOREY",
+      "LOW_RISE",
+      "MID_RISE"
+    ],
+    "tech_levels": [
+      "vernacular",
+      "craft",
+      "early_industrial",
+      "industrial",
+      "mass_produced",
+      "prefabricated",
+      "digital_fabrication",
+      "advanced"
+    ],
+    "max_floor_count": 12
+  },
+  "parameters": {
+    "floor_capacity": {
+      "min": 1,
+      "max": 12
+    },
+    "circulation_modes": [
+      "stair",
+      "lift",
+      "ramp"
+    ]
+  }
+}

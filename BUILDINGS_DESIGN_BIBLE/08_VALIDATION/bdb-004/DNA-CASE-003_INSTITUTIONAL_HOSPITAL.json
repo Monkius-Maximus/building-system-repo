@@ -1,0 +1,461 @@
+{
+  "schema_version": "0.1",
+  "dna_id": "DNA_TEST_INSTITUTIONAL_HOSPITAL_001",
+  "status": "partial",
+  "provenance": {
+    "archetype_id": "BLD_INS_HOSPITAL",
+    "context_ids": [
+      "CTX_TEST_TROPICAL_URBAN_MIDDLE_001"
+    ],
+    "modifier_profile_ids": [
+      "MOD_CLIMATE_TROPICAL_HUMID_001"
+    ],
+    "input_seed": 21003,
+    "resolver_version": "spec-fixture-0.1",
+    "canonicalization": "RFC8785"
+  },
+  "identity_lock": {
+    "archetype_id": "BLD_INS_HOSPITAL",
+    "invariant_ids": [
+      "INV_INS_HOSPITAL_ACCESSIBLE_ENTRANCE",
+      "INV_INS_HOSPITAL_SEPARATED_CIRCULATION",
+      "INV_INS_HOSPITAL_TECHNICAL_INFRASTRUCTURE",
+      "INV_INS_HOSPITAL_PROGRAMMATIC_SCALE"
+    ],
+    "locked_paths": [
+      "identity.barrier_free_entrance",
+      "identity.public_ground_floor",
+      "morphology.volume_complexity",
+      "slots.required",
+      "usage.primary"
+    ]
+  },
+  "context_summary": {
+    "scope": "lot",
+    "climate": "tropical_humid",
+    "climate_intensity": 0.85,
+    "density": "urban_medium",
+    "development": "established",
+    "infrastructure": "standard",
+    "wealth_level": 3,
+    "construction_period": "contemporary",
+    "tech_level": "mass_produced"
+  },
+  "constraint_envelope": {
+    "compatibility_check": "passed",
+    "morphology": {
+      "floor_count": {
+        "min": 1,
+        "max": 12,
+        "preferred": [
+          3,
+          6
+        ]
+      },
+      "height_classes": {
+        "allowed": [
+          "SINGLE_STOREY",
+          "LOW_RISE",
+          "MID_RISE",
+          "HIGH_RISE"
+        ],
+        "preferred": [
+          "LOW_RISE",
+          "MID_RISE"
+        ]
+      },
+      "plan_shapes": {
+        "allowed": [
+          "rectangle",
+          "wide_rectangle",
+          "L_shape",
+          "T_shape",
+          "U_shape",
+          "courtyard",
+          "irregular"
+        ],
+        "preferred": [
+          "L_shape",
+          "U_shape"
+        ]
+      },
+      "volume_complexity": {
+        "allowed": [
+          "simple",
+          "composite",
+          "segmented"
+        ],
+        "preferred": [
+          "composite",
+          "segmented"
+        ]
+      },
+      "symmetry": {
+        "allowed": [
+          "symmetrical",
+          "approximately_symmetrical",
+          "asymmetrical"
+        ],
+        "preferred": [
+          "asymmetrical",
+          "approximately_symmetrical"
+        ]
+      },
+      "footprint_units": {
+        "width": {
+          "min": 12,
+          "max": 80,
+          "preferred": [
+            24,
+            50
+          ]
+        },
+        "depth": {
+          "min": 10,
+          "max": 70,
+          "preferred": [
+            20,
+            45
+          ]
+        }
+      }
+    },
+    "slot_policy": {
+      "required": [
+        "FND",
+        "STR",
+        "WAL",
+        "FAC",
+        "ROF",
+        "DOR",
+        "WIN",
+        "VCR",
+        "HCR",
+        "SGN",
+        "TEC"
+      ],
+      "optional": [
+        "BAL",
+        "CLM",
+        "BND",
+        "PRK",
+        "ORN"
+      ],
+      "forbidden": []
+    },
+    "lot": {
+      "lot_types": {
+        "allowed": [
+          "urban_regular",
+          "urban_narrow",
+          "urban_corner",
+          "urban_irregular",
+          "suburban",
+          "rural",
+          "informal"
+        ],
+        "preferred": [
+          "urban_regular",
+          "urban_corner",
+          "suburban"
+        ]
+      },
+      "lot_positions": {
+        "allowed": [
+          "front_aligned",
+          "front_setback",
+          "centered",
+          "corner_aligned",
+          "side_aligned"
+        ],
+        "preferred": [
+          "centered",
+          "front_setback"
+        ]
+      },
+      "street_relations": {
+        "allowed": [
+          "direct_access",
+          "front_yard",
+          "front_fence",
+          "front_wall",
+          "raised_access",
+          "parking_front",
+          "pedestrian_only"
+        ],
+        "preferred": [
+          "direct_access",
+          "front_yard",
+          "parking_front"
+        ]
+      },
+      "setbacks": {
+        "front": {
+          "allowed": [
+            "none",
+            "minimal",
+            "small",
+            "medium",
+            "large"
+          ],
+          "preferred": [
+            "medium",
+            "large"
+          ]
+        },
+        "side": {
+          "allowed": [
+            "none",
+            "minimal",
+            "small",
+            "medium",
+            "large"
+          ],
+          "preferred": [
+            "small",
+            "medium"
+          ]
+        },
+        "rear": {
+          "allowed": [
+            "none",
+            "minimal",
+            "small",
+            "medium",
+            "large"
+          ],
+          "preferred": [
+            "medium",
+            "large"
+          ]
+        }
+      },
+      "lot_coverage": {
+        "min": 0.2,
+        "max": 0.75,
+        "preferred": [
+          0.35,
+          0.6
+        ]
+      }
+    }
+  },
+  "directives": [
+    {
+      "directive_id": "DIR_TROP_HUM_ROOF_DRAINAGE_001",
+      "source_rule_id": "CLM_TROP_HUM_ROOF_DRAINAGE_001",
+      "target": "components.roof.drainage_system",
+      "operation": "require",
+      "declared_value": {
+        "tag": "rain_drainage_capable"
+      },
+      "effective_value": {
+        "tag": "rain_drainage_capable"
+      },
+      "selector": {
+        "candidate_tags_any": [
+          "roof"
+        ]
+      },
+      "effective_strength": 0.765,
+      "priority": 68,
+      "confidence": "hypothesis",
+      "state": "carried_forward",
+      "reason": "O catalogo de coberturas sera definido no BDB-005."
+    },
+    {
+      "directive_id": "DIR_TROP_HUM_ROOF_OVERHANG_001",
+      "source_rule_id": "CLM_TROP_HUM_ROOF_OVERHANG_001",
+      "target": "components.roof.roof_overhang",
+      "operation": "range_shift",
+      "declared_value": {
+        "min_delta": 0.15,
+        "max_delta": 0.3
+      },
+      "effective_value": {
+        "min_delta": 0.102,
+        "max_delta": 0.204
+      },
+      "selector": {
+        "candidate_tags_any": [
+          "roof"
+        ]
+      },
+      "effective_strength": 0.68,
+      "priority": 64,
+      "confidence": "hypothesis",
+      "state": "carried_forward",
+      "reason": "O intervalo base de beiral pertence ao futuro catalogo de coberturas."
+    },
+    {
+      "directive_id": "DIR_TROP_HUM_CROSS_VENT_001",
+      "source_rule_id": "CLM_TROP_HUM_CROSS_VENT_001",
+      "target": "building.performance_tags",
+      "operation": "add_tag",
+      "declared_value": "cross_ventilation_preferred",
+      "effective_value": "cross_ventilation_preferred",
+      "selector": {
+        "candidate_tags_any": [
+          "habitable"
+        ]
+      },
+      "effective_strength": 0.6375,
+      "priority": 63,
+      "confidence": "hypothesis",
+      "state": "applied",
+      "reason": "A tag de desempenho pode ser registrada antes da selecao de modulos."
+    },
+    {
+      "directive_id": "DIR_TROP_HUM_ROOF_FORM_001",
+      "source_rule_id": "CLM_TROP_HUM_ROOF_FORM_001",
+      "target": "components.roof.roof_type",
+      "operation": "weight_multiplier",
+      "declared_value": 1.45,
+      "effective_value": 1.286875,
+      "selector": {
+        "candidate_tags_any": [
+          "pitched",
+          "rain_shedding"
+        ]
+      },
+      "effective_strength": 0.6375,
+      "priority": 62,
+      "confidence": "hypothesis",
+      "state": "carried_forward",
+      "reason": "O multiplicador aguarda candidatos de cobertura do BDB-005."
+    },
+    {
+      "directive_id": "DIR_TROP_HUM_MOISTURE_MATERIAL_001",
+      "source_rule_id": "CLM_TROP_HUM_MOISTURE_MATERIAL_001",
+      "target": "components.materials",
+      "operation": "weight_multiplier",
+      "declared_value": 1.3,
+      "effective_value": 1.1785,
+      "selector": {
+        "candidate_tags_any": [
+          "moisture_resistant",
+          "ventilated_assembly"
+        ]
+      },
+      "effective_strength": 0.595,
+      "priority": 61,
+      "confidence": "hypothesis",
+      "state": "carried_forward",
+      "reason": "O multiplicador aguarda materiais e montagens do BDB-005."
+    },
+    {
+      "directive_id": "DIR_TROP_HUM_OPENING_RATIO_001",
+      "source_rule_id": "CLM_TROP_HUM_OPENING_RATIO_001",
+      "target": "components.facade.opening_ratio",
+      "operation": "range_shift",
+      "declared_value": {
+        "min_delta": 0.08,
+        "max_delta": 0.18
+      },
+      "effective_value": {
+        "min_delta": 0.0442,
+        "max_delta": 0.09945
+      },
+      "selector": {
+        "candidate_tags_any": [
+          "facade"
+        ]
+      },
+      "effective_strength": 0.5525,
+      "priority": 61,
+      "confidence": "hypothesis",
+      "state": "carried_forward",
+      "reason": "O intervalo base de aberturas sera fornecido pelos modulos de fachada."
+    },
+    {
+      "directive_id": "DIR_TROP_HUM_SHADE_001",
+      "source_rule_id": "CLM_TROP_HUM_SHADE_001",
+      "target": "components.climate_control",
+      "operation": "weight_multiplier",
+      "declared_value": 1.35,
+      "effective_value": 1.20825,
+      "selector": {
+        "candidate_tags_any": [
+          "awning",
+          "screen",
+          "brise_soleil",
+          "veranda",
+          "arcade"
+        ]
+      },
+      "effective_strength": 0.595,
+      "priority": 60,
+      "confidence": "hypothesis",
+      "state": "carried_forward",
+      "reason": "O multiplicador aguarda candidatos de protecao climatica."
+    },
+    {
+      "directive_id": "DIR_TROP_HUM_WEATHERING_001",
+      "source_rule_id": "CLM_TROP_HUM_WEATHERING_001",
+      "target": "visual_variation.weathering",
+      "operation": "add_tag",
+      "declared_value": "humid_weathering_palette",
+      "effective_value": "humid_weathering_palette",
+      "selector": {
+        "candidate_tags_any": [
+          "exterior"
+        ]
+      },
+      "effective_strength": 0.3825,
+      "priority": 15,
+      "confidence": "hypothesis",
+      "state": "applied",
+      "reason": "A tag fica disponivel sem impor degradacao ao edificio."
+    }
+  ],
+  "tags": [
+    "cross_ventilation_preferred",
+    "humid_weathering_palette"
+  ],
+  "conflicts": [],
+  "warnings": [
+    {
+      "code": "INCOMPLETE_DOMAIN_COVERAGE",
+      "severity": "warning",
+      "message": "Somente o dominio climate possui perfil carregado; os demais eixos permanecem sem regras nesta versao.",
+      "sources": [
+        "topography",
+        "hydrography",
+        "environmental_risk",
+        "density",
+        "wealth",
+        "infrastructure",
+        "development",
+        "construction_period",
+        "tech_level",
+        "cultural_matrix",
+        "maintenance"
+      ]
+    }
+  ],
+  "decision_trace": {
+    "rule_order": [
+      "CLM_TROP_HUM_ROOF_DRAINAGE_001",
+      "CLM_TROP_HUM_ROOF_OVERHANG_001",
+      "CLM_TROP_HUM_CROSS_VENT_001",
+      "CLM_TROP_HUM_ROOF_FORM_001",
+      "CLM_TROP_HUM_MOISTURE_MATERIAL_001",
+      "CLM_TROP_HUM_OPENING_RATIO_001",
+      "CLM_TROP_HUM_SHADE_001",
+      "CLM_TROP_HUM_WEATHERING_001"
+    ],
+    "blocked_attempts": [],
+    "pending_targets": [
+      "components.roof.drainage_system",
+      "components.roof.roof_overhang",
+      "components.roof.roof_type",
+      "components.materials",
+      "components.facade.opening_ratio",
+      "components.climate_control"
+    ],
+    "deterministic_keys": [
+      "DNA_TEST_INSTITUTIONAL_HOSPITAL_001|constraints",
+      "DNA_TEST_INSTITUTIONAL_HOSPITAL_001|directives"
+    ]
+  }
+}

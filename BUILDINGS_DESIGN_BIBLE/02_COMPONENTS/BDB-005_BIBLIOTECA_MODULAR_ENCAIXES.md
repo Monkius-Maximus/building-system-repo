@@ -2,7 +2,7 @@
 
 **Projeto:** Buildings Design Bible
 **Versão:** 0.1
-**Status:** 🟡 Vertical slice implementado; requer expansão do catálogo
+**Status:** 🟡 Vertical slice residencial + linha institucional inicial implementados; requer expansão e validação
 **Dependências:** BDB-001 a BDB-004
 **Função:** Fornecer candidatos funcionais e conectáveis para as diretivas transportadas pelo DNA.
 
@@ -256,7 +256,29 @@ Em `parameters`, a faixa declarada é a faixa-base mutável, não um teto rígid
 | WIN | `WIN_CASEMENT_SHADED_GENERIC_001` | janela com proteção solar |
 | WIN | `WIN_CASEMENT_UNSHADED_GENERIC_001` | controle negativo do requisito |
 
-### 7.2 Módulos opcionais
+### 7.2 Linha institucional inicial
+
+A primeira expansão do catálogo não cria módulos específicos de hospital. Ela cria uma linha **institucional genérica**, reutilizável quando a compatibilidade do arquétipo justificar:
+
+| Slot | Módulo | Papel |
+|---|---|---|
+| FND | `FND_INSTITUTIONAL_GENERIC_001` | fundação institucional até 12 pavimentos |
+| STR | `STR_INSTITUTIONAL_GENERIC_001` | estrutura institucional até 12 pavimentos |
+| WAL | `WAL_INSTITUTIONAL_GENERIC_001` | fechamento institucional |
+| FAC | `FAC_INSTITUTIONAL_GENERIC_001` | fachada com aberturas e ancoragens |
+| ROF | `ROF_INSTITUTIONAL_GENERIC_001` | cobertura institucional drenante |
+| DOR | `DOR_INSTITUTIONAL_GENERIC_001` | acesso institucional |
+| WIN | `WIN_INSTITUTIONAL_GENERIC_001` | abertura institucional |
+| VCR | `VCR_INSTITUTIONAL_GENERIC_001` | circulação vertical |
+| HCR | `HCR_INSTITUTIONAL_GENERIC_001` | circulação horizontal coletiva |
+| SGN | `SGN_INSTITUTIONAL_GENERIC_001` | identificação e orientação |
+| TEC | `TEC_INSTITUTIONAL_GENERIC_001` | núcleo técnico institucional |
+
+A linha é compatível inicialmente com `BLD_INS_HOSPITAL`, `BLD_INS_SCHOOL_SMALL` e `BLD_INS_CLINIC_SMALL`, sujeita à validação específica de cada arquétipo.
+
+**Regra:** não ampliar a compatibilidade dos módulos residenciais existentes apenas para preencher um novo arquétipo. Quando a capacidade morfológica/funcional não é verdadeira, cria-se uma linha funcional compatível.
+
+### 7.3 Módulos opcionais
 
 | Slot | Módulo | Papel |
 |---|---|---|
@@ -329,6 +351,7 @@ As diretivas de `archetype.volume_complexity` e `archetype.plan_shape` continuam
 08_VALIDATION/bdb-005/
 ├── CASE-001_TROPICAL_CANDIDATES.json
 ├── CASE-002_SEMIARID_CANDIDATES.json
+├── CASE-003_INSTITUTIONAL_HOSPITAL.json
 └── EXPECTED_RESULTS.md
 ```
 
@@ -374,7 +397,15 @@ Ainda não existem:
 ## 13. Próxima etapa
 
 ```text
+BDB-005 → validar vertical slice institucional
+        ↓
+BDB-003-D → decidir se hospital sai de hypothesis
+        ↓
+BDB-003-C → atualizar matriz com evidência real
+        ↓
 BDB-006 — Famílias Arquitetônicas Globais
 ```
+
+A linha institucional é deliberadamente genérica. Novos módulos especializados só entram quando um arquétipo demonstrar uma necessidade que os módulos genéricos não conseguem representar sem distorção.
 
 O próximo documento poderá agrupar módulos compatíveis sem duplicá-los, acrescentando linguagem compositiva, períodos e fontes pesquisadas. As receitas específicas de regiões e cidades permanecem no BDB-007.

@@ -1,0 +1,89 @@
+{
+  "schema_version": "0.1",
+  "module_id": "SGN_INSTITUTIONAL_GENERIC_001",
+  "display_name": "Institutional Signage — Generic Prototype",
+  "description": "Sinalizacao modular generica para identificar acesso e orientar fluxos em edifícios institucionais.",
+  "status": "hypothesis",
+  "slot_code": "SGN",
+  "module_type": "institutional_signage",
+  "lod_support": [
+    1,
+    2,
+    3
+  ],
+  "base_weight": 1,
+  "tags": [
+    "institutional",
+    "generic_prototype"
+  ],
+  "capabilities": [
+    "wayfinding_capable",
+    "access_identification_capable"
+  ],
+  "geometry": {
+    "width_units": {
+      "min": 0.5,
+      "max": 4
+    },
+    "height_units": {
+      "min": 0.2,
+      "max": 2
+    },
+    "depth_units": {
+      "min": 0.02,
+      "max": 0.2
+    },
+    "repeatable_axes": [],
+    "mirror_allowed": true,
+    "rotation_steps": [
+      0,
+      90,
+      180,
+      270
+    ]
+  },
+  "sockets": [
+    {
+      "socket_id": "facade_anchor",
+      "interface": "signage_anchor",
+      "role": "consumer",
+      "normal": "outward",
+      "required": true,
+      "capacity": 1
+    }
+  ],
+  "material_refs": [],
+  "compatibility": {
+    "archetype_ids": [
+      "BLD_INS_HOSPITAL",
+      "BLD_INS_SCHOOL_SMALL",
+      "BLD_INS_CLINIC_SMALL"
+    ],
+    "usage": [
+      "institutional"
+    ],
+    "height_classes": [
+      "SINGLE_STOREY",
+      "LOW_RISE",
+      "MID_RISE"
+    ],
+    "tech_levels": [
+      "vernacular",
+      "craft",
+      "early_industrial",
+      "industrial",
+      "mass_produced",
+      "prefabricated",
+      "digital_fabrication",
+      "advanced"
+    ],
+    "max_floor_count": 12
+  },
+  "parameters": {
+    "signage_modes": [
+      "entry",
+      "wayfinding",
+      "sector_identification"
+    ]
+  }
+}
